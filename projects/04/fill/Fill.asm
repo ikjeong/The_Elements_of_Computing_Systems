@@ -55,7 +55,7 @@
             M=D
 
             @R1
-            D=M-1
+            MD=M-1
             @NEXT
             D;JLT
 
