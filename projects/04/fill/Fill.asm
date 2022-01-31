@@ -57,7 +57,7 @@
             @R1
             MD=M-1
             @NEXT
-            D;JLT
+            D;JGE
 
     @LOOP
     0;JMP
