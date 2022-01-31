@@ -11,4 +11,53 @@
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-// Put your code here.
+(LOOP)
+    // load keyboard
+    @KBD
+    D=M
+    @ON
+    D;JGT
+    @OFF
+    D;JEQ
+
+    (ON)
+        @R0
+        M=-1
+        @DRAW
+        0;JMP
+
+    (OFF)
+        @R0
+        M=0
+        @DRAW
+        0;JMP
+    
+    (DRAW)
+        @8191
+        D=A
+        @R1
+        M=D
+        
+        (NEXT)
+            // set position
+            @SCREEN
+            D=A
+            @R1
+            D=D+M
+            @R2
+            M=D
+
+            // draw color
+            @R0
+            D=M
+            @R2
+            A=M
+            M=D
+
+            @R1
+            MD=M-1
+            @NEXT
+            D;JGE
+
+    @LOOP
+    0;JMP
