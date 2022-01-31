@@ -43,11 +43,16 @@
             @SCREEN
             D=A
             @R1
-            A=D+M
+            D=D+M
+            @R2
+            M=D
 
             // draw color
             @R0
-            M=R0
+            D=M
+            @R2
+            A=M
+            M=D
 
             @R1
             D=M-1
