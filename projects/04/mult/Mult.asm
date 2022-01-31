@@ -9,17 +9,18 @@
 // This program only needs to handle arguments that satisfy
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
-    @R2
-    M=0      // reset R2
 (LOOP)
+    // if (R1 <= 0) END LOOP
     @R1
     D=M
     @END
-    D;JLE    // if (R1 <= 0) END LOOP
+    D;JLE
+
     @R0
     D=M
     @R2
     M=M+D
+
     @R1
     M=M-1
     @LOOP
