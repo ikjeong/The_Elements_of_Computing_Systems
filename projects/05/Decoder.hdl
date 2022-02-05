@@ -32,7 +32,7 @@
 
  CHIP Decoder {
     IN in[16];
-    OUT aOrC, aOrM, zx, nx, zy, ny, f, no, dest[3], jump[3];
+    OUT aOrC, aOrM, zx, nx, zy, ny, f, no, d1, d2, d3, j1, j2, j3;
 
     PARTS:
     And(a=true, b=in[15], out=aOrC);
@@ -44,10 +44,10 @@
     And(a=true, b=in[7], out=f);
     And(a=true, b=in[6], out=no);
 
-    Mux(a=true, b=in[5], sel=in[15], out=dest[2]);
-    Mux(a=false, b=in[4], sel=in[15], out=dest[1]);
-    Mux(a=false, b=in[3], sel=in[15], out=dest[0]);
-    Mux(a=false, b=in[2], sel=in[15], out=jump[2]);
-    Mux(a=false, b=in[1], sel=in[15], out=jump[1]);
-    Mux(a=false, b=in[0], sel=in[15], out=jump[0]);
+    Mux(a=true, b=in[5], sel=in[15], out=d1);
+    Mux(a=false, b=in[4], sel=in[15], out=d2);
+    Mux(a=false, b=in[3], sel=in[15], out=d3);
+    Mux(a=false, b=in[2], sel=in[15], out=j1);
+    Mux(a=false, b=in[1], sel=in[15], out=j2);
+    Mux(a=false, b=in[0], sel=in[15], out=j3);
  }
