@@ -39,13 +39,7 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    Decoder(in=instruction, aOrC=aOrC, aOrM=aOrM, ctrl=ctrl, dest[2]=writeA, dest[1]=writeD, dest[0]=writeM, jump=jump);
-    And(a=true, b=ctrl[5], out=zx);
-    And(a=true, b=ctrl[4], out=nx);
-    And(a=true, b=ctrl[3], out=zy);
-    And(a=true, b=ctrl[2], out=ny);
-    And(a=true, b=ctrl[1], out=f);
-    And(a=true, b=ctrl[0], out=no);
+    Decoder(in=instruction, aOrC=aOrC, aOrM=aOrM, zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no, dest[2]=writeA, dest[1]=writeD, dest[0]=writeM, jump=jump);
 
     // set A-Register
     Mux16(a[0..14]=instruction[0..14], a[15]=false, b=ALUResult, sel=aOrC, out=inA);
