@@ -35,7 +35,9 @@
     OUT aOrC, aOrM, ctrl[6], dest[3], jump[3];
 
     PARTS:
-    (aOrC=in[15], aOrM=in[12], ctrl[6]=in[6..11]);
+    aOrC=in[15];
+    aOrM=in[12];
+    ctrl[6]=in[6..11];
     Mux(a=true, b=in[5], sel=in[15], out=dest[2]);
     Mux(a=false, b=in[4], sel=in[15], out=dest[1]);
     Mux(a=false, b=in[3], sel=in[15], out=dest[0]);
