@@ -43,10 +43,10 @@ CHIP CPU {
 
     // set A-Register
     Mux16(a[0..14]=instruction[0..14], a[15]=false, b=ALUResult, sel=aOrC, out=inA);
-    Register(in=inA, load=writeA, out=outA, out[0..14]=addressM);
+    ARegister(in=inA, load=writeA, out=outA, out[0..14]=addressM);
 
     // set D-Register
-    Register(in=ALUResult, load=writeD, out=outD);
+    DRegister(in=ALUResult, load=writeD, out=outD);
 
     // set ALU
     Mux16(a=outA, b=inM, sel=aOrM, out=outAorM);
