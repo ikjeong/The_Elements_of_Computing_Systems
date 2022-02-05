@@ -39,5 +39,28 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+    Decoder(in=instruction, aOrC=aOrC, aOrM=aOrM, zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no, d1=writeA, d2=writeD, d3=writeM, j1=ngJ, j2=zrJ, j3=posJ);
+
+    // set A-Register
+    Mux16(a[0..14]=instruction[0..14], a[15]=false, b=ALUResult, sel=aOrC, out=inA);
+    ARegister(in=inA, load=writeA, out=outA, out[0..14]=addressM);
+
+    // set D-Register
+    DRegister(in=ALUResult, load=writeD, out=outD);
+
+    // set ALU
+    Mux16(a=outA, b=inM, sel=aOrM, out=outAorM);
+    ALU(x=outD, y=outAorM, zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no, out=ALUResult, out=outM, zr=isZr, ng=isNg);
+
+    // set jump condition
+    And(a=isNg, b=ngJ, out=j1);
+    And(a=isZr, b=zrJ, out=j2);
+    Not(in=isNg, out=notIsNg);
+    Xor(a=notIsNg, b=isZr, out=isPos);
+    And(a=isPos, b=posJ, out=j3);
+    Or(a=j1, b=j2, out=j4);
+    Or(a=j3, b=j4, out=isJump);
+
+    // set Program Counter
+    PC(in=outA, load=isJump, inc=true, reset=reset, out[0..14]=pc);
 }

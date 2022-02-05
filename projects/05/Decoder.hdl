@@ -1,0 +1,53 @@
+/**
+ * This chip decodes instruction, and executes instruction.
+ * A-Instruction: set Address to A-Register
+ * C-Instruction: compute command
+ *
+ * A-Instruction: 0vvv vvvv vvvv vvvv
+ * 15 bits(indicated by v) are stored in the A-Register as address values.
+ *
+ * C-Instruction: 111a cccc ccdd djjj
+ * a: select A(0) or M(Memory[A])(1)
+ * c: ALU control bits. It follows the ALU specification installed on the CPU.
+ * d: It is a bit specifying a register(or memory) to store the ALU result value.
+ *    Listing the specifications one by one from the upper bits is as follows.
+ * - d1: store result in A-register
+ * - d2: store result in D-register
+ * - d3: store result in M(Memory[A])
+ * j: Jump program counter according to the conditions.
+ *    Listing the specifications one by one from the upper bits is as follows.
+ * - j1: Jump to A when ALU result is under 0.
+ * - j2: Jump to A when ALU result is 0.
+ * - j3: Jump to A when ALU result is below 0.
+ * Jump condition needs ALU result. Therefore, the output jump bits should be
+ * separately compared with the ALU results.
+ *
+ * When MSB is 0, instruction is decoded into A-Instrcution.
+ * Therefore, output dA is set to true, and all bits excpet a-bit and control bits
+ * are set to false(A-bit and control bits are ignored).
+ *
+ * When MSB is 1, instruction is decoded into C-Instruction.
+ * Parse instruction bits, and print out.
+ */
+
+ CHIP Decoder {
+    IN in[16];
+    OUT aOrC, aOrM, zx, nx, zy, ny, f, no, d1, d2, d3, j1, j2, j3;
+
+    PARTS:
+    And(a=true, b=in[15], out=aOrC);
+    And(a=true, b=in[12], out=aOrM);
+    And(a=true, b=in[11], out=zx);
+    And(a=true, b=in[10], out=nx);
+    And(a=true, b=in[9], out=zy);
+    And(a=true, b=in[8], out=ny);
+    And(a=true, b=in[7], out=f);
+    And(a=true, b=in[6], out=no);
+
+    Mux(a=true, b=in[5], sel=in[15], out=d1);
+    Mux(a=false, b=in[4], sel=in[15], out=d2);
+    Mux(a=false, b=in[3], sel=in[15], out=d3);
+    Mux(a=false, b=in[2], sel=in[15], out=j1);
+    Mux(a=false, b=in[1], sel=in[15], out=j2);
+    Mux(a=false, b=in[0], sel=in[15], out=j3);
+ }
