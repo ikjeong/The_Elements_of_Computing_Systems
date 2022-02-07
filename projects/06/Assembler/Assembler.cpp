@@ -48,7 +48,7 @@ public:
     }
 
     std::string readCommand() {
-        std::string buffer;
+        std::string buffer = "";
         while (!input.eof()) {
             std::getline(input, buffer);
             deleteBlankOrComment(buffer);
@@ -56,7 +56,7 @@ public:
                 return buffer;
             }
         }
-        return "";
+        return buffer;
     }
 
     std::string getCurrentCommand() const {
@@ -64,7 +64,7 @@ public:
     }
 
     bool hasMoreCommands() const {
-        if (int(nextCommand.size()) == 0) return false;
+        if (int(currentCommand.size()) == 0) return false;
         else return true;
     }
 
@@ -82,6 +82,12 @@ public:
         nextCommand = readCommand();
     }
 
+    void resetCursor() {
+        input.clear();
+        input.seekg(0, std::ios::beg);
+        Initializer();
+    }
+
     ~Parser() {
         input.close();
     }
@@ -97,6 +103,11 @@ int main(int argc, char* argv[]) {
         std::cout << parser.getCurrentCommand() << std::endl;
         parser.moveNextCommand();
     }
-    
+    parser.resetCursor();
+    while (parser.hasMoreCommands()) {
+        std::cout << parser.getCurrentCommand() << std::endl;
+        parser.moveNextCommand();
+    }
+
     return 0;
 }
