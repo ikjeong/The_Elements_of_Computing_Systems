@@ -19,11 +19,13 @@
 #include <fstream>
 #include <string>
 
+enum class CommandType { nothing = 0, address = 1, compute = 2, label = 3 };
+
 class Parser {
 private:
     std::ifstream input;
     std::string currentCommand;
-    std::string nextCommand;
+    CommandType commandType;
 
 public:
     Parser(std::string path) : input(path) {
@@ -44,6 +46,19 @@ public:
                 break;
             }
             ++idx;
+        }
+    }
+
+    // parameter(command)'s size must be below 0
+    void checkCommandType(std::string& command) {
+        if (command.size() == 0) {
+            commandType = CommandType::nothing;
+        } else if (command[0] == '@') {
+            commandType = CommandType::address;
+        } else if (command[0] == '(' && command[command.size()-1] == ')') {
+            commandType = CommandType::label;
+        } else {
+            commandType = CommandType::compute;
         }
     }
 
@@ -68,18 +83,18 @@ public:
         else return true;
     }
 
-    void moveNextCommand() {
+    void advance() {
         if (!hasMoreCommands()) {
             std::cout << "No more commands" << std::endl;
             return;
         }
-        currentCommand = nextCommand;
-        nextCommand = readCommand();
+        currentCommand = readCommand();
+        checkCommandType(currentCommand);
     }
 
     void Initializer() {
         currentCommand = readCommand();
-        nextCommand = readCommand();
+        checkCommandType(currentCommand);
     }
 
     void resetCursor() {
@@ -101,12 +116,12 @@ int main(int argc, char* argv[]) {
     Parser parser(argv[1]);
     while (parser.hasMoreCommands()) {
         std::cout << parser.getCurrentCommand() << std::endl;
-        parser.moveNextCommand();
+        parser.advance();
     }
     parser.resetCursor();
     while (parser.hasMoreCommands()) {
         std::cout << parser.getCurrentCommand() << std::endl;
-        parser.moveNextCommand();
+        parser.advance();
     }
 
     return 0;
