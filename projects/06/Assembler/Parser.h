@@ -11,6 +11,13 @@
     - jump: if C-Command, return jump symbol
 */
 
+/*
+    TODO:
+        정규식 이용 명령어 분류
+        잘못된 명령어 입력시 종료
+        코드 정리
+*/
+
 #ifndef __PARSER_H__
 #define __PARSER_H__
 
