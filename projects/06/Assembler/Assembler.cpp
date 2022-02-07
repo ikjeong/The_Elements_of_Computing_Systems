@@ -19,20 +19,84 @@
 #include <fstream>
 #include <string>
 
-int main(int argc, char* argv[]) {
-    
-    std::ifstream input(argv[1]);
-    if (input.fail()) {
-        std::cout << "Can't find file" << std::endl;
-        exit(100);
+class Parser {
+private:
+    std::ifstream input;
+    std::string currentCommand;
+    std::string nextCommand;
+
+public:
+    Parser(std::string path) : input(path) {
+        if (input.fail()) {
+            std::cout << "Can't find file" << std::endl;
+            exit(100);
+        }
+        Initializer();
     }
 
-    std::string s;
-    while (!input.eof()) {
-        input >> s;
-        std::cout << s << std::endl;
+    void deleteBlankOrComment(std::string& command) {
+        int idx = 0;
+        while (idx < command.size()) {
+            if (command[idx] == ' ' || command[idx] == '\t') {
+                command.erase(idx, (idx--)+1);
+            } else if (idx > 0 && command[idx-1] == '/' && command[idx] == '/') {
+                command.erase(idx-1, int(command.size()));
+                break;
+            }
+            ++idx;
+        }
+    }
+
+    std::string readCommand() {
+        std::string buffer;
+        while (!input.eof()) {
+            std::getline(input, buffer);
+            deleteBlankOrComment(buffer);
+            if (int(buffer.size()) > 0) {
+                return buffer;
+            }
+        }
+        return "";
+    }
+
+    std::string getCurrentCommand() const {
+        return currentCommand;
+    }
+
+    bool hasMoreCommands() const {
+        if (int(nextCommand.size()) == 0) return false;
+        else return true;
+    }
+
+    void moveNextCommand() {
+        if (!hasMoreCommands()) {
+            std::cout << "No more commands" << std::endl;
+            return;
+        }
+        currentCommand = nextCommand;
+        nextCommand = readCommand();
+    }
+
+    void Initializer() {
+        currentCommand = readCommand();
+        nextCommand = readCommand();
+    }
+
+    ~Parser() {
+        input.close();
+    }
+};
+
+int main(int argc, char* argv[]) {
+    if (argc == 1) {
+        std::cout << "No input file" << std::endl;
+        exit(100);
+    } 
+    Parser parser(argv[1]);
+    while (parser.hasMoreCommands()) {
+        std::cout << parser.getCurrentCommand() << std::endl;
+        parser.moveNextCommand();
     }
     
-    input.close();
     return 0;
 }
