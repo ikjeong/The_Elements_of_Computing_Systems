@@ -27,9 +27,10 @@ private:
     std::ifstream input;
     std::string currentCommand;
     CommandType type;
-    int currentLineNumber;
+
 
 public:
+    int currentLineNumber;
     Parser(std::string path) : input(path), currentLineNumber(0) {
         if (input.fail()) {
             std::cout << "Can't find file" << std::endl;
@@ -39,13 +40,13 @@ public:
     }
 
     void deleteBlankOrComment(std::string& command) {
+        int pos = command.find("//");
+        if (pos != (int)std::string::npos) command.erase(command.begin()+pos, command.end());
+
         int idx = 0;
         while (idx < command.size()) {
             if (command[idx] == ' ' || command[idx] == '\t') {
-                command.erase(idx, (idx--)+1);
-            } else if (idx > 0 && command[idx-1] == '/' && command[idx] == '/') {
-                command.erase(idx-1, int(command.size()));
-                break;
+                command.erase(idx--, 1);
             }
             ++idx;
         }
@@ -128,6 +129,20 @@ public:
         return result;
     }
 
+    std::string comp() const {
+        if (type != CommandType::compute) {
+            std::cout << "Incorrect function call." << std::endl;
+            std::exit(int(Error::functionCall));
+        }
+
+        std::string::size_type destPos = currentCommand.find("=");
+        std::string::size_type jumpPos = currentCommand.find(";");
+        std::string result = currentCommand;
+        if (destPos != std::string::npos) result.erase(0, destPos+1);
+        if (jumpPos != std::string::npos) result.erase(jumpPos, result.size());
+        return result;
+    }
+
     ~Parser() {
         input.close();
     }
@@ -140,17 +155,14 @@ int main(int argc, char* argv[]) {
     } 
     Parser parser(argv[1]);
     while (parser.hasMoreCommands()) {
+        std::cout << parser.currentLineNumber << ": ";
         std::cout << parser.getCurrentCommand() << std::endl;
         if (parser.commandType() == CommandType::label || parser.commandType() == CommandType::address) {
             std::cout << parser.symbol() << std::endl;
         } else if (parser.commandType() == CommandType::compute) {
             std::cout << parser.dest() << std::endl;
+            std::cout << parser.comp() << std::endl;
         }
-        parser.advance();
-    }
-    parser.resetCursor();
-    while (parser.hasMoreCommands()) {
-        std::cout << parser.getCurrentCommand() << std::endl;
         parser.advance();
     }
 
