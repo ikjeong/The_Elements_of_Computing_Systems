@@ -41,7 +41,7 @@ public:
 
     void deleteBlankOrComment(std::string& command) {
         int pos = command.find("//");
-        if (pos != (int)std::string::npos) command.erase(command.begin()+pos, command.end());
+        if (pos != (int)std::string::npos) command.erase(pos,std::string::npos);
 
         int idx = 0;
         while (idx < command.size()) {
@@ -122,10 +122,10 @@ public:
             std::cout << "Incorrect function call." << std::endl;
             std::exit(int(Error::functionCall));
         }
-        std::string::size_type idx = currentCommand.find("=");
+        std::string::size_type destPos = currentCommand.find("=");
         std::string result = "";
-        if (idx == std::string::npos) return result;
-        result = currentCommand.substr(0, idx);
+        if (destPos == std::string::npos) return result;
+        result = currentCommand.substr(0, destPos);
         return result;
     }
 
@@ -134,12 +134,23 @@ public:
             std::cout << "Incorrect function call." << std::endl;
             std::exit(int(Error::functionCall));
         }
-
         std::string::size_type destPos = currentCommand.find("=");
         std::string::size_type jumpPos = currentCommand.find(";");
         std::string result = currentCommand;
         if (destPos != std::string::npos) result.erase(0, destPos+1);
-        if (jumpPos != std::string::npos) result.erase(jumpPos, result.size());
+        if (jumpPos != std::string::npos) result.erase(jumpPos, std::string::npos);
+        return result;
+    }
+
+    std::string jump() const {
+        if (type != CommandType::compute) {
+            std::cout << "Incorrect function call." << std::endl;
+            std::exit(int(Error::functionCall));
+        }
+        std::string::size_type jumpPos = currentCommand.find(";");
+        std::string result = "";
+        if (jumpPos == std::string::npos) return result;
+        result = currentCommand.substr(jumpPos+1, std::string::npos);
         return result;
     }
 
@@ -162,6 +173,7 @@ int main(int argc, char* argv[]) {
         } else if (parser.commandType() == CommandType::compute) {
             std::cout << parser.dest() << std::endl;
             std::cout << parser.comp() << std::endl;
+            std::cout << parser.jump() << std::endl;
         }
         parser.advance();
     }
