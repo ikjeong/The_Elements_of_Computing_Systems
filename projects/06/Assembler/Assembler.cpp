@@ -27,9 +27,10 @@ private:
     std::ifstream input;
     std::string currentCommand;
     CommandType type;
+    int currentLineNumber;
 
 public:
-    Parser(std::string path) : input(path) {
+    Parser(std::string path) : input(path), currentLineNumber(0) {
         if (input.fail()) {
             std::cout << "Can't find file" << std::endl;
             std::exit(int(Error::fileOpen));
@@ -55,8 +56,10 @@ public:
             type = CommandType::nothing;
         } else if (command[0] == '@') {
             type = CommandType::address;
+            // @{1}[a-zA-Z_.$:]+[a-zA-Z_.&:0-9]*
         } else if (command[0] == '(' && command[command.size()-1] == ')') {
             type = CommandType::label;
+            // [(]{1}[a-zA-Z_.$:]+[a-zA-Z_.&:0-9]*[)]{1}
         } else {
             type = CommandType::compute;
         }
@@ -66,6 +69,7 @@ public:
         std::string buffer = "";
         while (!input.eof()) {
             std::getline(input, buffer);
+            ++currentLineNumber;
             deleteBlankOrComment(buffer);
             if (int(buffer.size()) > 0) return buffer;
         }
@@ -112,6 +116,18 @@ public:
         return result;
     }
 
+    std::string dest() const {
+        if (type != CommandType::compute) {
+            std::cout << "Incorrect function call." << std::endl;
+            std::exit(int(Error::functionCall));
+        }
+        std::string::size_type idx = currentCommand.find("=");
+        std::string result = "";
+        if (idx == std::string::npos) return result;
+        result = currentCommand.substr(0, idx);
+        return result;
+    }
+
     ~Parser() {
         input.close();
     }
@@ -127,6 +143,8 @@ int main(int argc, char* argv[]) {
         std::cout << parser.getCurrentCommand() << std::endl;
         if (parser.commandType() == CommandType::label || parser.commandType() == CommandType::address) {
             std::cout << parser.symbol() << std::endl;
+        } else if (parser.commandType() == CommandType::compute) {
+            std::cout << parser.dest() << std::endl;
         }
         parser.advance();
     }
