@@ -37,7 +37,7 @@ void Parser::deleteCommentAndWhiteSpace(std::string& command) {
     }
 }
 
-void Parser::checkCommandType(std::string& command) {
+void Parser::checkCommandType(const std::string& command) {
     if (command.size() == 0) {
         type = CommandType::nothing;
     } else if (command[0] == '@') {

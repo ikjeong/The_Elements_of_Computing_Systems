@@ -40,7 +40,7 @@ private:
     void Initializer();
     std::string readCommand();
     void deleteCommentAndWhiteSpace(std::string& command);
-    void checkCommandType(std::string& command);
+    void checkCommandType(const std::string& command);
 
 public:
     Parser(std::string path);
