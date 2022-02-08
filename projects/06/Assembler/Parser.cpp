@@ -2,7 +2,7 @@
     Implementation of Parser.h
 */
 
-#include "global.h"
+#include "Global.h"
 #include "Parser.h"
 
 // =========== PRIVATE ============= //
@@ -25,8 +25,8 @@ std::string Parser::readCommand() {
 }
 
 void Parser::deleteCommentAndWhiteSpace(std::string& command) {
-    std::string::size_type pos = command.find("//");
-    if (pos != std::string::npos) command.erase(pos, std::string::npos);
+    string_iter pos = command.find("//");
+    if (pos != string_end) command.erase(pos, string_end);
 
     int idx = 0;
     while (idx < command.size()) {
@@ -41,11 +41,9 @@ void Parser::checkCommandType(std::string& command) {
     if (command.size() == 0) {
         type = CommandType::nothing;
     } else if (command[0] == '@') {
-        type = CommandType::address;
-        // @{1}[a-zA-Z_.$:]+[a-zA-Z_.&:0-9]*
+        type = CommandType::address;    // @{1}[a-zA-Z_.$:]+[a-zA-Z_.&:0-9]*
     } else if (command[0] == '(' && command[command.size()-1] == ')') {
-        type = CommandType::label;
-        // [(]{1}[a-zA-Z_.$:]+[a-zA-Z_.&:0-9]*[)]{1}
+        type = CommandType::label;      // [(]{1}[a-zA-Z_.$:]+[a-zA-Z_.&:0-9]*[)]{1}
     } else {
         type = CommandType::compute;
     }
@@ -85,8 +83,8 @@ std::string Parser::symbol() const {
         std::cout << "Incorrect function call." << std::endl;
         std::exit(int(Error::functionCall));
     }
-    std::string result = currentCommand.substr(1, currentCommand.size()-1);
-    if (result[result.size()-1] == ')') result.pop_back();
+    std::string result = currentCommand.substr(1, string_end);
+    if (result.back() == ')') result.pop_back();
     return result;
 }
 
@@ -95,9 +93,9 @@ std::string Parser::dest() const {
         std::cout << "Incorrect function call." << std::endl;
         std::exit(int(Error::functionCall));
     }
-    std::string::size_type destPos = currentCommand.find("=");
+    string_iter destPos = currentCommand.find("=");
     std::string result = "";
-    if (destPos == std::string::npos) return result;
+    if (destPos == string_end) return result;
     result = currentCommand.substr(0, destPos);
     return result;
 }
@@ -107,11 +105,11 @@ std::string Parser::comp() const {
         std::cout << "Incorrect function call." << std::endl;
         std::exit(int(Error::functionCall));
     }
-    std::string::size_type destPos = currentCommand.find("=");
-    std::string::size_type jumpPos = currentCommand.find(";");
+    string_iter destPos = currentCommand.find("=");
+    string_iter jumpPos = currentCommand.find(";");
     std::string result = currentCommand;
-    if (destPos != std::string::npos) result.erase(0, destPos+1);
-    if (jumpPos != std::string::npos) result.erase(jumpPos, std::string::npos);
+    if (destPos != string_end) result.erase(0, destPos+1);
+    if (jumpPos != string_end) result.erase(jumpPos, string_end);
     return result;
 }
 
@@ -120,10 +118,10 @@ std::string Parser::jump() const {
         std::cout << "Incorrect function call." << std::endl;
         std::exit(int(Error::functionCall));
     }
-    std::string::size_type jumpPos = currentCommand.find(";");
+    string_iter jumpPos = currentCommand.find(";");
     std::string result = "";
-    if (jumpPos == std::string::npos) return result;
-    result = currentCommand.substr(jumpPos+1, std::string::npos);
+    if (jumpPos == string_end) return result;
+    result = currentCommand.substr(jumpPos+1, string_end);
     return result;
 }
 

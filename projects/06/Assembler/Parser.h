@@ -21,7 +21,10 @@
 #ifndef __PARSER_H__
 #define __PARSER_H__
 
-#include "global.h"
+#include "Global.h"
+
+#define string_end std::string::npos
+typedef std::string::size_type string_iter;
 
 enum class CommandType { nothing = 0, address = 1, compute = 2, label = 3 };
 enum class Error { fileOpen = 100, functionCall = 200};

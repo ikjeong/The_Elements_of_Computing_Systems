@@ -15,7 +15,7 @@
     prompt> Assember filePath
 */
 
-#include "global.h"
+#include "Global.h"
 #include "Parser.h"
 
 int main(int argc, char* argv[]) {
