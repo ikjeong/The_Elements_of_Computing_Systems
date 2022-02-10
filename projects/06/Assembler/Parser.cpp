@@ -19,7 +19,7 @@ std::string Parser::readCommand() {
         std::getline(input, buffer);
         ++currentLineNumber;
         deleteCommentAndWhiteSpace(buffer);
-        if (int(buffer.size()) > 0) return buffer;
+        if (static_cast<int>(buffer.size()) > 0) return buffer;
     }
     return buffer;
 }
@@ -54,13 +54,13 @@ void Parser::checkCommandType(const std::string& command) {
 Parser::Parser(std::string path) : input(path) {
     if (input.fail()) {
         std::cout << "Can't find file" << std::endl;
-        std::exit(int(Error::fileOpen));
+        std::exit(static_cast<int>(Error::fileOpen));
     }
     Initializer();
 }
 
 bool Parser::hasMoreCommands() const {
-    if (int(currentCommand.size()) == 0) return false;
+    if (static_cast<int>(currentCommand.size()) == 0) return false;
     else return true;
 }
 
@@ -81,7 +81,7 @@ CommandType Parser::commandType() const {
 std::string Parser::symbol() const {
     if (type != CommandType::address && type != CommandType::label) {
         std::cout << "Incorrect function call." << std::endl;
-        std::exit(int(Error::functionCall));
+        std::exit(static_cast<int>(Error::functionCall));
     }
     std::string result = currentCommand.substr(1, string_end);
     if (result.back() == ')') result.pop_back();
@@ -91,7 +91,7 @@ std::string Parser::symbol() const {
 std::string Parser::dest() const {
     if (type != CommandType::compute) {
         std::cout << "Incorrect function call." << std::endl;
-        std::exit(int(Error::functionCall));
+        std::exit(static_cast<int>(Error::functionCall));
     }
     string_iter destPos = currentCommand.find("=");
     std::string result = "";
@@ -103,7 +103,7 @@ std::string Parser::dest() const {
 std::string Parser::comp() const {
     if (type != CommandType::compute) {
         std::cout << "Incorrect function call." << std::endl;
-        std::exit(int(Error::functionCall));
+        std::exit(static_cast<int>(Error::functionCall));
     }
     string_iter destPos = currentCommand.find("=");
     string_iter jumpPos = currentCommand.find(";");
@@ -116,7 +116,7 @@ std::string Parser::comp() const {
 std::string Parser::jump() const {
     if (type != CommandType::compute) {
         std::cout << "Incorrect function call." << std::endl;
-        std::exit(int(Error::functionCall));
+        std::exit(static_cast<int>(Error::functionCall));
     }
     string_iter jumpPos = currentCommand.find(";");
     std::string result = "";

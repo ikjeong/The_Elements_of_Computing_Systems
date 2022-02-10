@@ -26,9 +26,6 @@
 #define string_end std::string::npos
 typedef std::string::size_type string_iter;
 
-enum class CommandType { nothing = 0, address = 1, compute = 2, label = 3 };
-enum class Error { fileOpen = 100, functionCall = 200};
-
 class Parser {
 private:
     std::ifstream input;

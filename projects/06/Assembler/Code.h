@@ -1,3 +1,13 @@
+/**
+    Code Moudle(Class)
+
+    Routines
+    - address: return address binary code;
+    - dest: return dest binary code;
+    - comp: return comp binary code;
+    - jump: return jump binary code;
+*/
+
 #ifndef __CODE_H__
 #define __CODE_H__
 
