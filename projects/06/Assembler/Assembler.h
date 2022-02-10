@@ -45,8 +45,8 @@ public:
                 output << code->address(std::stoi(parser->symbol()));
             } else if (parser->commandType() == CommandType::compute) {
                 output << "111";
-                output << code->dest(parser->dest());
                 output << code->comp(parser->comp());
+                output << code->dest(parser->dest());
                 output << code->jump(parser->jump());
             }
             output << std::endl;
