@@ -51,6 +51,7 @@ public:
     std::string comp() const;
     std::string jump() const;
     void resetCursor();
+    int getFileLine() const;
 };
 
 #endif

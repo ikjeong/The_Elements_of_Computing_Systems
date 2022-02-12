@@ -19,12 +19,12 @@
 #include "Assembler.h"
 
 int main(int argc, char* argv[]) {
-    // if (argc == 1) {
-    //     std::cout << "No input file" << std::endl;
-    //     exit(static_cast<int>(Error::fileOpen));
-    // } 
-    Assembler assembler(argv[1]);
-    assembler.translate();
+    try {
+        Assembler assembler(argv[1]);
+        assembler.translate();
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
 
     return 0;
 }
