@@ -27,13 +27,14 @@ public:
     Assembler(std::string path) {
         try {
             parser = new Parser(path);
+            code = new Code();
+            path.erase(path.find(".asm"), std::string::npos);
+            path.append(".hack");
+            output.open(path);
         } catch (fileException& e) {
             std::cout << e.what() << std::endl;
+            throw e;    //nested
         }
-        code = new Code();
-        path.erase(path.find(".asm"), std::string::npos);
-        path.append(".hack");
-        output.open(path);
     }
 
     ~Assembler() {
