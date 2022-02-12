@@ -25,7 +25,11 @@ private:
 
 public:
     Assembler(std::string path) {
-        parser = new Parser(path);
+        try {
+            parser = new Parser(path);
+        } catch (fileException& e) {
+            std::cout << e.what() << std::endl;
+        }
         code = new Code();
         path.erase(path.find(".asm"), std::string::npos);
         path.append(".hack");

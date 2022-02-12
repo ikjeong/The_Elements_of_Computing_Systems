@@ -9,13 +9,10 @@
     - dest: if C-Command, return dest symbol
     - comp: if C-Command, return comp symbol
     - jump: if C-Command, return jump symbol
-*/
 
-/*
-    TODO:
-        정규식 이용 명령어 분류
-        잘못된 명령어 입력시 종료
-        코드 정리
+    Caution
+    - When generated, current_command_ is initialized to ""(Empty string).
+    - Therefore, you need to use advance() before using another function.
 */
 
 #ifndef __PARSER_H__
@@ -28,16 +25,19 @@ typedef std::string::size_type string_iter;
 
 class Parser {
 private:
-    std::ifstream input;
-    std::string currentCommand;
-    CommandType type;
-    int currentLineNumber;
+    std::ifstream input_;
+    std::string current_command_;
+    std::string next_command_;
+    CommandType type_;
+    int file_line_;
 
 private:
-    void Initializer();
+    void initializer();
     std::string readCommand();
-    void deleteCommentAndWhiteSpace(std::string& command);
+    void deleteComment(std::string& command);
+    void deleteWhiteSpace(std::string& command);
     void checkCommandType(const std::string& command);
+    bool isEmptyCommand(const std::string& command) const;
 
 public:
     Parser(std::string path);
