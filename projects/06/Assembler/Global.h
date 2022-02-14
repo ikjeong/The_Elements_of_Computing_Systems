@@ -13,6 +13,7 @@
 #include <map>
 
 enum class CommandType { nothing = 0, address = 1, compute = 2, label = 3 };
+enum class SymbolType { nothing = 0, address = 1, dest = 2, comp = 3, jump = 4, label = 5 };
 
 class fileException : public std::runtime_error {
 public:

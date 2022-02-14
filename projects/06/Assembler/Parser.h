@@ -29,7 +29,9 @@ private:
     std::string current_command_;
     std::string next_command_;
     CommandType type_;
+    int current_command_file_line_;
     int file_line_;
+    int command_address_;
 
 private:
     void initializer();
@@ -51,7 +53,9 @@ public:
     std::string comp() const;
     std::string jump() const;
     void resetCursor();
+    int getCurrentCommandFileLine() const;
     int getFileLine() const;
+    int getCommandAddress() const;
 };
 
 #endif

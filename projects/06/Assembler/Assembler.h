@@ -16,17 +16,22 @@
 #include "Global.h"
 #include "Parser.h"
 #include "Code.h"
+#include "SymbolTable.h"
 
 class Assembler {
 private:
     Parser* parser_;
     Code* code_;
+    SymbolTable* symbol_table_;
     std::ofstream output_;
 
 private:
     bool isASMFile(const std::string path) const;
+    void writePart(SymbolType type);
     void writeACommand();
     void writeCCommand();
+    void pass1();
+    void pass2();
 
 public:
     Assembler(std::string path);

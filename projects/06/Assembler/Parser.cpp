@@ -7,7 +7,9 @@
 /* =========== PRIVATE ============= */
 
 void Parser::initializer() {
+    current_command_file_line_ = -1;
     file_line_ = -1;
+    command_address_ = -1;
     current_command_ = "";
     next_command_ = readCommand();
     checkCommandType(current_command_);
@@ -74,9 +76,13 @@ Parser::~Parser() {
 }
 
 void Parser::advance() {
+    current_command_file_line_ = file_line_;
     current_command_ = next_command_;
     next_command_ = readCommand();
     checkCommandType(current_command_);
+
+    if (type_ == CommandType::address || type_ == CommandType::compute)
+        ++command_address_;
 }
 
 CommandType Parser::commandType() const {
@@ -85,7 +91,7 @@ CommandType Parser::commandType() const {
 
 std::string Parser::symbol() const {
     if (type_ != CommandType::address && type_ != CommandType::label)
-        throw functionCallException("This command isn't A-COMMAND or label(Parse line: " + std::to_string(file_line_) + ")");
+        throw functionCallException("This command isn't A-COMMAND or label(Parse line: " + std::to_string(current_command_file_line_) + ")");
     std::string result = current_command_.substr(1, string_end);
     if (result.back() == ')') result.pop_back();
     return result;
@@ -93,7 +99,7 @@ std::string Parser::symbol() const {
 
 std::string Parser::dest() const {
     if (type_ != CommandType::compute)
-        throw functionCallException("This command isn't C-COMMAND(Parse line: " + std::to_string(file_line_) + ")");
+        throw functionCallException("This command isn't C-COMMAND(Parse line: " + std::to_string(current_command_file_line_) + ")");
     string_iter destPos = current_command_.find("=");
     std::string result = "";
     if (destPos == string_end) return result;
@@ -103,7 +109,7 @@ std::string Parser::dest() const {
 
 std::string Parser::comp() const {
     if (type_ != CommandType::compute)
-        throw functionCallException("This command isn't C-COMMAND(Parse line: " + std::to_string(file_line_) + ")");
+        throw functionCallException("This command isn't C-COMMAND(Parse line: " + std::to_string(current_command_file_line_) + ")");
     string_iter destPos = current_command_.find("=");
     string_iter jumpPos = current_command_.find(";");
     std::string result = current_command_;
@@ -114,7 +120,7 @@ std::string Parser::comp() const {
 
 std::string Parser::jump() const {
     if (type_ != CommandType::compute)
-        throw functionCallException("This command isn't C-COMMAND(Parse line: " + std::to_string(file_line_) + ")");
+        throw functionCallException("This command isn't C-COMMAND(Parse line: " + std::to_string(current_command_file_line_) + ")");
     string_iter jumpPos = current_command_.find(";");
     std::string result = "";
     if (jumpPos == string_end) return result;
@@ -128,6 +134,14 @@ void Parser::resetCursor() {
     initializer();
 }
 
+int Parser::getCurrentCommandFileLine() const {
+    return current_command_file_line_;
+}
+
 int Parser::getFileLine() const {
     return file_line_;
+}
+
+int Parser::getCommandAddress() const {
+    return command_address_;
 }

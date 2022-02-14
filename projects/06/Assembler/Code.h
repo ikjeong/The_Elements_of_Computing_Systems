@@ -6,6 +6,7 @@
     - dest: return dest binary code;
     - comp: return comp binary code;
     - jump: return jump binary code;
+    - canTranslateToBinary
 */
 
 #ifndef __CODE_H__
@@ -72,24 +73,39 @@ public:
     Code() { }
     ~Code() { }
 
-    std::bitset<15> address(const int& symbol) const {
+    std::string address(const int& symbol) const {
         std::bitset<15> result(symbol);
-        return result;
+        return result.to_string();
     }
 
-    std::bitset<3> dest(const std::string& symbol) const {
+    std::string dest(const std::string& symbol) const {
         std::bitset<3> result(DEST.at(symbol));
-        return result;
+        return result.to_string();
     }
     
-    std::bitset<7> comp(const std::string& symbol) const {
+    std::string comp(const std::string& symbol) const {
         std::bitset<7> result(COMP.at(symbol));
-        return result;
+        return result.to_string();
     }
 
-    std::bitset<3> jump(const std::string& symbol) const {
+    std::string jump(const std::string& symbol) const {
         std::bitset<3> result(JUMP.at(symbol));
-        return result;
+        return result.to_string();
+    }
+
+    bool canTranslateToBinary(const std::string& symbol, SymbolType type) const {
+        if (type == SymbolType::address) {
+            try {
+                std::stoi(symbol);
+                return true;
+            } catch(std::exception& e) {
+                return false;
+            }
+        }
+        else if (type == SymbolType::dest)  return (DEST.find(symbol) != DEST.end());
+        else if (type == SymbolType::comp)  return (COMP.find(symbol) != COMP.end());
+        else if (type == SymbolType::jump)  return (JUMP.find(symbol) != JUMP.end());
+        return false;
     }
 };
 
