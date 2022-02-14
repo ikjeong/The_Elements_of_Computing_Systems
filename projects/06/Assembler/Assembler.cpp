@@ -10,37 +10,44 @@ bool Assembler::isASMFile(const std::string path) const {
     return path.find(".asm") != std::string::npos;
 }
 
-void Assembler::writePart(SymbolType type) {
-    std::string (Parser::*symbol)() const;
+int Assembler::writePart(SymbolType type) {
+    std::string (Code::*toBinary)(const std::string&) const;
+    std::string (Parser::*syntax)() const;
 
     if (type == SymbolType::address) {
-        symbol = &Parser::symbol;
+        toBinary = &Code::address;
+        syntax = &Parser::symbol;
     } else if (type == SymbolType::comp) {
-        symbol = &Parser::comp;
+        toBinary = &Code::comp;
+        syntax = &Parser::comp;
     } else if (type == SymbolType::dest) {
-        symbol = &Parser::dest;
+        toBinary = &Code::dest;
+        syntax = &Parser::dest;
     } else if (type == SymbolType::jump) {
-        symbol = &Parser::jump;
+        toBinary = &Code::jump;
+        syntax = &Parser::jump;
     } else {
         throw functionCallException("Incorrect Symbol Type (Parse line: " + std::to_string(parser_->getCurrentCommandFileLine()) + ")");
     }
 
-    if (code_->canTranslateToBinary((parser_->*symbol)(), type))
-        if (type == SymbolType::address)   output_ << code_->address(std::stoi((parser_->*symbol)()));
-        else if (type == SymbolType::comp) output_ << code_->comp((parser_->*symbol)());
-        else if (type == SymbolType::dest) output_ << code_->dest((parser_->*symbol)());
-        else if (type == SymbolType::jump) output_ << code_->jump((parser_->*symbol)());
-        else throw functionCallException("Incorrect Symbol Type (Parse line: " + std::to_string(parser_->getCurrentCommandFileLine()) + ")");
-    else if (symbol_table_->contains((parser_->*symbol)()))
-        output_ << code_->address(symbol_table_->GetAddress((parser_->*symbol)()));
-    else
-        output_ << code_->address(symbol_table_->addVariable((parser_->*symbol)()));
+    std::string result = "";
+    if (code_->canTranslateToBinary((parser_->*syntax)(), type)) {
+        result = (code_->*toBinary)((parser_->*syntax)());
+    } else if (symbol_table_->contains((parser_->*syntax)())) {
+        result = code_->address(symbol_table_->GetAddress((parser_->*syntax)()));
+    } else {
+        result = code_->address(symbol_table_->addVariable((parser_->*syntax)()));
+    }
+    output_ << result;
+    return static_cast<int>(result.size());
 }
 
 void Assembler::writeACommand() {
     try {
+        int length = 1;
         output_ << "0";
-        writePart(SymbolType::address);
+        length += writePart(SymbolType::address);
+        if (length != 16) throw std::exception();
     } catch (functionCallException& e) {
         throw e;
     } catch (std::exception& e) {
@@ -50,10 +57,12 @@ void Assembler::writeACommand() {
 
 void Assembler::writeCCommand() {
     try {
+        int length = 3;
         output_ << "111";
-        writePart(SymbolType::comp);
-        writePart(SymbolType::dest);
-        writePart(SymbolType::jump);
+        length += writePart(SymbolType::comp);
+        length += writePart(SymbolType::dest);
+        length += writePart(SymbolType::jump);
+        if (length != 16) throw std::exception();
     } catch (functionCallException& e) {
         throw e;
     } catch (std::exception& e) {

@@ -7,8 +7,8 @@
 /* =========== PRIVATE ============= */
 
 void Parser::initializer() {
-    current_command_file_line_ = -1;
-    file_line_ = -1;
+    current_command_file_line_ = 0;
+    file_line_ = 0;
     command_address_ = -1;
     current_command_ = "";
     next_command_ = readCommand();

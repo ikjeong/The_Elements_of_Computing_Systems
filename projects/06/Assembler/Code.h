@@ -73,6 +73,11 @@ public:
     Code() { }
     ~Code() { }
 
+    std::string address(const std::string& symbol) const {
+        std::bitset<15> result(std::stoi(symbol));
+        return result.to_string();
+    }
+
     std::string address(const int& symbol) const {
         std::bitset<15> result(symbol);
         return result.to_string();

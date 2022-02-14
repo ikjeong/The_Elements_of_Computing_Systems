@@ -27,7 +27,7 @@ private:
 
 private:
     bool isASMFile(const std::string path) const;
-    void writePart(SymbolType type);
+    int writePart(SymbolType type);
     void writeACommand();
     void writeCCommand();
     void pass1();
