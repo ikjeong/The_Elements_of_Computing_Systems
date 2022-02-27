@@ -71,7 +71,7 @@ private:
     std::string next_command_;
     CommandType type_;
     std::string arg1_;
-    std::string arg2_;
+    int arg2_;
 
     bool isEmptyCommand(const std::string& command) const {
         return (static_cast<int>(command.size()) == 0);
@@ -92,7 +92,7 @@ private:
     void clearTypeAndArgs() {
         type_ = CommandType::NOTHING;
         arg1_ = "";
-        arg2_ = "";
+        arg2_ = -1;
     }
 
     void parseCurrentCommand() {
@@ -105,10 +105,10 @@ private:
         if (ss >> word) type_ = checkCommandType(word);
         if (type_ == CommandType::C_ARITHMETIC) {
             arg1_ = word;
-            arg2_ = "";
+            arg2_ = -1;
         } else {
             if (ss >> word) arg1_ = word;
-            if (ss >> word) arg2_ = word;
+            if (ss >> word) arg2_ = std::stoi(word);
         }
 
         if (ss >> word) makeError("Too many arguments");
@@ -165,7 +165,7 @@ public:
         return arg1_;
     }
 
-    std::string arg2() const {
+    int arg2() const {
         return arg2_;
     }
 };
@@ -182,7 +182,8 @@ int main(int argc, char* argv[]) {
         else if (p->commandType() == CommandType::C_POP) std::cout << "POP"; 
         std::cout << " ";
         std::cout << p->arg1() << " ";
-        std::cout << p->arg2() << std::endl;
+        if (p->arg2()!=-1) std::cout << p->arg2();
+        std::cout << std::endl;
     }
     
     delete p;
