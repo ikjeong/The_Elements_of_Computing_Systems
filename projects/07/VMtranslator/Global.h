@@ -1,5 +1,5 @@
 /**
-    Global Constants and Header, Exception Function
+    Global Constants and Header, Exception Class
 */
 
 #ifndef __GLOBAL_H__
@@ -25,9 +25,16 @@ enum class CommandType {
     C_CALL = 9
 };
 
-void makeError(const std::string& message) {
-    std::cout << "Error: " << message << std::endl;
-    exit(-1);
-}
+class file_exception : public std::runtime_error {
+public:
+    file_exception(const std::string& path)
+    : runtime_error("File Exception: fail to load file(Path: " + path + ").") { }
+};
+
+class translate_exception : public std::runtime_error {
+public:
+    translate_exception(const std::string& command)
+    : runtime_error("Translate Exception: fail to translate command(" + command + ").") { }
+};
 
 #endif
