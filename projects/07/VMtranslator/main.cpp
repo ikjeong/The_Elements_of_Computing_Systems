@@ -47,23 +47,23 @@
 
 #include "Global.h"
 #include "Parser.h"
+#include "CodeWriter.h"
 
 int main(int argc, char* argv[]) {
     
     Parser* p = new Parser(argv[1]);
+    CodeWriter* c = new CodeWriter(argv[1]);
+    c->setFileName(argv[1]);
 
     while (p->hasMoreCommands()) {
         p->advance();
-        if (p->commandType() == CommandType::C_ARITHMETIC) std::cout << "ARITHMETIC";
-        else if (p->commandType() == CommandType::C_PUSH) std::cout << "PUSH";
-        else if (p->commandType() == CommandType::C_POP) std::cout << "POP"; 
-        std::cout << " ";
-        std::cout << p->arg1() << " ";
-        if (p->arg2()!=-1) std::cout << p->arg2();
-        std::cout << std::endl;
+        if (p->commandType() == CommandType::C_ARITHMETIC) c->writeArithmetic(p->arg1());
+        else if (p->commandType() == CommandType::C_PUSH) c->writePushPop(p->commandType(), p->arg1(), p->arg2());
+        else if (p->commandType() == CommandType::C_POP) c->writePushPop(p->commandType(), p->arg1(), p->arg2());
     }
     
     delete p;
+    delete c;
 
     return 0;
 }
