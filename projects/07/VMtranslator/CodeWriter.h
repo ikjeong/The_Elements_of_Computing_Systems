@@ -36,6 +36,8 @@
     - push segment index
     - pop segment index
 
+    if you want to pop to A,
+    it is the last command to use.
 */
 
 #ifndef __CODE_WRITER_H__
@@ -47,9 +49,9 @@ class CodeWriter {
 private:
     std::ofstream output_;
     std::string file_name_;
+    int label_count_;
 
-
-
+    /* Low level commands */
     void decreaseSP() {
         output_ << "@SP" << "\n";
         output_ << "M=M-1" << "\n";
@@ -65,10 +67,19 @@ private:
         output_ << "A=M" << "\n";
     }
 
-    void saveDToStack() {
-        loadSPToA();
-        output_ << "M=D" << "\n";
-        increaseSP();
+    /* High level commands */
+    void writePush(const std::string& segment, int index=-1) {
+        if (segment == "D") {
+            loadSPToA();
+            output_ << "M=D" << "\n";
+            increaseSP();
+        } else if (segment == "constant") {
+            output_ << "@" << index << "\n";
+            output_ << "D=A" << "\n";
+            writePush("D");
+        } else {
+            throw translate_exception("can't PUSH to " + segment);
+        }
     }
 
     void writePop(const std::string& segment, int index=-1) {
@@ -80,7 +91,25 @@ private:
             decreaseSP();
             loadSPToA();
             output_ << "A=M" << "\n";
+        } else {
+            throw translate_exception("can't POP to " + segment);
         }
+    }
+
+    void writeBooleanLogic(const std::string& jump) {
+        writePushPop(CommandType::C_POP, "D");
+        writePushPop(CommandType::C_POP, "A");
+        output_ << "D=D-A" << "\n";
+        output_ << "@LABEL" << label_count_ << "\n";
+        output_ << "D;" << jump << "\n";
+        output_ << "D=0" << "\n";
+        output_ << "@END_LABEL" << label_count_ << "\n";
+        output_ << "0;JMP" << "\n";
+        output_ << "(LABEL" << label_count_ << ")" << "\n";
+        output_ << "D=-1" << "\n";
+        output_ << "(END_LABEL" << label_count_ << ")" << "\n";
+        writePushPop(CommandType::C_PUSH, "D");
+        ++label_count_;
     }
 
     bool isVMFile(const std::string path) const {
@@ -89,11 +118,13 @@ private:
 
 public:
     CodeWriter(std::string path) {
+        /* TODO: directory */
         if (!isVMFile(path)) throw file_exception(path);
         path.erase(path.find(".vm"), std::string::npos);
         path.append(".asm");
         output_.open(path);
         if (output_.fail()) throw file_exception(path);
+        label_count_ = 0;
     }
 
     ~CodeWriter() {
@@ -114,27 +145,48 @@ public:
 
     void writeArithmetic(const std::string& command) {
         if (command == "add") {
-            writePop("D");
-            writePop("A");
+            writePushPop(CommandType::C_POP, "D");
+            writePushPop(CommandType::C_POP, "A");
             output_ << "D=D+A" << "\n";
-            saveDToStack();
+            writePushPop(CommandType::C_PUSH, "D");
         } else if (command == "sub") {
-            writePop("D");
-            writePop("A");
+            writePushPop(CommandType::C_POP, "D");
+            writePushPop(CommandType::C_POP, "A");
             output_ << "D=D-A" << "\n";
-            saveDToStack(); 
+            writePushPop(CommandType::C_PUSH, "D"); 
         } else if (command == "neg") {
-            writePop("D");
+            writePushPop(CommandType::C_POP, "D");
             output_ << "D=-D" << "\n";
-            saveDToStack();
+            writePushPop(CommandType::C_PUSH, "D");
         } else if (command == "eq") {
-
+            writeBooleanLogic("JEQ");
+        } else if (command == "gt") {
+            writeBooleanLogic("JGT");
+        } else if (command == "lt") {
+            writeBooleanLogic("JLT");
+        } else if (command == "and") {
+            writePushPop(CommandType::C_POP, "D");
+            writePushPop(CommandType::C_POP, "A");
+            output_ << "D=D&A" << "\n";
+            writePushPop(CommandType::C_PUSH, "D"); 
+        } else if (command == "or") {
+            writePushPop(CommandType::C_POP, "D");
+            writePushPop(CommandType::C_POP, "A");
+            output_ << "D=D|A" << "\n";
+            writePushPop(CommandType::C_PUSH, "D"); 
+        } else if (command == "not") {
+            writePushPop(CommandType::C_POP, "D");
+            output_ << "D=!D" << "\n";
+            writePushPop(CommandType::C_PUSH, "D");
+        } else {
+            throw translate_exception(command);
         }
     }
 
     void writePushPop(const CommandType& command, const std::string& segment, int index=-1)  {
-        if (command == CommandType::C_PUSH) output_ << "PUSH" << "\n";
-        else if (command == CommandType::C_POP) output_ << "POP" << "\n";
+        if (command == CommandType::C_PUSH) writePush(segment, index);
+        else if (command == CommandType::C_POP) writePop(segment, index);
+        else throw translate_exception("NOT PUSH/POP COMMAND");
     }
 
     void close() {
