@@ -22,7 +22,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL0
 D;JEQ
 D=0
@@ -60,7 +60,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL1
 D;JEQ
 D=0
@@ -98,7 +98,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL2
 D;JEQ
 D=0
@@ -136,7 +136,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL3
 D;JLT
 D=0
@@ -174,7 +174,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL4
 D;JLT
 D=0
@@ -212,7 +212,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL5
 D;JLT
 D=0
@@ -250,7 +250,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL6
 D;JGT
 D=0
@@ -288,7 +288,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL7
 D;JGT
 D=0
@@ -326,7 +326,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @LABEL8
 D;JGT
 D=0

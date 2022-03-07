@@ -99,7 +99,7 @@ private:
     void writeBooleanLogic(const std::string& jump) {
         writePushPop(CommandType::C_POP, "D");
         writePushPop(CommandType::C_POP, "A");
-        output_ << "D=D-A" << "\n";
+        output_ << "D=A-D" << "\n";
         output_ << "@LABEL" << label_count_ << "\n";
         output_ << "D;" << jump << "\n";
         output_ << "D=0" << "\n";
