@@ -147,12 +147,12 @@ public:
         if (command == "add") {
             writePushPop(CommandType::C_POP, "D");
             writePushPop(CommandType::C_POP, "A");
-            output_ << "D=D+A" << "\n";
+            output_ << "D=A+D" << "\n";
             writePushPop(CommandType::C_PUSH, "D");
         } else if (command == "sub") {
             writePushPop(CommandType::C_POP, "D");
             writePushPop(CommandType::C_POP, "A");
-            output_ << "D=D-A" << "\n";
+            output_ << "D=A-D" << "\n";
             writePushPop(CommandType::C_PUSH, "D"); 
         } else if (command == "neg") {
             writePushPop(CommandType::C_POP, "D");
@@ -167,12 +167,12 @@ public:
         } else if (command == "and") {
             writePushPop(CommandType::C_POP, "D");
             writePushPop(CommandType::C_POP, "A");
-            output_ << "D=D&A" << "\n";
+            output_ << "D=A&D" << "\n";
             writePushPop(CommandType::C_PUSH, "D"); 
         } else if (command == "or") {
             writePushPop(CommandType::C_POP, "D");
             writePushPop(CommandType::C_POP, "A");
-            output_ << "D=D|A" << "\n";
+            output_ << "D=A|D" << "\n";
             writePushPop(CommandType::C_PUSH, "D"); 
         } else if (command == "not") {
             writePushPop(CommandType::C_POP, "D");

@@ -371,7 +371,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D+A
+D=A+D
 @SP
 A=M
 M=D
@@ -394,7 +394,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D-A
+D=A-D
 @SP
 A=M
 M=D
@@ -421,7 +421,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D&A
+D=A&D
 @SP
 A=M
 M=D
@@ -444,7 +444,7 @@ M=M-1
 @SP
 A=M
 A=M
-D=D|A
+D=A|D
 @SP
 A=M
 M=D
