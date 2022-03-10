@@ -54,6 +54,8 @@ void CodeWriter::writePush(const std::string& segment, int index) {
     } else if (segment == "temp") {
         if (index < 0 || index > 7) throw translate_exception("can't use temp " + index);
         output_ << "@R" << 5+index << "\n";
+    } else if (segment == "static") {
+        output_ << "@" << file_name_ << "." << index << "\n";
     } else throw translate_exception("can't PUSH to " + segment);
     output_ << "D=M" << "\n";
     writePush("D");
@@ -83,6 +85,8 @@ void CodeWriter::writePop(const std::string& segment, int index) {
     } else if (segment == "temp") {
         if (index < 0 || index > 7) throw translate_exception("can't use temp " + index);
         output_ << "@R" << 5+index << "\n";
+    } else if (segment == "static") {
+        output_ << "@" << file_name_ << "." << index << "\n";
     } else throw translate_exception("can't POP to " + segment);
     /* save Address to R13 */
     output_ << "D=A" << "\n";
