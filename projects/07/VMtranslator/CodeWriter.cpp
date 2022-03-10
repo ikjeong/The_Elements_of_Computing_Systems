@@ -24,7 +24,7 @@ void CodeWriter::loadSPToA() {
 
 void CodeWriter::loadSegmentToA(const std::string& segment, int index) {
     output_ << "@" << segment << "\n";
-    output_ << "D=A" << "\n";
+    output_ << "D=M" << "\n";
     output_ << "@" << index << "\n";
     output_ << "A=D+A" << "\n";
 }
