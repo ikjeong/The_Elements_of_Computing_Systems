@@ -37,14 +37,14 @@ void CodeWriter::writePush(const std::string& segment, int index) {
         increaseSP();
         return;
     }
-    
     if (segment == "constant") {
         output_ << "@" << index << "\n";
         output_ << "D=A" << "\n";
         writePush("D");
         return;
     }
-    else if (segment == "local") loadSegmentToA("LCL", index);
+
+    if (segment == "local") loadSegmentToA("LCL", index);
     else if (segment == "argument") loadSegmentToA("ARG", index);
     else if (segment == "this") loadSegmentToA("THIS", index);
     else if (segment == "that") loadSegmentToA("THAT", index);
@@ -60,27 +60,37 @@ void CodeWriter::writePush(const std::string& segment, int index) {
 }
 
 void CodeWriter::writePop(const std::string& segment, int index) {
-    decreaseSP();
-    loadSPToA();
-
     if (segment == "A") {
+        decreaseSP();
+        loadSPToA();
         output_ << "A=M" << "\n";
         return;
     }
+    if (segment == "D") {
+        decreaseSP();
+        loadSPToA();
+        output_ << "D=M" << "\n";
+        return;
+    }
 
-    output_ << "D=M" << "\n";
-    if (segment == "D") return;
-    else if (segment == "local") loadSegmentToA("LCL", index);
+    if (segment == "local") loadSegmentToA("LCL", index);
     else if (segment == "argument") loadSegmentToA("ARG", index);
     else if (segment == "this") loadSegmentToA("THIS", index);
     else if (segment == "that") loadSegmentToA("THAT", index);
     else if (segment == "pointer") {
-        if (index < 0 || index > 1) throw translate_exception("can't use \"pointer " + index);
+        if (index < 0 || index > 1) throw translate_exception("can't use pointer " + index);
         output_ << "@R" << 3+index << "\n";
     } else if (segment == "temp") {
-        if (index < 0 || index > 7) throw translate_exception("can't use \"temp " + index);
+        if (index < 0 || index > 7) throw translate_exception("can't use temp " + index);
         output_ << "@R" << 5+index << "\n";
     } else throw translate_exception("can't POP to " + segment);
+    /* save Address to R13 */
+    output_ << "D=A" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "M=D" << "\n";
+    writePop("D");
+    output_ << "@R13" << "\n";
+    output_ << "A=M" << "\n";
     output_ << "M=D" << "\n";
 }
 
