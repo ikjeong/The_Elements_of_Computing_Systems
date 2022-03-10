@@ -37,7 +37,7 @@
 
     Modules
     - Parser: After parsing, access to each field is provided.
-    - CodeWriter: Returns the binary code for the association symbol.
+    - CodeWriter: Returns the assembly language.
 
     How to use
     prompt> VMtranslator source
