@@ -45,7 +45,7 @@ M=D
 @SP
 M=M+1
 @THIS
-D=A
+D=M
 @2
 A=D+A
 D=A
@@ -67,7 +67,7 @@ M=D
 @SP
 M=M+1
 @THAT
-D=A
+D=M
 @6
 A=D+A
 D=A
@@ -112,7 +112,7 @@ M=D
 @SP
 M=M+1
 @THIS
-D=A
+D=M
 @2
 A=D+A
 D=M
@@ -138,7 +138,7 @@ M=D
 @SP
 M=M+1
 @THAT
-D=A
+D=M
 @6
 A=D+A
 D=M
