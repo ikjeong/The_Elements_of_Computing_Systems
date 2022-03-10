@@ -1,3 +1,4 @@
+// Translate StackTest.vm
 @17
 D=A
 @SP
