@@ -55,6 +55,7 @@ private:
     void decreaseSP();
     void increaseSP();
     void loadSPToA();
+    void loadSegmentToA(const std::string& segment, int index);
 
     /* High level commands */
     void writePush(const std::string& segment, int index=-1);

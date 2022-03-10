@@ -41,21 +41,21 @@ void CodeWriter::writePush(const std::string& segment, int index) {
     if (segment == "constant") {
         output_ << "@" << index << "\n";
         output_ << "D=A" << "\n";
-    } else if (segment == "local") {
-        loadSegmentToA("LCL", index);
-        output_ << "D=M" << "\n";
-    } else if (segment == "argument") {
-        loadSegmentToA("ARG", index);
-        output_ << "D=M" << "\n";
-    } else if (segment == "this") {
-        loadSegmentToA("THIS", index);
-        output_ << "D=M" << "\n";
-    } else if (segment == "that") {
-        loadSegmentToA("THAT", index);
-        output_ << "D=M" << "\n";
-    } else {
-        throw translate_exception("can't PUSH to " + segment);
+        writePush("D");
+        return;
     }
+    else if (segment == "local") loadSegmentToA("LCL", index);
+    else if (segment == "argument") loadSegmentToA("ARG", index);
+    else if (segment == "this") loadSegmentToA("THIS", index);
+    else if (segment == "that") loadSegmentToA("THAT", index);
+    else if (segment == "pointer") {
+        if (index < 0 || index > 1) throw translate_exception("can't use pointer " + index);
+        output_ << "@R" << 3+index << "\n";
+    } else if (segment == "temp") {
+        if (index < 0 || index > 7) throw translate_exception("can't use temp " + index);
+        output_ << "@R" << 5+index << "\n";
+    } else throw translate_exception("can't PUSH to " + segment);
+    output_ << "D=M" << "\n";
     writePush("D");
 }
 
@@ -74,7 +74,13 @@ void CodeWriter::writePop(const std::string& segment, int index) {
     else if (segment == "argument") loadSegmentToA("ARG", index);
     else if (segment == "this") loadSegmentToA("THIS", index);
     else if (segment == "that") loadSegmentToA("THAT", index);
-    else throw translate_exception("can't POP to " + segment);
+    else if (segment == "pointer") {
+        if (index < 0 || index > 1) throw translate_exception("can't use \"pointer " + index);
+        output_ << "@R" << 3+index << "\n";
+    } else if (segment == "temp") {
+        if (index < 0 || index > 7) throw translate_exception("can't use \"temp " + index);
+        output_ << "@R" << 5+index << "\n";
+    } else throw translate_exception("can't POP to " + segment);
     output_ << "M=D" << "\n";
 }
 
