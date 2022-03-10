@@ -11,6 +11,8 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+/* If gcc version is under 9, use '-lstdc++fs' */
+#include <filesystem>
 
 enum class CommandType {
     NOTHING = 0,

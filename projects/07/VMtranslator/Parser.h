@@ -61,6 +61,7 @@ private:
     void clearTypeAndArgs();
     bool isEmptyCommand(const std::string& command) const;
     bool isArithmeticCommand(const std::string& command) const;
+    bool isVMFile(const std::string& command) const;
     std::string readCommand();
     void deleteComment(std::string& command);
     void parseCurrentCommand();
@@ -68,6 +69,7 @@ private:
     
 public:
     Parser(std::string path);
+    Parser();
     ~Parser();
 
     bool hasMoreCommands() const;
@@ -75,6 +77,7 @@ public:
     CommandType commandType() const;
     std::string arg1() const;
     int arg2() const;
+    void setNewFile(std::string path);
 };
 
 #endif

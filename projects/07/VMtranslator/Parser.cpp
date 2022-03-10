@@ -27,6 +27,10 @@ bool Parser::isArithmeticCommand(const std::string& command) const {
     return iter != ARITHMETIC_COMMAND.end();
 }
 
+bool Parser::isVMFile(const std::string& path) const {
+    return path.find(".vm") != std::string::npos;
+}
+
 std::string Parser::readCommand() {
     std::string buffer = "";
     while (!input_.eof()) {
@@ -71,13 +75,17 @@ CommandType Parser::checkCommandType(const std::string& command) const {
 /* =========== PUBLIC ============= */
 
 Parser::Parser(std::string path) {
+    if (!isVMFile(path)) throw file_exception(path);
     input_.open(path);
     if (input_.fail()) throw file_exception(path);
     init();
 }
 
+Parser::Parser() {
+}
+
 Parser::~Parser() {
-    input_.close();
+    if (input_.is_open()) input_.close();
 }
 
 bool Parser::hasMoreCommands() const {
@@ -101,4 +109,12 @@ std::string Parser::arg1() const {
 
 int Parser::arg2() const {
     return arg2_;
+}
+
+void Parser::setNewFile(std::string path) {
+    if (input_.is_open()) input_.close();
+    if (!isVMFile(path)) throw file_exception(path);
+    input_.open(path);
+    if (input_.fail()) throw file_exception(path);
+    init();
 }

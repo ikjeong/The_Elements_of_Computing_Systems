@@ -112,15 +112,14 @@ private:
         ++label_count_;
     }
 
-    bool isVMFile(const std::string path) const {
+    bool isVMFile(const std::string& path) const {
         return path.find(".vm") != std::string::npos;
     }
 
 public:
     CodeWriter(std::string path) {
-        /* TODO: directory */
-        if (!isVMFile(path)) throw file_exception(path);
-        path.erase(path.find(".vm"), std::string::npos);
+        if (isVMFile(path)) path.erase(path.find(".vm"), std::string::npos);
+        if (path.back() == '/') path.pop_back();
         path.append(".asm");
         output_.open(path);
         if (output_.fail()) throw file_exception(path);
@@ -141,6 +140,7 @@ public:
             }
         }
         file_name_ = path;
+        output_ << "// Translate " << file_name_ << "\n";
     }
 
     void writeArithmetic(const std::string& command) {
