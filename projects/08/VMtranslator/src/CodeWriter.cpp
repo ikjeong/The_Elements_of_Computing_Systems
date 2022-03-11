@@ -231,27 +231,27 @@ void CodeWriter::writeCall(const std::string& functionName, int numArgs) {
 
     // push LCL
     output_ << "@LCL" << "\n";
-    output_ << "D=A" << "\n";
+    output_ << "D=M" << "\n";
     writePush("D");
 
     // push ARG
     output_ << "@ARG" << "\n";
-    output_ << "D=A" << "\n";
+    output_ << "D=M" << "\n";
     writePush("D");
 
     // push THIS
     output_ << "@THIS" << "\n";
-    output_ << "D=A" << "\n";
+    output_ << "D=M" << "\n";
     writePush("D");
 
     // push THAT
     output_ << "@THAT" << "\n";
-    output_ << "D=A" << "\n";
+    output_ << "D=M" << "\n";
     writePush("D");
 
     // set ARG
     output_ << "@SP" << "\n";
-    output_ << "D=A" << "\n";
+    output_ << "D=M" << "\n";
     output_ << "@" << numArgs << "\n";
     output_ << "D=D-A" << "\n";
     output_ << "@ARG" << "\n";
@@ -340,6 +340,7 @@ void CodeWriter::writeReturn() {
 
     // goto return-address
     output_ << "@R14" << "\n";
+    output_ << "A=M" << "\n";
     output_ << "0;JMP" << "\n";
 }
 
