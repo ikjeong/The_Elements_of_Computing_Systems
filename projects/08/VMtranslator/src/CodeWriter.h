@@ -85,6 +85,7 @@ class CodeWriter {
 private:
     std::ofstream output_;
     std::string file_name_;
+    std::string function_name_;
     int label_count_;
 
     /* Low level commands */

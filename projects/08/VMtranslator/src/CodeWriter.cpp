@@ -151,6 +151,7 @@ void CodeWriter::setFileName(std::string path) {
         }
     }
     file_name_ = path;
+    function_name_ = "";
     output_ << "// Translate " << file_name_ << ".vm" << "\n";
 }
 
@@ -208,37 +209,144 @@ void CodeWriter::writePushPop(const CommandType& command, const std::string& seg
 }
 
 void CodeWriter::writeLabel(const std::string& label) {
-    // 앞에 file_name_.function_name_ 넣어야함
-    output_ << "(" <<  label << ")" << "\n";
+    output_ << "(" << function_name_ << "$" << label << ")" << "\n";
 }
 
 void CodeWriter::writeGoto(const std::string& label) {
-    // 앞에 file_name_.function_name_ 넣어야함
-    output_ << "@" << label << "\n";
+    output_ << "@" << function_name_ << "$" << label << "\n";
     output_ << "0;JMP" << "\n";
 }
 
 void CodeWriter::writeIf(const std::string& label) {
-    // 앞에 file_name_.function_name_ 넣어야함
     writePop("D");
-    output_ << "@" << label << "\n";
+    output_ << "@" << function_name_ << "$" << label << "\n";
     output_ << "D;JNE" << "\n";
 }
 
 void CodeWriter::writeCall(const std::string& functionName, int numArgs) {
-    // need Implementation
-    // return-address 삽입 필요
-    output_ << "CALL " << functionName << " " << numArgs << "\n";
+    // push return-address
+    output_ << "@RETURN" << label_count_ << "\n";
+    output_ << "D=A" << "\n";
+    writePush("D");
+
+    // push LCL
+    output_ << "@LCL" << "\n";
+    output_ << "D=A" << "\n";
+    writePush("D");
+
+    // push ARG
+    output_ << "@ARG" << "\n";
+    output_ << "D=A" << "\n";
+    writePush("D");
+
+    // push THIS
+    output_ << "@THIS" << "\n";
+    output_ << "D=A" << "\n";
+    writePush("D");
+
+    // push THAT
+    output_ << "@THAT" << "\n";
+    output_ << "D=A" << "\n";
+    writePush("D");
+
+    // set ARG
+    output_ << "@SP" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@" << numArgs << "\n";
+    output_ << "D=D-A" << "\n";
+    output_ << "@ARG" << "\n";
+    output_ << "M=D" << "\n";
+
+    // set LCL
+    loadSPToA();
+    output_ << "D=A" << "\n";
+    output_ << "@LCL" << "\n";
+    output_ << "M=D" << "\n";
+
+    // goto function
+    output_ << "@" << functionName << "\n";
+    output_ << "0;JMP" << "\n";
+
+    // (return-address)
+    output_ << "(" << "RETURN" << label_count_ << ")" << "\n";
+    ++label_count_;
 }
 
 void CodeWriter::writeReturn() {
-    // need Implementation
-    output_ << "RETURN" << "\n";
+    // save LCL to R13
+    output_ << "@LCL" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "M=D" << "\n";
+
+    // save return-address to R14
+    output_ << "@5" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "D=M-D" << "\n";
+    output_ << "A=D" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@R14" << "\n";
+    output_ << "M=D" << "\n";
+
+    // set return value
+    writePop("argument", 0);
+
+    // restore SP
+    output_ << "@ARG" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@SP" << "\n";
+    output_ << "M=D+1" << "\n";
+
+    // restore THAT
+    output_ << "@1" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "D=M-D" << "\n";
+    output_ << "A=D" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@THAT" << "\n";
+    output_ << "M=D" << "\n";
+
+    // restore THIS
+    output_ << "@2" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "D=M-D" << "\n";
+    output_ << "A=D" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@THIS" << "\n";
+    output_ << "M=D" << "\n";
+
+    // restore ARG
+    output_ << "@3" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "D=M-D" << "\n";
+    output_ << "A=D" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@ARG" << "\n";
+    output_ << "M=D" << "\n";
+
+    // restore LCL
+    output_ << "@4" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@R13" << "\n";
+    output_ << "D=M-D" << "\n";
+    output_ << "A=D" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@LCL" << "\n";
+    output_ << "M=D" << "\n";
+
+    // goto return-address
+    output_ << "@R14" << "\n";
+    output_ << "0;JMP" << "\n";
 }
 
 void CodeWriter::writeFunction(const std::string& functionName, int numLocals) {
-    // label선언 시 functionName이 필요하기에 codeWriter에 어떤 함수를 번역하고 있는지 저장해야 할듯.
-    output_ << "FUNCTION " << functionName << " " << numLocals << "\n";
+    function_name_ = functionName;
+    output_ << "(" <<  function_name_ << ")" << "\n";
+    for (int i = 0; i < numLocals; ++i) writePush("constant", 0);
 }
 
 void CodeWriter::close() {
