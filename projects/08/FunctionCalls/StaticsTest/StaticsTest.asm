@@ -1,6 +1,8 @@
 // Bootstrap code
+@256
+D=A
 @SP
-M=256
+M=D
 @RETURN0
 D=A
 @SP
