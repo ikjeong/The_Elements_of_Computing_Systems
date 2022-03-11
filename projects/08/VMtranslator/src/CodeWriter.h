@@ -6,6 +6,13 @@
     - writeArithmetic
     - writePushPop
     - close
+    - writeInit
+    - writeLabel
+    - writeGoto
+    - writeIf
+    - writeCall
+    - writeReturn
+    - writeFunction
 
     Virtual Memory Segment
     Virtual Machine manipulate virtual memory segments.
@@ -35,6 +42,38 @@
     Memory access command
     - push segment index
     - pop segment index
+    
+    Program flow command
+    - label label: Label the current function code location. The valid range is inside the defined function.
+                   The name does not start with numbers, but is any string composed of letters, numbers, underscores, periods, and colons.
+                   It translate to functionName$label.
+    - goto label: unconditional goto command
+    - if-goto label: Pop value from stack. If it isn't 0, goto label.
+
+    Function call command
+    Function name does not start with numbers, but is any string composed of letters, numbers, underscores, periods, and colons.
+    The range of function names is global.
+    - function f n: definition of function(consist of arguments(number of n)).
+    - call f m: call function with arguments(number of m).
+    - return: return function.
+
+    Caller
+    - Before calling function, it needs to push args, stats to stack.
+    - Call function.
+    - Top of stack is return value of function.
+    - The memory segments(excluding temp) are same as before the call.
+
+    Called
+    - The instrument segment is initialized by the caller, 
+      and the local variable segment is assigned and initialized to 0.
+      The static segment is assigned to the static segment of the VM file to which the function belongs.
+      This, that, pointer, and temp are undefined.
+    - Before return, function need to push return value to stack.
+
+    Initialization
+    - Program always start Sys.init function at first.
+    - Bootstrap code: SP=256
+                      call Sys.init
 */
 
 #ifndef __CODE_WRITER_H__

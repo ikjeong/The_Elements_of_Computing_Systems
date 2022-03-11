@@ -26,6 +26,20 @@
     Memory access command
     - push segment index
     - pop segment index
+
+    Program flow command
+    - label label: Label the current function code location. The valid range is inside the defined function.
+                   The name does not start with numbers, but is any string composed of letters, numbers, underscores, periods, and colons.
+                   It translate to functionName$label.
+    - goto label: unconditional goto command
+    - if-goto label: Pop value from stack. If it isn't 0, goto label.
+
+    Function call command
+    Function name does not start with numbers, but is any string composed of letters, numbers, underscores, periods, and colons.
+    The range of function names is global.
+    - function f n: definition of function(consist of arguments(number of n)).
+    - call f m: call function with arguments(number of m).
+    - return: return function.
 */
 
 #ifndef __PARSER_H__
