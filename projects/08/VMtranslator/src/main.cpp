@@ -1,7 +1,7 @@
 /**
     Main Virtual Machine
     v1: Implement arithmetic command and memory access command.
-    todo: Implement program flow command and function calling command.
+    v2: Implement program flow command and function calling command.
 
     Command structure
     command, command arg or command arg1 arg2

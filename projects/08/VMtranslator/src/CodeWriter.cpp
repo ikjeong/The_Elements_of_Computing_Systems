@@ -44,6 +44,7 @@ void CodeWriter::writePush(const std::string& segment, int index) {
         return;
     }
 
+    /* Load segment to A */
     if (segment == "local") loadSegmentToA("LCL", index);
     else if (segment == "argument") loadSegmentToA("ARG", index);
     else if (segment == "this") loadSegmentToA("THIS", index);
@@ -57,6 +58,8 @@ void CodeWriter::writePush(const std::string& segment, int index) {
     } else if (segment == "static") {
         output_ << "@" << file_name_ << "." << index << "\n";
     } else throw translate_exception("can't PUSH to " + segment);
+
+    /* Load segment to D, and Push D to Stack */
     output_ << "D=M" << "\n";
     writePush("D");
 }
@@ -75,6 +78,7 @@ void CodeWriter::writePop(const std::string& segment, int index) {
         return;
     }
 
+    /* Load segment to A */
     if (segment == "local") loadSegmentToA("LCL", index);
     else if (segment == "argument") loadSegmentToA("ARG", index);
     else if (segment == "this") loadSegmentToA("THIS", index);
@@ -88,10 +92,13 @@ void CodeWriter::writePop(const std::string& segment, int index) {
     } else if (segment == "static") {
         output_ << "@" << file_name_ << "." << index << "\n";
     } else throw translate_exception("can't POP to " + segment);
-    /* save Address to R13 */
+
+    /* save A to R13 */
     output_ << "D=A" << "\n";
     output_ << "@R13" << "\n";
     output_ << "M=D" << "\n";
+
+    /* Pop stack to D and save D to segment(R13) */
     writePop("D");
     output_ << "@R13" << "\n";
     output_ << "A=M" << "\n";

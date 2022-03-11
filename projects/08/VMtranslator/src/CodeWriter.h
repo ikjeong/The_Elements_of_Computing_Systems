@@ -35,9 +35,6 @@
     Memory access command
     - push segment index
     - pop segment index
-
-    if you want to pop to A,
-    it is the last command to use.
 */
 
 #ifndef __CODE_WRITER_H__
