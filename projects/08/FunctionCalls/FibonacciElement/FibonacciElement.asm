@@ -42,6 +42,8 @@ M=M+1
 D=M
 @0
 D=D-A
+@5
+D=D-A
 @ARG
 M=D
 @SP
@@ -254,6 +256,8 @@ M=M+1
 D=M
 @1
 D=D-A
+@5
+D=D-A
 @ARG
 M=D
 @SP
@@ -335,6 +339,8 @@ M=M+1
 @SP
 D=M
 @1
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -475,6 +481,8 @@ M=M+1
 @SP
 D=M
 @1
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
