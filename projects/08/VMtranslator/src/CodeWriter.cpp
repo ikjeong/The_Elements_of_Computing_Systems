@@ -157,8 +157,10 @@ void CodeWriter::setFileName(std::string path) {
 
 void CodeWriter::writeInit() {
     output_ << "// Bootstrap code" << "\n";
+    output_ << "@256" << "\n";
+    output_ << "D=A" << "\n";
     output_ << "@SP" << "\n";
-    output_ << "M=256" << "\n";
+    output_ << "M=D" << "\n";
     writeCall("Sys.init", 0);
 }
 
