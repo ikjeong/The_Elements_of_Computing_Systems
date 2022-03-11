@@ -42,7 +42,7 @@
     Memory access command
     - push segment index
     - pop segment index
-    
+
     Program flow command
     - label label: Label the current function code location. The valid range is inside the defined function.
                    The name does not start with numbers, but is any string composed of letters, numbers, underscores, periods, and colons.
@@ -104,8 +104,15 @@ public:
     CodeWriter(std::string path);
     ~CodeWriter();
     void setFileName(std::string path);
+    void writeInit();
     void writeArithmetic(const std::string& command);
     void writePushPop(const CommandType& command, const std::string& segment, int index=-1);
+    void writeLabel(const std::string& label);
+    void writeGoto(const std::string& label);
+    void writeIf(const std::string& label);
+    void writeCall(const std::string& functionName, int numArgs);
+    void writeReturn();
+    void writeFunction(const std::string& functionName, int numLocals);
     void close();
 };
 

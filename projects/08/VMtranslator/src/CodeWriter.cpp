@@ -134,6 +134,7 @@ CodeWriter::CodeWriter(std::string path) {
     output_.open(path);
     if (output_.fail()) throw file_exception(path);
     label_count_ = 0;
+    writeInit();
 }
 
 CodeWriter::~CodeWriter() {
@@ -151,6 +152,12 @@ void CodeWriter::setFileName(std::string path) {
     }
     file_name_ = path;
     output_ << "// Translate " << file_name_ << ".vm" << "\n";
+}
+
+void CodeWriter::writeInit() {
+    output_ << "// Bootstrap code" << "\n";
+    output_ << "SP=256" << "\n";
+    writeCall("Sys.init", 0);
 }
 
 void CodeWriter::writeArithmetic(const std::string& command) {
@@ -197,6 +204,37 @@ void CodeWriter::writePushPop(const CommandType& command, const std::string& seg
     if (command == CommandType::C_PUSH) writePush(segment, index);
     else if (command == CommandType::C_POP) writePop(segment, index);
     else throw translate_exception("NOT PUSH/POP COMMAND");
+}
+
+void CodeWriter::writeLabel(const std::string& label) {
+    // functionName$label 이면 다른 파일에서 같은 이름의 함수가 존재하면 어떻게하나?
+    output_ << "(" <<  label << ")" << "\n";
+}
+
+void CodeWriter::writeGoto(const std::string& label) {
+    output_ << "@" << label << "\n";
+    output_ << "0;JMP" << "\n";
+}
+
+void CodeWriter::writeIf(const std::string& label) {
+    // need Implementation
+    output_ << "IF-GOTO " << label << "\n";
+}
+
+void CodeWriter::writeCall(const std::string& functionName, int numArgs) {
+    // need Implementation
+    // return-address 삽입 필요
+    output_ << "CALL " << functionName << " " << numArgs << "\n";
+}
+
+void CodeWriter::writeReturn() {
+    // need Implementation
+    output_ << "RETURN" << "\n";
+}
+
+void CodeWriter::writeFunction(const std::string& functionName, int numLocals) {
+    // label선언 시 functionName이 필요하기에 codeWriter에 어떤 함수를 번역하고 있는지 저장해야 할듯.
+    output_ << "FUNCTION " << functionName << " " << numLocals << "\n";
 }
 
 void CodeWriter::close() {

@@ -69,6 +69,12 @@ CommandType Parser::checkCommandType(const std::string& command) const {
     if (isArithmeticCommand(command)) return CommandType::C_ARITHMETIC;
     if (command == "push") return CommandType::C_PUSH;
     if (command == "pop") return CommandType::C_POP;
+    if (command == "label") return CommandType::C_LABEL;
+    if (command == "goto") return CommandType::C_GOTO;
+    if (command == "if-goto") return CommandType::C_IF;
+    if (command == "function") return CommandType::C_FUNCTION;
+    if (command == "return") return CommandType::C_RETURN;
+    if (command == "call") return CommandType::C_CALL;
     return CommandType::NOTHING;
 }
 

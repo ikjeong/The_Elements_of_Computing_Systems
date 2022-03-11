@@ -27,6 +27,12 @@ void VMtranslator::translateFile(const std::string& path) {
         if (parser_->commandType() == CommandType::C_ARITHMETIC) code_writer_->writeArithmetic(parser_->arg1());
         else if (parser_->commandType() == CommandType::C_PUSH) code_writer_->writePushPop(parser_->commandType(), parser_->arg1(), parser_->arg2());
         else if (parser_->commandType() == CommandType::C_POP) code_writer_->writePushPop(parser_->commandType(), parser_->arg1(), parser_->arg2());
+        else if (parser_->commandType() == CommandType::C_LABEL) code_writer_->writeLabel(parser_->arg1());
+        else if (parser_->commandType() == CommandType::C_GOTO) code_writer_->writeGoto(parser_->arg1());
+        else if (parser_->commandType() == CommandType::C_IF) code_writer_->writeIf(parser_->arg1());
+        else if (parser_->commandType() == CommandType::C_FUNCTION) code_writer_->writeFunction(parser_->arg1(), parser_->arg2());
+        else if (parser_->commandType() == CommandType::C_RETURN) code_writer_->writeReturn();
+        else if (parser_->commandType() == CommandType::C_CALL) code_writer_->writeCall(parser_->arg1(), parser_->arg2());
         else throw translate_exception("It's an command type that can't be translated.");
     }
 }
