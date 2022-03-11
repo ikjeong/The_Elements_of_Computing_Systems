@@ -256,6 +256,8 @@ void CodeWriter::writeCall(const std::string& functionName, int numArgs) {
     output_ << "D=M" << "\n";
     output_ << "@" << numArgs << "\n";
     output_ << "D=D-A" << "\n";
+    output_ << "@5" << "\n";
+    output_ << "D=D-A" << "\n";
     output_ << "@ARG" << "\n";
     output_ << "M=D" << "\n";
 
