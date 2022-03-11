@@ -155,9 +155,10 @@ void CodeWriter::setFileName(std::string path) {
 }
 
 void CodeWriter::writeInit() {
-    output_ << "// Bootstrap code" << "\n";
-    output_ << "SP=256" << "\n";
-    writeCall("Sys.init", 0);
+    // output_ << "// Bootstrap code" << "\n";
+    // output_ << "@SP" << "\n";
+    // output_ << "M=256" << "\n";
+    // writeCall("Sys.init", 0);
 }
 
 void CodeWriter::writeArithmetic(const std::string& command) {
@@ -207,18 +208,21 @@ void CodeWriter::writePushPop(const CommandType& command, const std::string& seg
 }
 
 void CodeWriter::writeLabel(const std::string& label) {
-    // functionName$label 이면 다른 파일에서 같은 이름의 함수가 존재하면 어떻게하나?
+    // 앞에 file_name_.function_name_ 넣어야함
     output_ << "(" <<  label << ")" << "\n";
 }
 
 void CodeWriter::writeGoto(const std::string& label) {
+    // 앞에 file_name_.function_name_ 넣어야함
     output_ << "@" << label << "\n";
     output_ << "0;JMP" << "\n";
 }
 
 void CodeWriter::writeIf(const std::string& label) {
-    // need Implementation
-    output_ << "IF-GOTO " << label << "\n";
+    // 앞에 file_name_.function_name_ 넣어야함
+    writePop("D");
+    output_ << "@" << label << "\n";
+    output_ << "D;JNE" << "\n";
 }
 
 void CodeWriter::writeCall(const std::string& functionName, int numArgs) {
