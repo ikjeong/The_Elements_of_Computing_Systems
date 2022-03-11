@@ -156,10 +156,10 @@ void CodeWriter::setFileName(std::string path) {
 }
 
 void CodeWriter::writeInit() {
-    // output_ << "// Bootstrap code" << "\n";
-    // output_ << "@SP" << "\n";
-    // output_ << "M=256" << "\n";
-    // writeCall("Sys.init", 0);
+    output_ << "// Bootstrap code" << "\n";
+    output_ << "@SP" << "\n";
+    output_ << "M=256" << "\n";
+    writeCall("Sys.init", 0);
 }
 
 void CodeWriter::writeArithmetic(const std::string& command) {
