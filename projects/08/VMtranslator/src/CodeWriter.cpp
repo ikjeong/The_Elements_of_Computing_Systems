@@ -273,23 +273,23 @@ void CodeWriter::writeCall(const std::string& functionName, int numArgs) {
 }
 
 void CodeWriter::writeReturn() {
-    // save LCL to R13
+    // save LCL to R14
     output_ << "@LCL" << "\n";
-    output_ << "D=M" << "\n";
-    output_ << "@R13" << "\n";
-    output_ << "M=D" << "\n";
-
-    // save return-address to R14
-    output_ << "@5" << "\n";
-    output_ << "D=A" << "\n";
-    output_ << "@R13" << "\n";
-    output_ << "D=M-D" << "\n";
-    output_ << "A=D" << "\n";
     output_ << "D=M" << "\n";
     output_ << "@R14" << "\n";
     output_ << "M=D" << "\n";
 
-    // set return value
+    // save return-address to R15
+    output_ << "@5" << "\n";
+    output_ << "D=A" << "\n";
+    output_ << "@R14" << "\n";
+    output_ << "D=M-D" << "\n";
+    output_ << "A=D" << "\n";
+    output_ << "D=M" << "\n";
+    output_ << "@R15" << "\n";
+    output_ << "M=D" << "\n";
+
+    // set return value -> R13 used.
     writePop("argument", 0);
 
     // restore SP
@@ -301,7 +301,7 @@ void CodeWriter::writeReturn() {
     // restore THAT
     output_ << "@1" << "\n";
     output_ << "D=A" << "\n";
-    output_ << "@R13" << "\n";
+    output_ << "@R14" << "\n";
     output_ << "D=M-D" << "\n";
     output_ << "A=D" << "\n";
     output_ << "D=M" << "\n";
@@ -311,7 +311,7 @@ void CodeWriter::writeReturn() {
     // restore THIS
     output_ << "@2" << "\n";
     output_ << "D=A" << "\n";
-    output_ << "@R13" << "\n";
+    output_ << "@R14" << "\n";
     output_ << "D=M-D" << "\n";
     output_ << "A=D" << "\n";
     output_ << "D=M" << "\n";
@@ -321,7 +321,7 @@ void CodeWriter::writeReturn() {
     // restore ARG
     output_ << "@3" << "\n";
     output_ << "D=A" << "\n";
-    output_ << "@R13" << "\n";
+    output_ << "@R14" << "\n";
     output_ << "D=M-D" << "\n";
     output_ << "A=D" << "\n";
     output_ << "D=M" << "\n";
@@ -331,7 +331,7 @@ void CodeWriter::writeReturn() {
     // restore LCL
     output_ << "@4" << "\n";
     output_ << "D=A" << "\n";
-    output_ << "@R13" << "\n";
+    output_ << "@R14" << "\n";
     output_ << "D=M-D" << "\n";
     output_ << "A=D" << "\n";
     output_ << "D=M" << "\n";
@@ -339,7 +339,7 @@ void CodeWriter::writeReturn() {
     output_ << "M=D" << "\n";
 
     // goto return-address
-    output_ << "@R14" << "\n";
+    output_ << "@R15" << "\n";
     output_ << "A=M" << "\n";
     output_ << "0;JMP" << "\n";
 }
