@@ -1,0 +1,45 @@
+/** Implements a Terrain Object. */
+/* Information about terrain images needs to be encapsulated. */
+
+class Terrain {
+    field int x, y; // screen location of the terrian's bottom-left corner
+
+    /** Constructs a new terrain with a given location */
+    constructor Terrain new() {
+        let x = 512-1;
+        let y = 256-1;
+        return this;
+    }
+ 
+    /** Disposes this terrain. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Move terrian. */
+    method void move() {
+        let x = x - 10;
+        return;
+    }
+
+    /** Return does terrain end */
+    method boolean isEnd() {
+        if (x < -3) { return true; }
+        else { return false; }
+    }
+
+    /** Display terrian. */
+    method void disply(Monitor monitor) {
+        do monitor.displayTerrian(x, y);
+        return;
+    }
+
+    /** Fight with Dino. */
+    method boolean fightWithDino(int dx, int dy) {
+        if (dy > 3) { return false; }
+        if ((dx - x > 3) | (x - dx > 3)) { return false; }
+        return true;
+    }
+}
+ 

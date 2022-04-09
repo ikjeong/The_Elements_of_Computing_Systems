@@ -1,0 +1,40 @@
+/** Implements a Monitor Object. */
+
+class Monitor {
+
+    /** Constructs a new monitor. */
+    constructor Monitor new() {
+        return this;
+    }
+ 
+    /** Disposes this monitor. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void displaySuccess() {
+        do Output.moveCursor(256/2, 512/2-7);
+        do Output.printString("Success");
+        return;
+    }
+
+    method void displayFail() {
+        do Output.moveCursor(256/2, 512/2-7);
+        do Output.printString("Fail");
+        return;
+    }
+
+    method void displayDino(int x, int y) {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x, y+5, x+2, y);
+        return;
+    }
+
+    method void displayTerrian(int x, int y) {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x, y+2, x+2, y);
+        return;
+    }
+}
+ 

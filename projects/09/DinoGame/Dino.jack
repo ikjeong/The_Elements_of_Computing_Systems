@@ -1,0 +1,51 @@
+/** Implements a Dino Object. */
+/* Information about dinosaur images needs to be encapsulated. */
+
+class Dino {
+    field int x, y; // screen location of the dino's bottom-left corner
+    field int jumpCounts;
+
+    /** Constructs a new dino with a given location */
+    constructor Dino new() {
+        let x = 0;
+        let y = 256-1;
+        let jumpCounts = 0;
+        return this;
+    }
+ 
+    /** Disposes this dino. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Calculate Y using jumpCounts. Use only once per tick. */
+    method void calculateY() {
+        var int height;
+        if (jumpCounts = 0) { return; }
+        if (((jumpCounts - 1) / 8) = 1) { let height = 16 - (jumpCounts - 1); }
+        else { let height = jumpCounts - 1; }
+        let y = y - height;
+        let jumpCounts = jumpCounts - 1;
+        return;
+    }
+ 
+    /** Jump dino. */
+    method void jump() {
+        if (jumpCounts = 0) { let jumpCounts = 16; }
+        return;
+    }
+
+    /** Display dino. */
+    method void display(Monitor monitor) {
+        do calculateY();
+        if (jumpCounts = 0) { do monitor.displayDino(x, y); }
+        else { do monitor.displayDino(x, y); }
+        return;
+    }
+
+    /** Fight with Terrain. You need to use display() before using this method. */
+    method boolean fight(Terrain terrain) {
+        return terrain.fightWithDino(x, y);
+    }
+}

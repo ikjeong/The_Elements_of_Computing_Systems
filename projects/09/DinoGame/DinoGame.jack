@@ -1,0 +1,65 @@
+/**
+ * Implements the Dino Game.
+ * This simple game is a game in which the user manipulates dinosaurs and avoids approaching terrain.
+ * If you enter a space bar, the dinosaur jumps.
+ * When a dinosaur hits an approaching terrain, the game is over.
+ * Enter 'q' to exit.
+ */
+
+class DinoGame {
+    field Dino dino;
+    field Terrain terrain;
+    field Monitor monitor;
+
+    /** Constructs a new Dino Game. */
+    constructor DinoGame new() {
+        let dino = Dino.new();
+        let terrain = Terrain.new();
+        let monitor = Monitor.new();
+        return this;
+    }
+
+    /** Disposes this game. */
+    method void dispose() {
+        do dino.dispose();
+        do terrain.dispose();
+        do monitor.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Runs the game: handles the user's inputs and moves the Dino accordingly */
+    method void run() {
+        var char key;  // the key currently pressed by the user
+        var boolean exit;
+        let exit = false;
+        
+        while (~exit) {
+            let key = Keyboard.keyPressed();
+
+            // if key == space, jump dino
+            if (key = 40) { do dino.jump(); }
+            if (key = 161) { let exit = true; }
+
+            // move terrian and check
+            do terrain.move();
+            if (terrain.isEnd()) { 
+                do monitor.displaySuccess();
+                let exit = true;
+            }
+
+            // display dino and terrain
+            do dino.display(monitor);
+            do terrian.display(monitor);
+
+            // if dino hits terrain, end game
+            if (dino.fight(terrain)) {
+                do monitor.displayFail();
+                let exit = true;
+            }
+
+            do Sys.wait(10);   // Tick: 10ms
+        } // while
+        return;
+    }
+} 
