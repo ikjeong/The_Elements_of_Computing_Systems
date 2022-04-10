@@ -40,7 +40,7 @@ if-goto WHILE_END0
 call Keyboard.keyPressed 0
 pop local 0
 push local 0
-push constant 40
+push constant 90
 eq
 if-goto IF_TRUE0
 goto IF_FALSE0
@@ -50,7 +50,7 @@ call Dino.jump 1
 pop temp 0
 label IF_FALSE0
 push local 0
-push constant 161
+push constant 81
 eq
 if-goto IF_TRUE1
 goto IF_FALSE1

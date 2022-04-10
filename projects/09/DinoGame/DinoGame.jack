@@ -1,7 +1,7 @@
 /**
  * Implements the Dino Game.
  * This simple game is a game in which the user manipulates dinosaurs and avoids approaching terrain.
- * If you enter a space bar, the dinosaur jumps.
+ * If you enter 'z', the dinosaur jumps.
  * When a dinosaur hits an approaching terrain, the game is over.
  * Enter 'q' to exit.
  */
@@ -37,9 +37,9 @@ class DinoGame {
         while (~exit) {
             let key = Keyboard.keyPressed();
 
-            // if key == space, jump dino
-            if (key = 40) { do dino.jump(); }
-            if (key = 161) { let exit = true; }
+            // if key == z, jump dino
+            if (key = 90) { do dino.jump(); }
+            if (key = 81) { let exit = true; }
 
             // move terrain and check
             do terrain.move();
