@@ -1,9 +1,11 @@
 /** Implements a Monitor Object. */
 
 class Monitor {
-
+    field int a;
+    
     /** Constructs a new monitor. */
     constructor Monitor new() {
+        let a = 0;
         return this;
     }
  

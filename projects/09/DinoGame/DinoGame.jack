@@ -35,11 +35,8 @@ class DinoGame {
         let exit = false;
         
         while (~exit) {
-            // let key = Keyboard.keyPressed();
-            while (key = 0) {
-                let key = Keyboard.keyPressed();
-                // do moveSquare();
-            }
+            let key = Keyboard.keyPressed();
+
             // if key == space, jump dino
             if (key = 40) { do dino.jump(); }
             if (key = 161) { let exit = true; }
@@ -59,12 +56,6 @@ class DinoGame {
             if (dino.fight(terrain)) {
                 do monitor.displayFail();
                 let exit = true;
-            }
-
-            // waits for the key to be released
-            while (~(key = 0)) {
-                let key = Keyboard.keyPressed();
-                // do moveSquare();
             }
 
             do Sys.wait(100);   // Tick: 100ms
