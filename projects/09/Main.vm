@@ -126,10 +126,8 @@ push constant 0
 return
 function Main.main 0
 push constant 512
-push constant 3
+push constant 4
 call Math.multiply 2
-push constant 16
-add
 call Main.displayDino 1
 pop temp 0
 push constant 12
