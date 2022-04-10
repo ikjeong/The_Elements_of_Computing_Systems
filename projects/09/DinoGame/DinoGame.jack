@@ -8,13 +8,13 @@
 
 class DinoGame {
     field Dino dino;
-    field Terrain terrain;
+    // field Terrain terrain;
     field Monitor monitor;
 
     /** Constructs a new Dino Game. */
     constructor DinoGame new() {
         let dino = Dino.new();
-        let terrain = Terrain.new();
+        // let terrain = Terrain.new();
         let monitor = Monitor.new();
         return this;
     }
@@ -22,7 +22,7 @@ class DinoGame {
     /** Disposes this game. */
     method void dispose() {
         do dino.dispose();
-        do terrain.dispose();
+        // do terrain.dispose();
         do monitor.dispose();
         do Memory.deAlloc(this);
         return;
