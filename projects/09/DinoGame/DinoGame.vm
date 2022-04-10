@@ -37,8 +37,16 @@ push local 1
 not
 not
 if-goto WHILE_END0
+label WHILE_EXP1
+push local 0
+push constant 0
+eq
+not
+if-goto WHILE_END1
 call Keyboard.keyPressed 0
 pop local 0
+goto WHILE_EXP1
+label WHILE_END1
 push local 0
 push constant 40
 eq
@@ -94,6 +102,17 @@ push constant 0
 not
 pop local 1
 label IF_FALSE3
+label WHILE_EXP2
+push local 0
+push constant 0
+eq
+not
+not
+if-goto WHILE_END2
+call Keyboard.keyPressed 0
+pop local 0
+goto WHILE_EXP2
+label WHILE_END2
 push constant 100
 call Sys.wait 1
 pop temp 0
