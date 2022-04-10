@@ -125,7 +125,7 @@ pop temp 0
 push constant 0
 return
 function Main.main 0
-push constant 0
+push constant 200
 call Main.displayDino 1
 pop temp 0
 push constant 12
