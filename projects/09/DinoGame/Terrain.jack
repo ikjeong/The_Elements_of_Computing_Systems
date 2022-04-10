@@ -6,8 +6,8 @@ class Terrain {
 
     /** Constructs a new terrain with a given location */
     constructor Terrain new() {
-        let x = 32-2;
-        let y = 16-1;
+        let x = 32-1;
+        let y = 256-16;
         return this;
     }
  
@@ -31,7 +31,7 @@ class Terrain {
 
     /** Display terrian. */
     method void display(Monitor monitor) {
-        do monitor.clearTerrain(x+1, y);
+        // do monitor.clearTerrain(x+1, y);
         do monitor.displayTerrian(x, y);
         return;
     }

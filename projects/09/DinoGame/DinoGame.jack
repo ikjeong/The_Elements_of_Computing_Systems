@@ -33,7 +33,8 @@ class DinoGame {
         var char key;  // the key currently pressed by the user
         var boolean exit;
         let exit = false;
-        
+        do monitor.displayDino(0,0);
+        do monitor.displayDino(0,256-16);
         do dino.display(monitor);
         do terrain.display(monitor);
 

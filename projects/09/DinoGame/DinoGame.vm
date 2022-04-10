@@ -32,6 +32,18 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 1
+push this 2
+push constant 0
+push constant 0
+call Monitor.displayDino 3
+pop temp 0
+push this 2
+push constant 0
+push constant 256
+push constant 16
+sub
+call Monitor.displayDino 3
+pop temp 0
 push this 0
 push this 2
 call Dino.display 2
