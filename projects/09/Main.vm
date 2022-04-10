@@ -102,12 +102,8 @@ pop temp 0
 push constant 0
 return
 function Main.displayString 0
-push constant 256
 push constant 2
-call Math.divide 2
-push constant 512
 push constant 2
-call Math.divide 2
 call Output.moveCursor 2
 pop temp 0
 push argument 0

@@ -22,7 +22,7 @@ class Main {
     }
 
     function void displayString(String s) {
-        do Output.moveCursor(256/2, 512/2);
+        do Output.moveCursor(2, 2);
         do Output.printString(s);
         return;
     }
