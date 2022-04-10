@@ -21,8 +21,23 @@ class Main {
         return;
     }
 
+    function void displayString(String s) {
+        do Output.moveCursor(256/2, 512/2);
+        do Output.printString(s);
+        return;
+    }
+
+    function void displayScreen() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(200, 200, 300, 300);
+        return;
+    }
+
     function void main() {
         do Main.displayDino(0);
+        do Main.displayString("Hello world!");
+        do Main.displayScreen();
+
         return;
     }
 
