@@ -34,9 +34,9 @@ class DinoGame {
         var boolean exit;
         let exit = false;
         do monitor.displayDino(0,0);
-        do monitor.displayDino(0,256-16);
-        do dino.display(monitor);
-        do terrain.display(monitor);
+        // do monitor.displayDino(0,256-16);
+        // do dino.display(monitor);
+        // do terrain.display(monitor);
 
         // while (~exit) {
         //     let key = Keyboard.keyPressed();

@@ -38,7 +38,7 @@ class Main {
         do Main.displayDino(512+24);
         do Main.displayDino(512+512+23);
         do Main.displayDino(512+512+512+22);
-        do Main.displayDino(512*15+31);
+        do Main.displayDino(32*16*15+31);
         do Main.displayString("Hello world!");
         do Main.displayScreen();
 
