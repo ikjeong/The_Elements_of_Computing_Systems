@@ -38,7 +38,7 @@ class Terrain {
 
     /** Fight with Dino. */
     method boolean fightWithDino(int dx, int dy) {
-        if (dy > (y+16-1)) { return false; }
+        if (dy > (y-16+1)) { return false; }
         if (((dx - x) > 1) | ((x - dx) > 1)) { return false; }
         return true;
     }

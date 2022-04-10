@@ -68,7 +68,7 @@ push local 0
 sub
 pop this 1
 push this 2
-push constant 1
+push constant 16
 sub
 pop this 2
 push constant 0

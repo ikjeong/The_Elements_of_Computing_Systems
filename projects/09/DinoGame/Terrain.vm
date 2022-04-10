@@ -69,9 +69,9 @@ pop pointer 0
 push argument 2
 push this 1
 push constant 16
-add
-push constant 1
 sub
+push constant 1
+add
 gt
 if-goto IF_TRUE0
 goto IF_FALSE0

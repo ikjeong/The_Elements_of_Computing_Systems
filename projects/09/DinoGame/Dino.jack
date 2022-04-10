@@ -28,7 +28,7 @@ class Dino {
         if (((jumpCounts - 1) / jumpHeight) = 1) { let height = jumpHeight*2 - (jumpCounts - 1); }
         else { let height = jumpCounts - 1; }
         let y = 256-16 - height;
-        let jumpCounts = jumpCounts - 1;
+        let jumpCounts = jumpCounts - 16;
         return;
     }
  
