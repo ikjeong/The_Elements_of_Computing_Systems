@@ -149,6 +149,13 @@ push constant 22
 add
 call Main.displayDino 1
 pop temp 0
+push constant 512
+push constant 15
+call Math.multiply 2
+push constant 31
+add
+call Main.displayDino 1
+pop temp 0
 push constant 12
 call String.new 1
 push constant 72
