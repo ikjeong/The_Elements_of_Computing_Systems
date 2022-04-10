@@ -2,22 +2,22 @@ class Main {
     function void displayDino(int location) {
         var int memAddress;
         let memAddress = 16384+location;
-        do Memory.poke(memAddress+0, 0);
-        do Memory.poke(memAddress+32, 0);
-        do Memory.poke(memAddress+64, 0);
-        do Memory.poke(memAddress+96, 0);
-        do Memory.poke(memAddress+128, 896);
-        do Memory.poke(memAddress+160, 1728);
-        do Memory.poke(memAddress+192, 1984);
-        do Memory.poke(memAddress+224, 448);
-        do Memory.poke(memAddress+256, 449);
-        do Memory.poke(memAddress+288, 2019);
-        do Memory.poke(memAddress+320, 503);
-        do Memory.poke(memAddress+352, 510);
-        do Memory.poke(memAddress+384, 508);
-        do Memory.poke(memAddress+416, 504);
-        do Memory.poke(memAddress+448, 144);
-        do Memory.poke(memAddress+480, 432);
+        do Memory.poke(memAddress+0, 3840);
+        do Memory.poke(memAddress+32, 8064);
+        do Memory.poke(memAddress+64, 7552);
+        do Memory.poke(memAddress+96, 32640);
+        do Memory.poke(memAddress+128, 32640);
+        do Memory.poke(memAddress+160, 3969);
+        do Memory.poke(memAddress+192, 3969);
+        do Memory.poke(memAddress+224, 32707);
+        do Memory.poke(memAddress+256, 20455);
+        do Memory.poke(memAddress+288, 4095);
+        do Memory.poke(memAddress+320, 4094);
+        do Memory.poke(memAddress+352, 4092);
+        do Memory.poke(memAddress+384, 4088);
+        do Memory.poke(memAddress+416, 2032);
+        do Memory.poke(memAddress+448, 544);
+        do Memory.poke(memAddress+480, 1632);
         return;
     }
 
@@ -29,7 +29,7 @@ class Main {
 
     function void displayScreen() {
         do Screen.setColor(true);
-        do Screen.drawRectangle(200, 200, 300, 300);
+        do Screen.drawRectangle(4, 4, 6, 6);
         return;
     }
 
