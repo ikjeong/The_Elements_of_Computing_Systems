@@ -61,7 +61,9 @@ push constant 1
 sub
 pop local 0
 label IF_END1
-push this 1
+push constant 256
+push constant 16
+sub
 push local 0
 sub
 pop this 1
