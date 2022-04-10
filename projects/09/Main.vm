@@ -125,10 +125,27 @@ pop temp 0
 push constant 0
 return
 function Main.main 0
+push constant 25
+call Main.displayDino 1
+pop temp 0
 push constant 512
-push constant 4
-call Math.multiply 2
 push constant 24
+add
+call Main.displayDino 1
+pop temp 0
+push constant 512
+push constant 512
+add
+push constant 23
+add
+call Main.displayDino 1
+pop temp 0
+push constant 512
+push constant 512
+add
+push constant 512
+add
+push constant 22
 add
 call Main.displayDino 1
 pop temp 0
