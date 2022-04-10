@@ -1,7 +1,9 @@
 function Monitor.new 0
-push constant 0
+push constant 1
 call Memory.alloc 1
 pop pointer 0
+push constant 0
+pop this 0
 push pointer 0
 return
 function Monitor.dispose 0
