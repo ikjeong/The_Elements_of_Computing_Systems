@@ -68,11 +68,11 @@ push argument 0
 pop pointer 0
 push argument 2
 push this 1
-gt
 push constant 16
 add
 push constant 1
 sub
+gt
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0

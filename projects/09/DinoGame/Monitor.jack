@@ -30,7 +30,7 @@ class Monitor {
     method void clearDino(int x, int y) {
         var int location;
         var int memAddress;
-        let location = x + 32 * y;
+        let location = x + (32 * y);
         let memAddress = 16384 + location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -54,7 +54,7 @@ class Monitor {
     method void displayDino(int x, int y) {
         var int location;
         var int memAddress;
-        let location = x + 32 * y;
+        let location = x + (32 * y);
         let memAddress = 16384 + location;
         do Memory.poke(memAddress+0, 3840);
         do Memory.poke(memAddress+32, 8064);
@@ -78,7 +78,7 @@ class Monitor {
     method void clearTerrain(int x, int y) {
         var int location;
         var int memAddress;
-        let location = x + 32 * y;
+        let location = x + (32 * y);
         let memAddress = 16384 + location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -102,7 +102,7 @@ class Monitor {
     method void displayTerrian(int x, int y) {
         var int location;
         var int memAddress;
-        let location = x + 32 * y;
+        let location = x + (32 * y);
         let memAddress = 16384 + location;
         do Memory.poke(memAddress+0, 384);
         do Memory.poke(memAddress+32, 960);
