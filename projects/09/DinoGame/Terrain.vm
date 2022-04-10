@@ -6,8 +6,8 @@ push constant 32
 push constant 1
 sub
 pop this 0
-push constant 256
 push constant 16
+push constant 1
 sub
 pop this 1
 push pointer 0
