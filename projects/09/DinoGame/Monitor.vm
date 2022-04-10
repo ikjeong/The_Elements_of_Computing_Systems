@@ -82,8 +82,10 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push argument 2
+push constant 32
 add
+push argument 2
+call Math.multiply 2
 pop local 0
 push local 0
 push constant 0
@@ -189,8 +191,10 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push argument 2
+push constant 32
 add
+push argument 2
+call Math.multiply 2
 pop local 0
 push local 0
 push constant 0
@@ -296,8 +300,10 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push argument 2
+push constant 32
 add
+push argument 2
+call Math.multiply 2
 pop local 0
 push local 0
 push constant 0
@@ -403,8 +409,10 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push argument 2
+push constant 32
 add
+push argument 2
+call Math.multiply 2
 pop local 0
 push local 0
 push constant 0
