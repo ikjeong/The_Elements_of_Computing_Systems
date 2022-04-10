@@ -46,7 +46,7 @@ label IF_FALSE0
 push constant 0
 return
 label IF_END0
-function Terrain.disply 0
+function Terrain.display 0
 push argument 0
 pop pointer 0
 push argument 1
