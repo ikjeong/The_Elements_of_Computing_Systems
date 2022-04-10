@@ -34,32 +34,35 @@ class DinoGame {
         var boolean exit;
         let exit = false;
         
-        while (~exit) {
-            let key = Keyboard.keyPressed();
+        do dino.display(monitor);
+        do terrain.display(monitor);
 
-            // if key == space, jump dino
-            if (key = 40) { do dino.jump(); }
-            if (key = 161) { let exit = true; }
+        // while (~exit) {
+        //     let key = Keyboard.keyPressed();
 
-            // move terrain and check
-            do terrain.move();
-            if (terrain.isEnd()) { 
-                do monitor.displaySuccess();
-                let exit = true;
-            }
+        //     // if key == space, jump dino
+        //     if (key = 40) { do dino.jump(); }
+        //     if (key = 161) { let exit = true; }
 
-            // display dino and terrain
-            do dino.display(monitor);
-            do terrain.display(monitor);
+        //     // move terrain and check
+        //     do terrain.move();
+        //     if (terrain.isEnd()) { 
+        //         do monitor.displaySuccess();
+        //         let exit = true;
+        //     }
 
-            // if dino hits terrain, end game
-            if (dino.fight(terrain)) {
-                do monitor.displayFail();
-                let exit = true;
-            }
+        //     // display dino and terrain
+        //     do dino.display(monitor);
+        //     do terrain.display(monitor);
 
-            do Sys.wait(1000);   // Tick: 100ms
-        } // while
+        //     // if dino hits terrain, end game
+        //     if (dino.fight(terrain)) {
+        //         do monitor.displayFail();
+        //         let exit = true;
+        //     }
+
+        //     do Sys.wait(1000);   // Tick: 100ms
+        // } // while
         return;
     }
 } 

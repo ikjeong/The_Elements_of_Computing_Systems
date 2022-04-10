@@ -32,48 +32,6 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 1
-label WHILE_EXP0
-push local 1
-not
-not
-if-goto WHILE_END0
-call Keyboard.keyPressed 0
-pop local 0
-push local 0
-push constant 40
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push this 0
-call Dino.jump 1
-pop temp 0
-label IF_FALSE0
-push local 0
-push constant 161
-eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 0
-not
-pop local 1
-label IF_FALSE1
-push this 1
-call Terrain.move 1
-pop temp 0
-push this 1
-call Terrain.isEnd 1
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
-push this 2
-call Monitor.displaySuccess 1
-pop temp 0
-push constant 0
-not
-pop local 1
-label IF_FALSE2
 push this 0
 push this 2
 call Dino.display 2
@@ -82,23 +40,5 @@ push this 1
 push this 2
 call Terrain.display 2
 pop temp 0
-push this 0
-push this 1
-call Dino.fight 2
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
-push this 2
-call Monitor.displayFail 1
-pop temp 0
-push constant 0
-not
-pop local 1
-label IF_FALSE3
-push constant 1000
-call Sys.wait 1
-pop temp 0
-goto WHILE_EXP0
-label WHILE_END0
 push constant 0
 return
