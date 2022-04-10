@@ -82,7 +82,7 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push constant 32
+push constant 512
 add
 push argument 2
 call Math.multiply 2
@@ -191,7 +191,7 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push constant 32
+push constant 512
 add
 push argument 2
 call Math.multiply 2
@@ -300,7 +300,7 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push constant 32
+push constant 512
 add
 push argument 2
 call Math.multiply 2
@@ -409,7 +409,7 @@ pop pointer 0
 push constant 16384
 push argument 1
 add
-push constant 32
+push constant 512
 add
 push argument 2
 call Math.multiply 2

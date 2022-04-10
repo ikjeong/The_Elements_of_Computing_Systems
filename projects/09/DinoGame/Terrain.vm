@@ -2,12 +2,16 @@ function Terrain.new 0
 push constant 2
 call Memory.alloc 1
 pop pointer 0
-push constant 32
+push constant 512
 push constant 1
 sub
-pop this 0
 push constant 16
+sub
+pop this 0
+push constant 256
 push constant 1
+sub
+push constant 16
 sub
 pop this 1
 push pointer 0
@@ -69,6 +73,10 @@ pop pointer 0
 push argument 2
 push this 1
 gt
+push constant 16
+add
+push constant 1
+sub
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
@@ -78,12 +86,12 @@ label IF_FALSE0
 push argument 1
 push this 0
 sub
-push constant 1
+push constant 16
 gt
 push this 0
 push argument 1
 sub
-push constant 1
+push constant 16
 gt
 or
 if-goto IF_TRUE1
