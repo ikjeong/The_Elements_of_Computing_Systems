@@ -78,8 +78,9 @@ push this 0
 push this 2
 call Dino.display 2
 pop temp 0
+push this 1
 push this 2
-call terrian.display 1
+call Terrain.display 2
 pop temp 0
 push this 0
 push this 1

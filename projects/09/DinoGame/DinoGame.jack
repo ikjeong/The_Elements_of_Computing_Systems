@@ -41,7 +41,7 @@ class DinoGame {
             if (key = 40) { do dino.jump(); }
             if (key = 161) { let exit = true; }
 
-            // move terrian and check
+            // move terrain and check
             do terrain.move();
             if (terrain.isEnd()) { 
                 do monitor.displaySuccess();
@@ -50,7 +50,7 @@ class DinoGame {
 
             // display dino and terrain
             do dino.display(monitor);
-            do terrian.display(monitor);
+            do terrain.display(monitor);
 
             // if dino hits terrain, end game
             if (dino.fight(terrain)) {
