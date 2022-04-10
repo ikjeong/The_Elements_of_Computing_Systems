@@ -58,7 +58,7 @@ class DinoGame {
                 let exit = true;
             }
 
-            do Sys.wait(100);   // Tick: 100ms
+            do Sys.wait(1000);   // Tick: 100ms
         } // while
         return;
     }

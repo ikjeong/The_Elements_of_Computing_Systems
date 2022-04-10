@@ -95,7 +95,7 @@ push constant 0
 not
 pop local 1
 label IF_FALSE3
-push constant 100
+push constant 1000
 call Sys.wait 1
 pop temp 0
 goto WHILE_EXP0

@@ -16,13 +16,13 @@ class Monitor {
     }
 
     method void displaySuccess() {
-        do Output.moveCursor(16/2, 32/2-7/2);
+        do Output.moveCursor(16/2, 32/2);
         do Output.printString("Success");
         return;
     }
 
     method void displayFail() {
-        do Output.moveCursor(16/2, 32/2-4/2);
+        do Output.moveCursor(16/2, 32/2);
         do Output.printString("Fail");
         return;
     }
