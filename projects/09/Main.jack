@@ -34,7 +34,7 @@ class Main {
     }
 
     function void main() {
-        do Main.displayDino(512*4);
+        do Main.displayDino(512*4+24);
         do Main.displayString("Hello world!");
         do Main.displayScreen();
 
