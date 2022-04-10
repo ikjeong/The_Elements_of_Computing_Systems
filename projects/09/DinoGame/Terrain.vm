@@ -72,7 +72,7 @@ push constant 16
 sub
 push constant 1
 add
-gt
+lt
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0

@@ -10,9 +10,7 @@ sub
 pop this 1
 push constant 0
 pop this 2
-push constant 16
 push constant 4
-call Math.multiply 2
 pop this 3
 push pointer 0
 return
@@ -64,11 +62,13 @@ label IF_END1
 push constant 256
 push constant 16
 sub
+push constant 16
 push local 0
+call Math.multiply 2
 sub
 pop this 1
 push this 2
-push constant 16
+push constant 1
 sub
 pop this 2
 push constant 0
