@@ -2,7 +2,7 @@
 
 class Monitor {
     field int a;
-    
+
     /** Constructs a new monitor. */
     constructor Monitor new() {
         let a = 0;
@@ -29,7 +29,7 @@ class Monitor {
 
     method void clearDino(int x, int y) {
         var int memAddress;
-        let memAddress = 16384+x+512*y;
+        let memAddress = 16384+x+32*y;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
         do Memory.poke(memAddress+64, 0);
@@ -51,7 +51,7 @@ class Monitor {
 
     method void displayDino(int x, int y) {
         var int memAddress;
-        let memAddress = 16384+x+512*y;
+        let memAddress = 16384+x+32*y;
         do Memory.poke(memAddress+0, 3840);
         do Memory.poke(memAddress+32, 8064);
         do Memory.poke(memAddress+64, 7552);
@@ -73,7 +73,7 @@ class Monitor {
 
     method void clearTerrain(int x, int y) {
         var int memAddress;
-        let memAddress = 16384+x+512*y;
+        let memAddress = 16384+x+32*y;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
         do Memory.poke(memAddress+64, 0);
@@ -95,7 +95,7 @@ class Monitor {
 
     method void displayTerrian(int x, int y) {
         var int memAddress;
-        let memAddress = 16384+x+512*y;
+        let memAddress = 16384+x+32*y;
         do Memory.poke(memAddress+0, 384);
         do Memory.poke(memAddress+32, 960);
         do Memory.poke(memAddress+64, 4080);
