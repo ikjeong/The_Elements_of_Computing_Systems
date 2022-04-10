@@ -90,6 +90,11 @@ return
 function Dino.display 0
 push argument 0
 pop pointer 0
+push argument 1
+push this 0
+push this 1
+call Monitor.clearDino 3
+pop temp 0
 push pointer 0
 call Dino.calculateY 1
 pop temp 0

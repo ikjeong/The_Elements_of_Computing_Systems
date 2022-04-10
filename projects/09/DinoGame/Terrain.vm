@@ -51,6 +51,13 @@ push argument 0
 pop pointer 0
 push argument 1
 push this 0
+push constant 1
+add
+push this 1
+call Monitor.clearTerrain 3
+pop temp 0
+push argument 1
+push this 0
 push this 1
 call Monitor.displayTerrian 3
 pop temp 0

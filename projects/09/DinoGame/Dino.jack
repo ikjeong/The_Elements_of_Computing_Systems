@@ -40,7 +40,7 @@ class Dino {
 
     /** Display dino. */
     method void display(Monitor monitor) {
-        // do monitor.clearDino(x, y);
+        do monitor.clearDino(x, y);
         do calculateY();
         do monitor.displayDino(x, y);
         return;

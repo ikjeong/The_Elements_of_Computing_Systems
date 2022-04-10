@@ -8,13 +8,13 @@
 
 class DinoGame {
     field Dino dino;
-    // field Terrain terrain;
+    field Terrain terrain;
     field Monitor monitor;
 
     /** Constructs a new Dino Game. */
     constructor DinoGame new() {
         let dino = Dino.new();
-        // let terrain = Terrain.new();
+        let terrain = Terrain.new();
         let monitor = Monitor.new();
         return this;
     }
@@ -22,7 +22,7 @@ class DinoGame {
     /** Disposes this game. */
     method void dispose() {
         do dino.dispose();
-        // do terrain.dispose();
+        do terrain.dispose();
         do monitor.dispose();
         do Memory.deAlloc(this);
         return;
@@ -33,37 +33,33 @@ class DinoGame {
         var char key;  // the key currently pressed by the user
         var boolean exit;
         let exit = false;
-        do monitor.displayDino(0,0);
-        // do monitor.displayDino(0,256-16);
-        // do dino.display(monitor);
-        // do terrain.display(monitor);
 
-        // while (~exit) {
-        //     let key = Keyboard.keyPressed();
+        while (~exit) {
+            let key = Keyboard.keyPressed();
 
-        //     // if key == space, jump dino
-        //     if (key = 40) { do dino.jump(); }
-        //     if (key = 161) { let exit = true; }
+            // if key == space, jump dino
+            if (key = 40) { do dino.jump(); }
+            if (key = 161) { let exit = true; }
 
-        //     // move terrain and check
-        //     do terrain.move();
-        //     if (terrain.isEnd()) { 
-        //         do monitor.displaySuccess();
-        //         let exit = true;
-        //     }
+            // move terrain and check
+            do terrain.move();
+            if (terrain.isEnd()) { 
+                do monitor.displaySuccess();
+                let exit = true;
+            }
 
-        //     // display dino and terrain
-        //     do dino.display(monitor);
-        //     do terrain.display(monitor);
+            // display dino and terrain
+            do dino.display(monitor);
+            do terrain.display(monitor);
 
-        //     // if dino hits terrain, end game
-        //     if (dino.fight(terrain)) {
-        //         do monitor.displayFail();
-        //         let exit = true;
-        //     }
+            // if dino hits terrain, end game
+            if (dino.fight(terrain)) {
+                do monitor.displayFail();
+                let exit = true;
+            }
 
-        //     do Sys.wait(1000);   // Tick: 100ms
-        // } // while
+            do Sys.wait(1000);   // Tick: 100ms
+        } // while
         return;
     }
 } 
