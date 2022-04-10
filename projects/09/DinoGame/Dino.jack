@@ -8,8 +8,8 @@ class Dino {
 
     /** Constructs a new dino with a given location */
     constructor Dino new() {
-        let x = 16*4;
-        let y = 256-1-16;
+        let x = 0;
+        let y = 256-16;
         let jumpCounts = 0;
         let jumpHeight = 16*4;
         return this;
