@@ -9,7 +9,7 @@ class Dino {
     /** Constructs a new dino with a given location */
     constructor Dino new() {
         let x = 0;
-        let y = 16-1;
+        let y = 16 - 1;
         let jumpCounts = 0;
         let jumpHeight = 4;
         return this;
@@ -42,8 +42,7 @@ class Dino {
     method void display(Monitor monitor) {
         do monitor.clearDino(x, y);
         do calculateY();
-        if (jumpCounts = 0) { do monitor.displayDino(x, y); }
-        else { do monitor.displayDino(x, y); }
+        do monitor.displayDino(x, y);
         return;
     }
 
