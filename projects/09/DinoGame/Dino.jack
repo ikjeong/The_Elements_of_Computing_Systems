@@ -2,14 +2,16 @@
 /* Information about dinosaur images needs to be encapsulated. */
 
 class Dino {
-    field int x, y; // screen location of the dino's bottom-left corner
+    field int x, y; // screen location of the dino's top-left corner
     field int jumpCounts;
+    field int jumpHeight;
 
     /** Constructs a new dino with a given location */
     constructor Dino new() {
         let x = 0;
-        let y = 256-1;
+        let y = 16-1;
         let jumpCounts = 0;
+        let jumpHeight = 4;
         return this;
     }
  
@@ -23,7 +25,7 @@ class Dino {
     method void calculateY() {
         var int height;
         if (jumpCounts = 0) { return; }
-        if (((jumpCounts - 1) / 8) = 1) { let height = 16 - (jumpCounts - 1); }
+        if (((jumpCounts - 1) / jumpHeight) = 1) { let height = jumpHeight*2 - (jumpCounts - 1); }
         else { let height = jumpCounts - 1; }
         let y = y - height;
         let jumpCounts = jumpCounts - 1;
@@ -32,12 +34,13 @@ class Dino {
  
     /** Jump dino. */
     method void jump() {
-        if (jumpCounts = 0) { let jumpCounts = 16; }
+        if (jumpCounts = 0) { let jumpCounts = jumpHeight*2; }
         return;
     }
 
     /** Display dino. */
     method void display(Monitor monitor) {
+        do monitor.clearDino(x, y);
         do calculateY();
         if (jumpCounts = 0) { do monitor.displayDino(x, y); }
         else { do monitor.displayDino(x, y); }
