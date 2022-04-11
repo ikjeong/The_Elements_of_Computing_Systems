@@ -1,4 +1,5 @@
 /** Initializes a new Dino game and starts running it. */
+
 class Main {
     function void main() {
         var DinoGame game;
