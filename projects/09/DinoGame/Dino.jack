@@ -1,0 +1,63 @@
+/** Implements a Dino Object. */
+
+/*
+ * Interface
+ * jump(): Jump dino.
+ * display(): Display dino. Process by sending a message to the monitor object.
+ *            Information about dinosaur images needs to be encapsulated.
+ * fight(): Fight with argument. Process by sending a message to the argument object.
+ */
+
+
+class Dino {
+    field int x, y;         // screen location of the dino's top-left corner
+    field int jumpCounts;   // jumping height remaining (or falling height remaining)
+    field int jumpHeight;   // jumping height
+
+    /** Constructs a new dino. */
+    constructor Dino new() {
+        let x = 0;
+        let y = 256-16;
+        let jumpCounts = 0;
+        let jumpHeight = 4;
+        return this;
+    }
+ 
+    /** Disposes this dino. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Calculate Y using jumpCounts. Use only once per tick. */
+    method void calculateY() {
+        // calculate height
+        var int height;
+        if (jumpCounts = 0) { return; }
+        if (((jumpCounts - 1) / jumpHeight) = 1) { let height = jumpHeight*2 - (jumpCounts - 1); }
+        else { let height = jumpCounts - 1; }
+        // reflect height
+        let y = 256 - 16 - (16*height);
+        let jumpCounts = jumpCounts - 1;
+        return;
+    }
+ 
+    /** Jump dino. */
+    method void jump() {
+        if (jumpCounts = 0) { let jumpCounts = jumpHeight*2; }
+        return;
+    }
+
+    /** Display dino. */
+    method void display(Monitor monitor) {
+        do monitor.clearDino(x, y);
+        do calculateY();
+        do monitor.displayDino(x, y);
+        return;
+    }
+
+    /** Fight with Terrain. You need to use display() before using this method. */
+    method boolean fight(Terrain terrain) {
+        return terrain.fightWithDino(x, y);
+    }
+}

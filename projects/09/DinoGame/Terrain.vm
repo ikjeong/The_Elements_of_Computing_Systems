@@ -1,0 +1,101 @@
+function Terrain.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 32
+push constant 1
+sub
+pop this 0
+push constant 256
+push constant 16
+sub
+pop this 1
+push pointer 0
+return
+function Terrain.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Terrain.move 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+sub
+pop this 0
+push constant 0
+return
+function Terrain.isEnd 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+return
+goto IF_END0
+label IF_FALSE0
+push constant 0
+return
+label IF_END0
+function Terrain.display 0
+push argument 0
+pop pointer 0
+push argument 1
+push this 0
+push constant 1
+add
+push this 1
+call Monitor.clearTerrain 3
+pop temp 0
+push argument 1
+push this 0
+push this 1
+call Monitor.displayTerrian 3
+pop temp 0
+push constant 0
+return
+function Terrain.fightWithDino 0
+push argument 0
+pop pointer 0
+push argument 2
+push this 1
+push constant 16
+sub
+push constant 1
+add
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push argument 1
+push this 0
+sub
+push constant 1
+gt
+push this 0
+push argument 1
+sub
+push constant 1
+gt
+or
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push constant 0
+not
+return

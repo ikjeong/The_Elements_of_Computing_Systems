@@ -1,0 +1,54 @@
+/** Implements a Terrain Object. */
+
+/*
+ * Interface
+ * move(): Move terrain.
+ * isEnd(): Return does game end.
+ * display(): Display terrain. Process by sending a message to the monitor object.
+ *            Information about terrain images needs to be encapsulated.
+ * fightWithDino(): Fight with dino.
+ */
+
+class Terrain {
+    field int x, y; // screen location of the terrian's top-left corner
+
+    /** Constructs a new terrain with a given location */
+    constructor Terrain new() {
+        let x = 32-1;
+        let y = 256-16;
+        return this;
+    }
+ 
+    /** Disposes this terrain. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Move terrian. */
+    method void move() {
+        let x = x - 1;
+        return;
+    }
+
+    /** Return does terrain end */
+    method boolean isEnd() {
+        if (x < 0) { return true; }
+        else { return false; }
+    }
+
+    /** Display terrian. */
+    method void display(Monitor monitor) {
+        do monitor.clearTerrain(x+1, y);
+        do monitor.displayTerrian(x, y);
+        return;
+    }
+
+    /** Fight with Dino. */
+    method boolean fightWithDino(int dx, int dy) {
+        if (dy < (y-16+1)) { return false; }
+        if (((dx - x) > 1) | ((x - dx) > 1)) { return false; }
+        return true;
+    }
+}
+ 
