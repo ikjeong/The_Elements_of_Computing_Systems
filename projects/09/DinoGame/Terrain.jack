@@ -1,5 +1,13 @@
 /** Implements a Terrain Object. */
-/* Information about terrain images needs to be encapsulated. */
+
+/*
+ * Interface
+ * move(): Move terrain.
+ * isEnd(): Return does game end.
+ * display(): Display terrain. Process by sending a message to the monitor object.
+ *            Information about terrain images needs to be encapsulated.
+ * fightWithDino(): Fight with dino.
+ */
 
 class Terrain {
     field int x, y; // screen location of the terrian's top-left corner

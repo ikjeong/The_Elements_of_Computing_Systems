@@ -1,5 +1,16 @@
 /** Implements a Monitor Object. */
 
+/*
+ * Interface
+ * displaySuccess(): Display success image.
+ * displayFail(): Display fail image.
+ * clearDino(): Clear dino.
+ * displayDino(): Display dino.
+ * clearTerrain(): Clear terrain.
+ * displayTerrain(): Display terrain.
+ */
+
+
 class Monitor {
     field int temp;
 

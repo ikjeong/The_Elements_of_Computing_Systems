@@ -1,12 +1,20 @@
 /** Implements a Dino Object. */
-/* Information about dinosaur images needs to be encapsulated. */
+
+/*
+ * Interface
+ * jump(): Jump dino.
+ * display(): Display dino. Process by sending a message to the monitor object.
+ *            Information about dinosaur images needs to be encapsulated.
+ * fight(): Fight with argument. Process by sending a message to the argument object.
+ */
+
 
 class Dino {
-    field int x, y; // screen location of the dino's top-left corner
-    field int jumpCounts;
-    field int jumpHeight;
+    field int x, y;         // screen location of the dino's top-left corner
+    field int jumpCounts;   // jumping height remaining (or falling height remaining)
+    field int jumpHeight;   // jumping height
 
-    /** Constructs a new dino with a given location */
+    /** Constructs a new dino. */
     constructor Dino new() {
         let x = 0;
         let y = 256-16;
@@ -23,10 +31,12 @@ class Dino {
 
     /** Calculate Y using jumpCounts. Use only once per tick. */
     method void calculateY() {
+        // calculate height
         var int height;
         if (jumpCounts = 0) { return; }
         if (((jumpCounts - 1) / jumpHeight) = 1) { let height = jumpHeight*2 - (jumpCounts - 1); }
         else { let height = jumpCounts - 1; }
+        // reflect height
         let y = 256 - 16 - (16*height);
         let jumpCounts = jumpCounts - 1;
         return;

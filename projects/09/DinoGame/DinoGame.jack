@@ -6,6 +6,13 @@
  * Enter 'q' to exit.
  */
 
+/*
+ * Module
+ * Dino: Performs a role for Dino.
+ * Terrain: Performs a role for terrain.
+ * Monitor: Performs a role for the graphic processing that appears on the screen.
+ */
+
 class DinoGame {
     field Dino dino;
     field Terrain terrain;
