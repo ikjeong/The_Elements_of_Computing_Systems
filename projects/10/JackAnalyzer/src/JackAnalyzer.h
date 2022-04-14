@@ -3,7 +3,7 @@
 
     Interface: 
     - translate:
-        tranlaste .jack to .xml file.
+        translate .jack to .xml file.
 
 */
 
@@ -14,6 +14,10 @@
 
 class JackAnalyzer {
 private:
+    std::vector<std::string> paths_;
+
+    void loadFilePaths(const std::string& path);
+    bool isJackFile(const std::string& path) const;
 
 public:
     JackAnalyzer(const std::string& path);
