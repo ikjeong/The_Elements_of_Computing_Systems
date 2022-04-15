@@ -18,6 +18,7 @@ private:
 
     void loadFilePaths(const std::string& path);
     bool isJackFile(const std::string& path) const;
+    void translateFile(const std::string& path);
 
 public:
     JackAnalyzer(const std::string& path);
