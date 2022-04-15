@@ -11,9 +11,11 @@
 #define __JACK_ANALYZER_H__
 
 #include "Global.h"
+#include "JackTokenizer.h"
 
 class JackAnalyzer {
 private:
+    std::unique_ptr<JackTokenizer> jackTokenizer;
     std::vector<std::string> paths_;
 
     void loadFilePaths(const std::string& path);

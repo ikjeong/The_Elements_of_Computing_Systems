@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <memory>
 /* If gcc version is under 9, use '-lstdc++fs' */
 #include <filesystem>
 

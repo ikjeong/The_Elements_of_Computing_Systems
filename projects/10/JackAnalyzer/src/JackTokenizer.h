@@ -25,12 +25,19 @@
 
 class JackTokenizer {
 private:
+    std::ifstream input_;
+    std::string current_token_;
+    std::string next_token_;
+    std::string current_token_type_;
+
+    void initialize();
+    bool isJackFile(const std::string& path) const;
 
 public:
     JackTokenizer();
     ~JackTokenizer();
 
-    void setFile(const string& path);
+    void setFile(const std::string& path);
     bool hasMoreTokens() const;
     void advance();
     TokenType tokenType() const;
