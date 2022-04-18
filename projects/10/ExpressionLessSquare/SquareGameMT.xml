@@ -10,7 +10,7 @@
 <keyword> int </keyword>
 <identifier> direction </identifier>
 <symbol> ; </symbol>
-<identifier> constructor </identifier>
+<keyword> constructor </keyword>
 <identifier> SquareGame </identifier>
 <identifier> new </identifier>
 <symbol> ( </symbol>

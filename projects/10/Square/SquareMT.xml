@@ -12,7 +12,7 @@
 <keyword> int </keyword>
 <identifier> size </identifier>
 <symbol> ; </symbol>
-<identifier> constructor </identifier>
+<keyword> constructor </keyword>
 <identifier> Square </identifier>
 <identifier> new </identifier>
 <symbol> ( </symbol>
