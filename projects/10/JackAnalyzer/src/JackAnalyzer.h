@@ -1,11 +1,9 @@
 /**
-    JackAnalyzer
-
-    Interface: 
-    - translate:
-        translate .jack to .xml file.
-
-*/
+ * JackAnalyzer
+ * 
+ * Interface: 
+ * - analyze: Parses all jack files in the program and saves them as .xml files.
+ */
 
 #ifndef __JACK_ANALYZER_H__
 #define __JACK_ANALYZER_H__
@@ -20,13 +18,13 @@ private:
 
     void loadFilePaths(const std::string& path);
     bool isJackFile(const std::string& path) const;
-    void translateFile(const std::string& path);
+    void analyzeFile(const std::string& path);
     std::string changeSymboltoXml(const char& symbol) const;
 
 public:
     JackAnalyzer(const std::string& path);
     ~JackAnalyzer();
-    void translate();
+    void analyze();
 };
 
 #endif
