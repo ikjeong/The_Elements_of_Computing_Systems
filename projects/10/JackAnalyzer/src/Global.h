@@ -28,4 +28,10 @@ public:
     : runtime_error("File Exception: fail to load file(Path: " + path + ").") { }
 };
 
+class translate_exception : public std::runtime_error {
+public:
+    translate_exception(const std::string& command)
+    : runtime_error("Translate Exception: fail to translate command(" + command + ").") { }
+};
+
 #endif
