@@ -65,7 +65,7 @@ void JackTokenizer::parseLine(std::string& buffer, bool& doesQuotationOpen, bool
         if (index == string_end) {
             return;
         } else {
-            startIndex = index+1;
+            startIndex = index+2;
             doesCommentOpen = false;
         }
     }
@@ -95,10 +95,9 @@ void JackTokenizer::parseLine(std::string& buffer, bool& doesQuotationOpen, bool
                 token_.pop_back();
                 pushToken(token);
                 return;
-            } else if ((endIndex >= 1 && buffer.substr(endIndex-1, 2) == "/*") || (endIndex >= 2 && buffer.substr(endIndex-2, 3) == "/**")) {
-                // '/'와 '*'로 들어간 symbol을 제거해줌.
+            } else if (endIndex >= 1 && buffer.substr(endIndex-1, 2) == "/*") {
+                // '/'로 들어간 symbol을 제거해줌.
                 token_.pop_back();
-                if (endIndex >= 2 && buffer.substr(endIndex-2, 3) == "/**") token_.pop_back();
                 pushToken(token);
                 string_index index = buffer.find("*/", endIndex+1);
                 if (index == string_end) {
@@ -127,6 +126,13 @@ void JackTokenizer::parseLine(std::string& buffer, bool& doesQuotationOpen, bool
 
             // 그 외면 토큰으로 구성
             token.push_back(buffer[endIndex]);
+
+            // 라인 끝까지 왔다면 토큰구성
+            if (endIndex+1 == (int)buffer.size()) {
+                pushToken(token);
+                startIndex = endIndex+1;
+                break;
+            }
         }
     }
 
