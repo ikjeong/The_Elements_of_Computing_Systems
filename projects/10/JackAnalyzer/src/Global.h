@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <regex>
 /* If gcc version is under 9, use '-lstdc++fs' */
 #include <filesystem>
 
