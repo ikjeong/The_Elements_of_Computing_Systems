@@ -37,7 +37,7 @@ void JackAnalyzer::translateFile(const std::string& path) {
     while (jackTokenizer->hasMoreTokens()) {
         jackTokenizer->advance();
         if (jackTokenizer->tokenType() == TokenType::KEYWORD) output_ << "<keyword> " << jackTokenizer->keyword() << " </keyword>" << std::endl;
-        else if (jackTokenizer->tokenType() == TokenType::SYMBOL) output_ << "<symbol> " << jackTokenizer->symbol() << " </symbol>" << std::endl;
+        else if (jackTokenizer->tokenType() == TokenType::SYMBOL) output_ << "<symbol> " << changeSymboltoXml(jackTokenizer->symbol()) << " </symbol>" << std::endl;
         else if (jackTokenizer->tokenType() == TokenType::IDENTIFIER) output_ << "<identifier> " << jackTokenizer->identifier() << " </identifier>" << std::endl;
         else if (jackTokenizer->tokenType() == TokenType::INT_CONST) output_ << "<integerConstant> " << jackTokenizer->intVal() << " </integerConstant>" << std::endl;
         else if (jackTokenizer->tokenType() == TokenType::STRING_CONST) output_ << "<stringConstant> " << jackTokenizer->stringVal() << " </stringConstant>" << std::endl;
@@ -45,6 +45,15 @@ void JackAnalyzer::translateFile(const std::string& path) {
     }
     output_ << "</tokens>" << std::endl;
     // 토큰들을 CompilationEngine 모듈에 전달해 컴파일한 후 출력 메시지를 전달한다.
+}
+
+// XML관례에 따른 기호 출력 멤버함수. compilationEngine 모듈에 포함되어야 함
+std::string JackAnalyzer::changeSymboltoXml(const char& symbol) const {
+    if (symbol == '<') return "&lt";
+    if (symbol == '>') return "&gt";
+    if (symbol == '\"') return "&quot";
+    if (symbol == '&') return "&amp";
+    return std::string(1, symbol);
 }
 
 /* =========== PUBLIC ============= */

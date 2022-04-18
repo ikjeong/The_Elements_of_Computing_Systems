@@ -21,6 +21,7 @@ private:
     void loadFilePaths(const std::string& path);
     bool isJackFile(const std::string& path) const;
     void translateFile(const std::string& path);
+    std::string changeSymboltoXml(const char& symbol) const;
 
 public:
     JackAnalyzer(const std::string& path);
