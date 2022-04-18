@@ -45,6 +45,7 @@ void JackAnalyzer::translateFile(const std::string& path) {
     }
     output_ << "</tokens>" << std::endl;
     // 토큰들을 CompilationEngine 모듈에 전달해 컴파일한 후 출력 메시지를 전달한다.
+    output_.close();
 }
 
 // XML관례에 따른 기호 출력 멤버함수. compilationEngine 모듈에 포함되어야 함

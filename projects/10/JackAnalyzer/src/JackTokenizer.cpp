@@ -7,6 +7,7 @@
 /* =========== PRIVATE ============= */
 
 void JackTokenizer::initialize() {
+    token_.clear();
     current_token_index_ = -1;
     current_token_type_ = TokenType::NOTHING;
     parseProgram();
