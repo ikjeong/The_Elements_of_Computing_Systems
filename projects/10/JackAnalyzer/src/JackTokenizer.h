@@ -27,7 +27,7 @@
 #include "Global.h"
 
 const std::vector<std::string> KEYWORDS = {
-    "class", "cunstructor", "function", "method",
+    "class", "constructor", "function", "method",
     "field", "static", "var", "int", "char",
     "boolean", "void", "true", "false", "null",
     "this", "let", "do", "if", "else", "while", "return"
