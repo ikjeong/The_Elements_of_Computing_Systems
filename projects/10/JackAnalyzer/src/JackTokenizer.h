@@ -21,7 +21,16 @@
 #ifndef __JACK_TOKENIZER_H__
 #define __JACK_TOKENIZER_H__
 
+#define string_index std::string::size_type
+#define string_end std::string::npos
+
 #include "Global.h"
+
+const std::vector<char> SYMBOLS = {
+    '{', '}', '(', ')', '[', ']', '.',
+    ',', ';', '+', '-', '*', '/', '&',
+    '|', '<', '>', '=', '~'
+};
 
 class JackTokenizer {
 private:
@@ -31,7 +40,10 @@ private:
     TokenType current_token_type_;
 
     void initialize();
-    void parseToken();
+    void parseProgram();
+    void parseLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen);
+    void pushToken(const std::string& token);
+    bool isSymbol(const char& token) const;
     TokenType checkTokenType(const std::string& token) const;
     bool isJackFile(const std::string& path) const;
 
