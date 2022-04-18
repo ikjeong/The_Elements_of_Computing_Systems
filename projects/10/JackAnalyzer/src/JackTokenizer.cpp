@@ -136,6 +136,13 @@ void JackTokenizer::pushToken(const std::string& token) {
     token_.push_back(token);
 }
 
+bool JackTokenizer::isKeyword(const std::string& token) const {
+    for (const std::string& keyword : KEYWORDS) {
+        if (token == keyword) return true;
+    }
+    return false;
+}
+
 bool JackTokenizer::isSymbol(const char& token) const {
     for (const char& symbol : SYMBOLS) {
         if (token == symbol) return true;
@@ -145,6 +152,17 @@ bool JackTokenizer::isSymbol(const char& token) const {
 
 TokenType JackTokenizer::checkTokenType(const std::string& token) const {
     // token의 type을 반환
+    if (isKeyword(token)) return TokenType::KEYWORD;
+    if (token.size() == 1 && isSymbol(token[0])) return TokenType::SYMBOL;
+    if (token.size() >= 2 && token[0] == '\"' && token[token.size()-1] == '\"') return TokenType::STRING_CONST;
+    try {
+        std::stoi(token);
+        return TokenType::INT_CONST;
+    } catch (std::exception& e) { }
+    std::regex re("[_a-zA-Z][_a-zA-Z0-9]*");
+    if (std::regex_match(token, re)) return TokenType::IDENTIFIER;
+
+    return TokenType::NOTHING;
 }
 
 bool JackTokenizer::isJackFile(const std::string& path) const {
@@ -178,37 +196,52 @@ void JackTokenizer::setFile(const std::string& path) {
 
 bool JackTokenizer::hasMoreTokens() const {
     // token size 와 current_token_index를 비교해 반환 
+    if (current_token_index_ < (int)token_.size()-1) return true;
+    return false;
 }
 
 void JackTokenizer::advance() {
     // current_token_index를 다음으로 하고, current_token_type을 설정
+    ++current_token_index_;
+    current_token_type_ = checkTokenType(token_[current_token_index_]);
 }
 
 TokenType JackTokenizer::tokenType() const {
-    // current_token_type을 반환 
+    // current_token_type을 반환
+    return current_token_type_;
 }
 
 std::string JackTokenizer::keyword() const {
     // current_token_type이 keyword가 아니면 예외
     // 그 외는 토큰값 반환
+    if (current_token_type_ != TokenType::KEYWORD) throw translate_exception(token_[current_token_index_]);
+    return token_[current_token_index_];
 }
 
 char JackTokenizer::symbol() const {
     // current_token_type이 symbol이 아니면 예외
-    // 그 외는 토큰값 반환  
+    // 그 외는 토큰값 반환
+    if (current_token_type_ != TokenType::SYMBOL) throw translate_exception(token_[current_token_index_]);
+    return token_[current_token_index_][0];
 }
 
 std::string JackTokenizer::identifier() const {
     // current_token_type이 identifier가 아니면 예외
-    // 그 외는 토큰값 반환  
+    // 그 외는 토큰값 반환
+    if (current_token_type_ != TokenType::IDENTIFIER) throw translate_exception(token_[current_token_index_]);
+    return token_[current_token_index_];
 }
 
 int JackTokenizer::intVal() const {
     // current_token_type이 intVal가 아니면 예외
     // 그 외는 토큰값 반환  
+    if (current_token_type_ != TokenType::INT_CONST) throw translate_exception(token_[current_token_index_]);
+    return std::stoi(token_[current_token_index_]);
 }
 
 std::string JackTokenizer::stringVal() const {
-        // current_token_type이 stringVal이 아니면 예외
+    // current_token_type이 stringVal이 아니면 예외
     // 그 외는 토큰값 반환  
+    if (current_token_type_ != TokenType::STRING_CONST) throw translate_exception(token_[current_token_index_]);
+    return token_[current_token_index_].substr(1, token_[current_token_index_].size()-2);
 }

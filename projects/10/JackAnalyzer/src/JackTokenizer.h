@@ -26,6 +26,13 @@
 
 #include "Global.h"
 
+const std::vector<std::string> KEYWORDS = {
+    "class", "cunstructor", "function", "method",
+    "field", "static", "var", "int", "char",
+    "boolean", "void", "true", "false", "null",
+    "this", "let", "do", "if", "else", "while", "return"
+};
+
 const std::vector<char> SYMBOLS = {
     '{', '}', '(', ')', '[', ']', '.',
     ',', ';', '+', '-', '*', '/', '&',
@@ -43,6 +50,7 @@ private:
     void parseProgram();
     void parseLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen);
     void pushToken(const std::string& token);
+    bool isKeyword(const std::string& token) const;
     bool isSymbol(const char& token) const;
     TokenType checkTokenType(const std::string& token) const;
     bool isJackFile(const std::string& path) const;
