@@ -25,7 +25,25 @@ bool JackAnalyzer::isJackFile(const std::string& path) const {
 
 void JackAnalyzer::translateFile(const std::string& path) {
     // 입력 데이터를 JackTokenizer 모듈로 토큰화한다.
+    std::ofstream output_;
+    std::string outputPath = path;
+    outputPath.erase(outputPath.find(".jack"), std::string::npos);
+    outputPath.append("MT.xml");
+    output_.open(outputPath);
+    if (output_.fail()) throw file_exception(outputPath);
+
     jackTokenizer->setFile(path);
+    output_ << "<tokens>" << std::endl;
+    while (jackTokenizer->hasMoreTokens()) {
+        jackTokenizer->advance();
+        if (jackTokenizer->tokenType() == TokenType::KEYWORD) output_ << "<keyword> " << jackTokenizer->keyword() << " </keyword>" << std::endl;
+        else if (jackTokenizer->tokenType() == TokenType::SYMBOL) output_ << "<symbol> " << jackTokenizer->symbol() << " </symbol>" << std::endl;
+        else if (jackTokenizer->tokenType() == TokenType::IDENTIFIER) output_ << "<identifier> " << jackTokenizer->identifier() << " </identifier>" << std::endl;
+        else if (jackTokenizer->tokenType() == TokenType::INT_CONST) output_ << "<integerConstant> " << jackTokenizer->intVal() << " </integerConstant>" << std::endl;
+        else if (jackTokenizer->tokenType() == TokenType::STRING_CONST) output_ << "<stringConstant> " << jackTokenizer->stringVal() << " </stringConstant>" << std::endl;
+        else if (jackTokenizer->tokenType() == TokenType::NOTHING) throw translate_exception("Incorrect Token Type");
+    }
+    output_ << "</tokens>" << std::endl;
     // 토큰들을 CompilationEngine 모듈에 전달해 컴파일한 후 출력 메시지를 전달한다.
 }
 
