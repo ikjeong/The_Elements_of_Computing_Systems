@@ -49,10 +49,10 @@ void JackAnalyzer::translateFile(const std::string& path) {
 
 // XML관례에 따른 기호 출력 멤버함수. compilationEngine 모듈에 포함되어야 함
 std::string JackAnalyzer::changeSymboltoXml(const char& symbol) const {
-    if (symbol == '<') return "&lt";
-    if (symbol == '>') return "&gt";
-    if (symbol == '\"') return "&quot";
-    if (symbol == '&') return "&amp";
+    if (symbol == '<') return "&lt;";
+    if (symbol == '>') return "&gt;";
+    if (symbol == '\"') return "&quot;";
+    if (symbol == '&') return "&amp;";
     return std::string(1, symbol);
 }
 
