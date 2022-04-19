@@ -15,11 +15,10 @@ class JackAnalyzer {
 private:
     std::unique_ptr<JackTokenizer> jackTokenizer;
     std::vector<std::string> paths_;
-
+    
     void loadFilePaths(const std::string& path);
     bool isJackFile(const std::string& path) const;
     void analyzeFile(const std::string& path);
-    std::string changeSymboltoXml(const char& symbol) const;
 
 public:
     JackAnalyzer(const std::string& path);

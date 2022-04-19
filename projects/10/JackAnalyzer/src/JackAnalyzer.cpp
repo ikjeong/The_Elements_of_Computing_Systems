@@ -38,30 +38,13 @@ bool JackAnalyzer::isJackFile(const std::string& path) const {
  * @param path Set the path to the file to be analyzed(Must be a .jack file).
  */ 
 void JackAnalyzer::analyzeFile(const std::string& path) {
-    // Specify the file to print the contents. This shall be included in the Complication Engine module.
-    std::ofstream output_;
-    std::string outputPath = path;
-    outputPath.erase(outputPath.find(".jack"), std::string::npos);
-    outputPath.append("MT.xml");
-    output_.open(outputPath);
-    if (output_.fail()) throw file_exception(outputPath);
-
-    // Tokenize the input data using the JackTokenizer module.
+    /* Tokenize the input data using the JackTokenizer module. */
     jackTokenizer->setFile(path);
-    output_ << "<tokens>" << std::endl;
-    while (jackTokenizer->hasMoreTokens()) {
-        jackTokenizer->advance();
-        if (jackTokenizer->tokenType() == TokenType::KEYWORD) output_ << "<keyword> " << jackTokenizer->keyword() << " </keyword>" << std::endl;
-        else if (jackTokenizer->tokenType() == TokenType::SYMBOL) output_ << "<symbol> " << changeSymboltoXml(jackTokenizer->symbol()) << " </symbol>" << std::endl;
-        else if (jackTokenizer->tokenType() == TokenType::IDENTIFIER) output_ << "<identifier> " << jackTokenizer->identifier() << " </identifier>" << std::endl;
-        else if (jackTokenizer->tokenType() == TokenType::INT_CONST) output_ << "<integerConstant> " << jackTokenizer->intVal() << " </integerConstant>" << std::endl;
-        else if (jackTokenizer->tokenType() == TokenType::STRING_CONST) output_ << "<stringConstant> " << jackTokenizer->stringVal() << " </stringConstant>" << std::endl;
-        else if (jackTokenizer->tokenType() == TokenType::NOTHING) throw analyze_exception("Incorrect Token Type");
-    }
-    output_ << "</tokens>" << std::endl;
-    output_.close();
 
-    // TODO: The tokens are delivered to the Compilation Engine module. It is then compiled and printed.
+    /* Make XXXM.xml output file and ready to write. */
+
+    /* Compiled and printed using the CompilationEngine module. */
+    
 }
 
 /**
@@ -69,13 +52,13 @@ void JackAnalyzer::analyzeFile(const std::string& path) {
  * @param symbol Token of type symbol.
  * @return Return symbols according to xml convention.
  */
-std::string JackAnalyzer::changeSymboltoXml(const char& symbol) const {
-    if (symbol == '<') return "&lt;";
-    if (symbol == '>') return "&gt;";
-    if (symbol == '\"') return "&quot;";
-    if (symbol == '&') return "&amp;";
-    return std::string(1, symbol);
-}
+// std::string JackAnalyzer::changeSymboltoXml(const char& symbol) const {
+//     if (symbol == '<') return "&lt;";
+//     if (symbol == '>') return "&gt;";
+//     if (symbol == '\"') return "&quot;";
+//     if (symbol == '&') return "&amp;";
+//     return std::string(1, symbol);
+// }
 
 /* =========== PUBLIC ============= */
 
