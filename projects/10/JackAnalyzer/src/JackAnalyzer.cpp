@@ -42,9 +42,22 @@ void JackAnalyzer::analyzeFile(const std::string& path) {
     jackTokenizer->setFile(path);
 
     /* Make XXXM.xml output file and ready to write. */
+    setOutputFile(path);
 
     /* Compiled and printed using the CompilationEngine module. */
     
+}
+
+/**
+ * Set XXXM.xml output file. Input file(XXX.jack) must be .jack file.
+ */
+void JackAnalyzer::setOutputFile(std::string path) {
+    if (output_.is_open()) output_.close();
+    if (!isJackFile(path)) throw file_exception(path);
+    path.erase(path.find(".jack"), std::string::npos);
+    path.append("M.xml");
+    output_.open(path);
+    if (output_.fail()) throw file_exception(path);
 }
 
 /**
@@ -72,6 +85,7 @@ JackAnalyzer::JackAnalyzer(const std::string& path)
 }
 
 JackAnalyzer::~JackAnalyzer() {
+    if (output_.is_open()) output_.close();
 }
 
 /**
