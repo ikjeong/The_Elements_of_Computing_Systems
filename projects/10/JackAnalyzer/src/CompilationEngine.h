@@ -16,6 +16,14 @@ class CompilationEngine {
 private:
     JackTokenizer* jack_tokenizer_;
     std::ofstream* output_;
+    int indent_depth_;
+
+    void printIndent();
+    void printKeyword();
+    void printSymbol();
+    void printIntegerConstant();
+    void printStringConstant();
+    void printIdentifier();
 
     void compileClass();
     void compileClassVarDec();
