@@ -10,10 +10,12 @@
 
 #include "Global.h"
 #include "JackTokenizer.h"
+#include "CompilationEngine.h"
 
 class JackAnalyzer {
 private:
-    std::unique_ptr<JackTokenizer> jackTokenizer;
+    std::unique_ptr<JackTokenizer> jack_tokenizer_;
+    std::unique_ptr<CompilationEngine> compilation_engine_;
     std::vector<std::string> paths_;
     std::ofstream output_;
     
