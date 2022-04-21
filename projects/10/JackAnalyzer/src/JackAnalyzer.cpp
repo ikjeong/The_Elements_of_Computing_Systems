@@ -39,7 +39,7 @@ bool JackAnalyzer::isJackFile(const std::string& path) const {
  */ 
 void JackAnalyzer::analyzeFile(const std::string& path) {
     /* Tokenize the input data using the JackTokenizer module. */
-    jack_tokenizer_->setFile(path);
+    jack_tokenizer_->tokenize(path);
 
     /* Make XXXM.xml output file and ready to write. */
     setOutputFile(path);

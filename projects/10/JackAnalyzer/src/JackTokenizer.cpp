@@ -188,9 +188,9 @@ JackTokenizer::~JackTokenizer() {
 
 /**
  * Set the input stream, initialize the module, and tokenize the file.
- * To use this module, you must call the setFile() member function to initialize it.
+ * To use this module, you must call the tokenize() member function to initialize it.
  */
-void JackTokenizer::setFile(const std::string& path) {
+void JackTokenizer::tokenize(const std::string& path) {
     if (input_.is_open()) input_.close();
     if (!isJackFile(path)) throw file_exception(path);
     input_.open(path);
