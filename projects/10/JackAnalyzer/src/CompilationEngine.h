@@ -27,10 +27,15 @@ private:
     void printStringConstant();
     void printIdentifier();
 
+    bool checkPrimitiveType();
+
+    void checkAndPrintType();
+
     void compileClass();
     void compileClassVarDec();
     void compileSubroutine();
     void compileParameterList();
+    void compileSubroutineBody();
     void compileVarDec();
     void compileStatements();
     void compileDo();

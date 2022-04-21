@@ -17,6 +17,11 @@ void CompilationEngine::initialize(JackTokenizer* jackTokenizer, std::ofstream* 
     indent_depth_ = 0;
 }
 
+/**
+ * printXXX() functions need to be checked that can be called.
+ * checkAndPrintXXX() don't need to be checked that can be called.
+ */
+
 void CompilationEngine::printIndent() {
     for (int i = 0; i < indent_depth_ * 2; ++i)
         *output_ << ' ';
@@ -45,6 +50,20 @@ void CompilationEngine::printStringConstant() {
 void CompilationEngine::printIdentifier() {
     printIndent();
     *output_ << "<identifier> " << jack_tokenizer_->identifier() << " </identifier>" << std::endl;
+}
+
+bool CompilationEngine::checkPrimitiveType() {
+    if (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
+       (jack_tokenizer_->keyword() == "int" ||
+        jack_tokenizer_->keyword() == "char" ||
+        jack_tokenizer_->keyword() == "boolean")) return true;
+    else return false;
+}
+
+void CompilationEngine::checkAndPrintType() {
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else if (checkPrimitiveType()) printKeyword();
+    else throw analyze_exception("Required type(primitive type or className)");
 }
 
 /**
@@ -78,7 +97,7 @@ void CompilationEngine::compileClass() {
 
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '{') printSymbol();
-    else throw analyze_exception("Required Symbol('{')");
+    else throw analyze_exception("Required symbol('{')");
 
     /* Print classVarDec, subroutineDec. */
     while (true) {
@@ -124,13 +143,7 @@ void CompilationEngine::compileClassVarDec() {
     if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
     else throw analyze_exception("The token does not exist. It needs type for classVarDec.");
 
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else if (jack_tokenizer_->tokenType() == TokenType::KEYWORD) {
-        if (jack_tokenizer_->keyword() == "int") printKeyword();
-        else if (jack_tokenizer_->keyword() == "char") printKeyword();
-        else if (jack_tokenizer_->keyword() == "boolean") printKeyword();
-        else throw analyze_exception("Required type(primitive type or className)");
-    } else throw analyze_exception("Required type(primitive type or className)");
+    checkAndPrintType();
 
     /* Print varName. */
     if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
@@ -169,15 +182,83 @@ void CompilationEngine::compileClassVarDec() {
 
 /**
  * Compiles an entire method, function, or constructor.
+ * ('constructor' | 'function' | 'method') ('void' | type) subroutineName
+ * '(' parameterList ')' subroutineBody
+ * 
+ * parameterList: ((type varName) (',' type varName)*)?
+ * subroutineBody: '{' varDec* statements '}'
+ * varDec: 'var' type varName (',' varName)* ';'
  */
 void CompilationEngine::compileSubroutine() {
+    printIndent();
+    *output_ << "<subroutine>" << std::endl;
+    ++indent_depth_;
+
+    /* Print 'constructor' or 'function', or 'method'. */
+    printKeyword(); // It must be 'static' or 'field', or 'method'.
+
+    /* Print 'void' or type. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs 'void' or type for return value.");
+
+    try {
+        if (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
+            jack_tokenizer_->keyword() == "void") printKeyword();
+        else checkAndPrintType();
+    } catch (analyze_exception& e) {
+        throw analyze_exception("Required 'void' or type(primitive type or className)");
+    }
+    
+    /* Print subroutineName. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs identifier for subroutineName.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Required identifier(subroutineName) or return type('void' or type(primitive type or className))");
+
+    /* Print '('. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs symbol '('");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == '(') printSymbol();
+    else throw analyze_exception("Required symbol('(')");
+
+    /* Print parameterList and ')'. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs type for parameter or symbol ')'");
+
+    compileParameterList();
+    
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == ')') printSymbol();
+    else throw analyze_exception("Required symbol(')')");
+
+    /* Print subroutineBody. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs symbol '{'");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == '{') compileSubroutineBody();
+    else throw analyze_exception("Required symbol('{')");
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</subroutine>" << std::endl;
+}
+
+/**
+ * Compile the parameter list (may be an empty list). It does not include '()'.
+ * Caution: When this function returns, jack tokenizer module points to next token.
+ */
+void CompilationEngine::compileParameterList() {
 
 }
 
 /**
- * Compile the parameter list (may be an empty list). It does not include '().
+ * Compile the subroutine body.
  */
-void CompilationEngine::compileParameterList() {
+void CompilationEngine::compileSubroutineBody() {
 
 }
 
