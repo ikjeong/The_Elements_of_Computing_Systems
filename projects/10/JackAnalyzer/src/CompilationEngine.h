@@ -18,6 +18,8 @@ private:
     std::ofstream* output_;
     int indent_depth_;
 
+    void initialize(JackTokenizer* jackTokenizer, std::ofstream* output);
+
     void printIndent();
     void printKeyword();
     void printSymbol();

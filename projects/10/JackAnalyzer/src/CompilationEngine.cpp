@@ -5,11 +5,17 @@
 #include "CompilationEngine.h"
 
 /* =========== PRIVATE ============= */
+
 /**
- * All compileXXX() member functions must have
- * the tokenization module pointing to the token
- * that fits XXX before being called.
+ * Set up the tokenization module and output file.
+ * @param jackTokenizer The module that has completed tokenization must be delivered.
+ * @param output Specifies the file to be compiled output. It must be in the .xml file format.
  */
+void CompilationEngine::initialize(JackTokenizer* jackTokenizer, std::ofstream* output) {
+    jack_tokenizer_ = jackTokenizer;
+    output_ = output;
+    indent_depth_ = 0;
+}
 
 void CompilationEngine::printIndent() {
     for (int i = 0; i < indent_depth_ * 2; ++i)
@@ -18,80 +24,93 @@ void CompilationEngine::printIndent() {
 
 void CompilationEngine::printKeyword() {
     printIndent();
-    *output_ << "<keyword> " << jack_tokenizer_->keyword() << " </keyword>";
-    *output_ << std::endl;
+    *output_ << "<keyword> " << jack_tokenizer_->keyword() << " </keyword>" << std::endl;
 }
 
 void CompilationEngine::printSymbol() {
     printIndent();
-    *output_ << "<symbol> " << jack_tokenizer_->symbol() << " </symbol>";
-    *output_ << std::endl;
+    *output_ << "<symbol> " << jack_tokenizer_->symbol() << " </symbol>" << std::endl;
 }
 
 void CompilationEngine::printIntegerConstant() {
     printIndent();
-    *output_ << "<integerConstant> " << jack_tokenizer_->intVal() << " </integerConstant>";
-    *output_ << std::endl;
+    *output_ << "<integerConstant> " << jack_tokenizer_->intVal() << " </integerConstant>" << std::endl;
 }
 
 void CompilationEngine::printStringConstant() {
     printIndent();
-    *output_ << "<stringConstant> " << jack_tokenizer_->stringVal() << " </stringConstant>";
-    *output_ << std::endl;
+    *output_ << "<stringConstant> " << jack_tokenizer_->stringVal() << " </stringConstant>" << std::endl;
 }
 
 void CompilationEngine::printIdentifier() {
     printIndent();
-    *output_ << "<identifier> " << jack_tokenizer_->identifier() << " </identifier>";
-    *output_ << std::endl;
+    *output_ << "<identifier> " << jack_tokenizer_->identifier() << " </identifier>" << std::endl;
 }
 
 /**
+ * All compileXXX() member functions must have
+ * the tokenization module pointing to the token
+ * that fits XXX before being called.
+ */
+
+/**
  * Compile the entire class.
+ * 'class' className '{' classVarDec* subroutineDec* '}'
  */
 void CompilationEngine::compileClass() {
-    ++indent_depth_;
-    /* 'class' className '{' classVarDec* subroutineDec* '}' */
+    printIndent();
     *output_ << "<class>" << std::endl;
+    ++indent_depth_;
 
-    printKeyword(); // It must be 'class'
-    jack_tokenizer_->advance();
+    /* Print 'class'. */
+    printKeyword(); // It must be 'class'.
+
+    /* Print className. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs identifier for class.");
 
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier(className)");
-    jack_tokenizer_->advance();
+
+    /* Print '{'. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs symbol '{'");
 
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '{') printSymbol();
     else throw analyze_exception("Required Symbol('{')");
-    jack_tokenizer_->advance();
 
+    /* Print classVarDec or subroutineDec. */
     while (true) {
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs symbol '}', or keyword for classVarDec or subroutineDec.");
+        
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
            jack_tokenizer_->symbol() == '}') break;
         
         if (jack_tokenizer_->tokenType() != TokenType::KEYWORD)
-            throw analyze_exception("Required Symbol(classVarDec or subroutineDec)");
+            throw analyze_exception("Required symbol('}') or keyword(classVarDec or subroutineDec)");
 
         if (jack_tokenizer_->keyword() == "static") compileClassVarDec();
         else if (jack_tokenizer_->keyword() == "field") compileClassVarDec();
         else if (jack_tokenizer_->keyword() == "constructor") compileSubroutine();
         else if (jack_tokenizer_->keyword() == "function") compileSubroutine();
         else if (jack_tokenizer_->keyword() == "method") compileSubroutine();
-        else throw analyze_exception("Required Symbol(classVarDec or subroutineDec)");
-
-        jack_tokenizer_->advance();
+        else throw analyze_exception("Required symbol('}') or keyword(classVarDec or subroutineDec)");
     }
 
-    printSymbol(); // It must be '}'
-    if (jack_tokenizer_->hasMoreTokens())
-        jack_tokenizer_->advance();
+    /* Print '}'. */
+    printSymbol(); // It must be '}'.
 
+    --indent_depth_;
+    printIndent();
     *output_ << "</class>" << std::endl;
 }
 
 /**
  * Compile static or field declarations.
+ * ('static' | 'field') type varName (',' varName)* ';'
+ * type: 'int' | 'char' | 'boolean' | className
  */
 void CompilationEngine::compileClassVarDec() {
 
@@ -195,16 +214,14 @@ CompilationEngine::~CompilationEngine() {
  * @param output Specifies the file to be compiled output. It must be in the .xml file format.
  */
 void CompilationEngine::compile(JackTokenizer* jackTokenizer, std::ofstream* output) {
-    jack_tokenizer_ = jackTokenizer;
-    output_ = output;
-    indent_depth_ = 0;
-    while (jack_tokenizer_->hasMoreTokens()) {
-        jack_tokenizer_->advance();
-        if (jack_tokenizer_->tokenType() == TokenType::KEYWORD && 
-            jack_tokenizer_->keyword() == "class") {
-            compileClass();
-        } else {
-            throw analyze_exception("The first syntax must be class");
-        }
-    }
+    initialize(jackTokenizer, output);
+
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. Is it jack file?");
+    
+    if (jack_tokenizer_->tokenType() == TokenType::KEYWORD && 
+        jack_tokenizer_->keyword() == "class") compileClass();
+    else throw analyze_exception("The first syntax must be class.");
+
+    if (jack_tokenizer_->hasMoreTokens()) throw analyze_exception("Only one class must exist in one file.");
 }
