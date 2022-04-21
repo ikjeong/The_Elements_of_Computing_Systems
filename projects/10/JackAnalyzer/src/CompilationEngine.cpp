@@ -80,7 +80,7 @@ void CompilationEngine::compileClass() {
         jack_tokenizer_->symbol() == '{') printSymbol();
     else throw analyze_exception("Required Symbol('{')");
 
-    /* Print classVarDec or subroutineDec. */
+    /* Print classVarDec, subroutineDec. */
     while (true) {
         if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
         else throw analyze_exception("The token does not exist. It needs symbol '}', or keyword for classVarDec or subroutineDec.");
@@ -113,7 +113,58 @@ void CompilationEngine::compileClass() {
  * type: 'int' | 'char' | 'boolean' | className
  */
 void CompilationEngine::compileClassVarDec() {
+    printIndent();
+    *output_ << "<classVarDec>" << std::endl;
+    ++indent_depth_;
 
+    /* Print 'static' or 'field'. */
+    printKeyword(); // It must be 'static' or 'field'.
+
+    /* Print type. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs type for classVarDec.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else if (jack_tokenizer_->tokenType() == TokenType::KEYWORD) {
+        if (jack_tokenizer_->keyword() == "int") printKeyword();
+        else if (jack_tokenizer_->keyword() == "char") printKeyword();
+        else if (jack_tokenizer_->keyword() == "boolean") printKeyword();
+        else throw analyze_exception("Required type(primitive type or className)");
+    } else throw analyze_exception("Required type(primitive type or className)");
+
+    /* Print varName. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs identifier for varName.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Required identifier(varName)");
+
+    /* Print ',' varName. */
+    while (true) {
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs symbol ';', or symbol ',' for more classVarDec.");
+        
+        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+           jack_tokenizer_->symbol() == ';') break;
+        
+        /* If symbol(',') exists, token(identifier, varName) must exist. */
+        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
+            jack_tokenizer_->symbol() == ',') printSymbol();
+        else throw analyze_exception("Required symbol(';') or symbol(',')");
+
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs identifier for varName");
+
+        if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+        else throw analyze_exception("Required identifier(varName)");
+    }
+
+    /* Print ';'. */
+    printSymbol(); // It must be ';'.
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</classVarDec>" << std::endl;
 }
 
 /**
