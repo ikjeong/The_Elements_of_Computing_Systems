@@ -181,7 +181,7 @@ void CompilationEngine::compileClassVarDec() {
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier(varName) or type(primitive type or className)");
 
-    /* Print ',' varName. */
+    /* Print ',' varName until ';'. */
     checkAndPrintCommaAndVarName(';');
 
     /* Print ';'. */
@@ -260,8 +260,9 @@ void CompilationEngine::compileSubroutine() {
 
 /**
  * Compile the parameter list (may be an empty list). It does not include '()'.
- * Caution: When this function returns, jack tokenizer module points to next token.
- *          Also, token that tokenizer moudle points to need to be checked.
+ * Caution: Token that tokenizer moudle points to at first need to be checked.
+ *          When this function returns, jack tokenizer module points to next token.
+ *          Therefore, token must be used before advance().
  * 
  * parameterList: ((type varName) (',' type varName)*)?
  */
@@ -329,18 +330,77 @@ void CompilationEngine::compileParameterList() {
  * statements: statement*
  */
 void CompilationEngine::compileSubroutineBody() {
+    printIndent();
+    *output_ << "<subroutineBody>" << std::endl;
+    ++indent_depth_;
 
+    /* Print '{'. */
+    printSymbol(); // It must be '{'.
+
+    /* When keyword 'var' exists, Print varDec. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs 'var' or keyword for statement, or '}'.");
+
+    while (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
+        jack_tokenizer_->keyword() == "var") {
+        compileVarDec();
+
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs 'var' or keyword for statement, or '}'.");
+    }
+
+    /* Print statements. It can be empty statements in this implementation step.
+       (Jack Program need 'return' statement, so it cannot be empty statements). */
+    compileStatements();
+
+    /* Print '}'. */
+    printSymbol(); // It must be '}'.
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</subroutineBody>" << std::endl;
 }
 
 /**
  * Compile the var declaration.
  */
 void CompilationEngine::compileVarDec() {
+    printIndent();
+    *output_ << "<varDec>" << std::endl;
+    ++indent_depth_;
 
+    /* Print 'var'. */
+    printKeyword(); // It must be 'var'.
+
+    /* Print type. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs type for varDec.");
+
+    checkAndPrintType();
+
+    /* Print varName. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs identifier for varName.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Required identifier(varName) or type(primitive type or className)");
+
+    /* Print ',' varName until ';'. */
+    checkAndPrintCommaAndVarName(';');
+
+    /* Print ';'. */
+    printSymbol(); // It must be ';'.
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</varDec>" << std::endl;
 }
 
 /**
  * Compiles a series of statements. Does not include '{}'.
+ * Caution: Token that tokenizer moudle points to at first need to be checked.
+ *          When this function returns, jack tokenizer module points to next token.
+ *          Therefore, token must be used before advance().
  */
 void CompilationEngine::compileStatements() {
 
