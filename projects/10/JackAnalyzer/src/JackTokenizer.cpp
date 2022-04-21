@@ -215,6 +215,16 @@ void JackTokenizer::advance() {
 }
 
 /**
+ * Point to the before token.
+ * Called only when current_token_index_ excesses 0.
+ */
+void JackTokenizer::retreat() {
+    if (current_token_index_ <= 0) throw analyze_exception("No previous tokens available for lookup, but retreat() is called.");
+    --current_token_index_;
+    current_token_type_ = checkTokenType(token_[current_token_index_]);
+}
+
+/**
  * @return Returns the type of the current token.
  */
 TokenType JackTokenizer::tokenType() const {

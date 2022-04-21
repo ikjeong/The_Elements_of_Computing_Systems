@@ -62,6 +62,7 @@ public:
     void setFile(const std::string& path);
     bool hasMoreTokens() const;
     void advance();
+    void retreat();
     TokenType tokenType() const;
     std::string keyword() const;
     char symbol() const;
