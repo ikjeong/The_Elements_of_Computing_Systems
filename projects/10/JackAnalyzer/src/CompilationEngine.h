@@ -31,6 +31,7 @@ private:
 
     void checkAndPrintType();
     void checkAndPrintCommaAndVarName(const char& endSymbol);
+    void checkAndPrintTypeAndVarName();
 
     void compileClass();
     void compileClassVarDec();
