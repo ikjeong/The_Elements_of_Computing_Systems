@@ -4,6 +4,16 @@
  *
  * Interface
  * - compile: Proceed with the compilation and print it out.
+ * 
+ * Caution
+ * All member functions must already be pointed by the tokenizer module 
+ * before processing for any xxx token. 
+ * After processing the nonverbal node element, 
+ * you must point to the last token that you process.
+ * 
+ * However, for functions that must be called even if there is no token element, 
+ * the tokenizer module may not be pointing to the correct token. 
+ * However, again, the tokenizer module points to a token that has not yet been processed.
  */
 
 #ifndef __COMPILATION_ENGINE_H__
@@ -30,7 +40,7 @@ private:
     bool checkPrimitiveType();
 
     void checkAndPrintType();
-    void checkAndPrintCommaAndVarName(const char& endSymbol);
+    void checkAndPrintCommaAndVarName();
     void checkAndPrintTypeAndVarName();
 
     void compileClass();
