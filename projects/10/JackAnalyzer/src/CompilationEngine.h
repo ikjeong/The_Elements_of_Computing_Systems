@@ -30,6 +30,7 @@ private:
     bool checkPrimitiveType();
 
     void checkAndPrintType();
+    void checkAndPrintCommaAndVarName(const char& endSymbol);
 
     void compileClass();
     void compileClassVarDec();
