@@ -41,6 +41,7 @@ private:
 
     bool checkPrimitiveType();
 
+    void checkAndPrintSymbol(const char& symbol);
     void checkAndPrintType();
     void checkAndPrintCommaAndVarName();
     void checkAndPrintTypeAndVarName();
