@@ -292,7 +292,8 @@ void CompilationEngine::compileParameterList() {
     *output_ << "<parameterList>" << std::endl;
     ++indent_depth_;
 
-    /* If token is ')', empty parameterList. */
+    /* At first, check token.
+       If token is ')', empty parameterList. */
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
         jack_tokenizer_->symbol() == ')') {
         --indent_depth_;
@@ -358,8 +359,7 @@ void CompilationEngine::compileSubroutineBody() {
         else throw analyze_exception("The token does not exist. It needs 'var' or keyword for statement, or '}'.");
     }
 
-    /* Print statements. It can be empty statements in this implementation step.
-       (Jack Program need 'return' statement, so it cannot be empty statements). */
+    /* Print statements. It can be empty statements. */
     compileStatements();
 
     /* Print '}'. */
@@ -416,8 +416,7 @@ void CompilationEngine::compileVarDec() {
 /**
  * Compiles a series of statements. Does not include '{}'.
  * Caution: Token that tokenizer moudle points to at first need to be checked.
- *          Because it can be empty statements in this implementation step.
- *          (Jack Program need 'return' statement, so it cannot be empty statements).
+ *          Because it can be empty statements.
  * 
  * statements: statement*
  * statement: letStatement | ifStatement | whileStatement |
@@ -436,6 +435,7 @@ void CompilationEngine::compileStatements() {
 
     /* Check statement and print. */
     while (true) {
+        /* At first, check token. */
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
             jack_tokenizer_->symbol() == '}') break;
         
@@ -461,9 +461,76 @@ void CompilationEngine::compileStatements() {
 
 /**
  * Compile the do statement.
+ * 
+ * doStatement: 'do' subroutineCall ';'
+ * subroutineCall: subroutineName '(' expressionList ')' |
+ *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
 void CompilationEngine::compileDo() {
+    printIndent();
+    *output_ << "<doStatement>" << std::endl;
+    ++indent_depth_;
 
+    /* Print 'do'. */
+    printKeyword(); // It must be 'do'.
+
+    /* Print identifier(it may be className or varName, or subroutineName). */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs identifier for className or varName, or subroutineName.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Required identifier for className or varName, or subroutineName.");
+
+    /* If token is '.', print '.' and subroutineName. If token is '(', just print it. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs '.' or '('.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == '.') {
+        printSymbol();
+
+        /* Print subroutineName. */
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs identifier for subroutineName.");
+
+        if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+        else throw analyze_exception("Required identifier for subroutineName.");
+
+        /* Get '(' token. */
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs '('.");
+    }
+
+    /* Print '('. */
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == '(') printSymbol();
+    else throw analyze_exception("Required symbol('(')");
+
+    /* Print expressionList. It can be empty expressionList. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs expression or ')'.");
+
+    compileExpressionList();
+
+    /* Print ')'. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs ')'.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == ')') printSymbol();
+    else throw analyze_exception("Required symbol(')')");
+
+    /* Print ';'. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs ';'.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == ';') printSymbol();
+    else throw analyze_exception("Required symbol(';')");
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</doStatement>" << std::endl;
 }
 
 /**
@@ -510,9 +577,22 @@ void CompilationEngine::compileTerm() {
 
 /**
  * Compiles a comma-separated list of expressions (which can be an empty list)
+ * Caution: Token that tokenizer moudle points to at first need to be checked.
+ *          Because it can be empty statements.
  */
 void CompilationEngine::compileExpressionList() {
+    printIndent();
+    *output_ << "<expressionList>" << std::endl;
+    ++indent_depth_;
 
+
+    /* Need Implement. */
+    
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</expressionList>" << std::endl;
+    jack_tokenizer_->retreat();
 }
 
 /* =========== PUBLIC ============= */
