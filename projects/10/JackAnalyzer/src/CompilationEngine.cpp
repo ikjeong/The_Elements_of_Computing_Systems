@@ -487,6 +487,7 @@ void CompilationEngine::compileDo() {
 
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '.') {
+        /* Print '.'. */
         printSymbol();
 
         /* Print subroutineName. */
@@ -535,9 +536,74 @@ void CompilationEngine::compileDo() {
 
 /**
  * Compile the let statement.
+ * 
+ * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
  */
 void CompilationEngine::compileLet() {
+    printIndent();
+    *output_ << "<letStatement>" << std::endl;
+    ++indent_depth_;
 
+    /* Print 'let'. */
+    printKeyword(); // It must be 'let'.
+
+    /* Print varName. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs identifier for varName.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Required identifier for varName.");
+
+    /* If token is '[', print '[' expression ']'. If token is '=', print it. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs '[' or '='.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == '[') {
+        /* Print '['. */
+        printSymbol();
+
+        /* Print expression. */
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs expression.");
+
+        /* Need to check token */
+        compileExpression();
+
+        /* Print ']'. */
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs ']'.");
+
+        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+            jack_tokenizer_->symbol() == ']') printSymbol();
+        
+        /* Get '='. */
+        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+        else throw analyze_exception("The token does not exist. It needs '='.");
+    }
+
+    /* Print '='. */
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == '=') printSymbol();
+
+    /* Print expression. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs expression.");
+
+    /* Need to check token */
+    compileExpression();
+
+    /* Print ';'. */
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("The token does not exist. It needs ';'.");
+
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
+        jack_tokenizer_->symbol() == ';') printSymbol();
+    else throw analyze_exception("Required symbol(';')");
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</letStatement>" << std::endl;
 }
 
 /**
@@ -565,14 +631,33 @@ void CompilationEngine::compileIf() {
  * Compile an expression.
  */
 void CompilationEngine::compileExpression() {
+    printIndent();
+    *output_ << "<expression>" << std::endl;
+    ++indent_depth_;
 
+    /* Need Implement. Now on, just compile one term(identifier). */
+    compileTerm();
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</expression>" << std::endl;
 }
 
 /**
  * Compile an term.
  */
 void CompilationEngine::compileTerm() {
+    printIndent();
+    *output_ << "<term>" << std::endl;
+    ++indent_depth_;
 
+    /* Need Implement. Now on, just compile one term(identifier). */
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Required identifier");
+
+    --indent_depth_;
+    printIndent();
+    *output_ << "</term>" << std::endl;
 }
 
 /**
