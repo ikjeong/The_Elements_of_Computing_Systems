@@ -18,6 +18,15 @@ void CompilationEngine::initialize(JackTokenizer* jackTokenizer, std::ofstream* 
 }
 
 /**
+ * Advance Tokenizer.
+ * @param expectedToken when fail to advance, throw exception with message includes expected token.
+ */
+void CompilationEngine::advance(const std::string& expectedToken) {
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw analyze_exception("Next token does not exist. Compiler expects " + expectedToken + std::string("."));
+}
+
+/**
  * printXXX() functions need to be checked that can be called.
  * checkAndPrintXXX() don't need to be checked that can be called.
  */
@@ -82,9 +91,7 @@ void CompilationEngine::checkAndPrintCommaAndVarName() {
         jack_tokenizer_->symbol() == ',') printSymbol();
     else throw analyze_exception("Required symbol(';') or symbol(',')");
 
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs identifier for varName");
-
+    advance("identifier for varName");
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier(varName)");
 }
@@ -98,9 +105,7 @@ void CompilationEngine::checkAndPrintTypeAndVarName() {
     checkAndPrintType();
 
     /* Print varName. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs identifier for varName.");
-
+    advance("identifier for varName");
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier(varName) or type(primitive type or className)");
 }
@@ -128,25 +133,20 @@ void CompilationEngine::compileClass() {
     printKeyword(); // It must be 'class'.
 
     /* Print className. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs identifier for class.");
-
+    advance("identifier for className");
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier(className)");
 
     /* Print '{'. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs symbol '{'");
-
+    advance("symbol('{')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '{') printSymbol();
     else throw analyze_exception("Required symbol('{')");
 
     /* Print classVarDec, subroutineDec. */
     while (true) {
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs symbol '}', or keyword for classVarDec or subroutineDec.");
-        
+        advance("symbol('}'), or keyword for classVarDec or subroutineDec.");
+
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
            jack_tokenizer_->symbol() == '}') break;
         
@@ -184,15 +184,12 @@ void CompilationEngine::compileClassVarDec() {
     printKeyword(); // It must be 'static' or 'field'.
 
     /* Print type and varName. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs type.");
-
+    advance("type");
     checkAndPrintTypeAndVarName();
 
     /* Print ',' varName until ';'. */
     while (true) {
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs symbol(';') or symbol(',')");
+        advance("symbol(';') or symbol(',')");
 
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
             jack_tokenizer_->symbol() == ';') break;
@@ -228,9 +225,7 @@ void CompilationEngine::compileSubroutine() {
 
     /* Print 'void' or type. */
     try {
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs type.");
-
+        advance("type");
         checkAndPrintType();
     } catch (analyze_exception& e) {
         if (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
@@ -239,38 +234,28 @@ void CompilationEngine::compileSubroutine() {
     }
     
     /* Print subroutineName. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs identifier for subroutineName.");
-
+    advance("identifier for subroutineName");
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier(subroutineName) or return type('void' or type(primitive type or className))");
 
     /* Print '('. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs symbol '('");
-
+    advance("symbol('(')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '(') printSymbol();
     else throw analyze_exception("Required symbol('(')");
 
     /* Print parameterList. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs type for parameter or symbol ')'");
-
+    advance("type for parameter or symbol ')'");
     compileParameterList();
     
     /* Print ')'. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs symbol ')'");
-
+    advance("symbol(')')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == ')') printSymbol();
     else throw analyze_exception("Required symbol(')')");
 
     /* Print subroutineBody. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs symbol '{'");
-
+    advance("symbol('{')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '{') compileSubroutineBody();
     else throw analyze_exception("Required symbol('{')");
@@ -308,8 +293,7 @@ void CompilationEngine::compileParameterList() {
 
     /* Print ',' type, varName. */
     while (true) {
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs symbol ')', or symbol ',' for more parameter.");
+        advance("symbol(')'), or symbol(',') for more parameter");
         
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
            jack_tokenizer_->symbol() == ')') break;
@@ -320,9 +304,7 @@ void CompilationEngine::compileParameterList() {
         else throw analyze_exception("Required symbol(')') or symbol(',')");
 
         /* Print type and varName. */
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs type and varName for more parameter.");
-        
+        advance("type and varName for more parameter");
         checkAndPrintTypeAndVarName();
     }
 
@@ -348,23 +330,20 @@ void CompilationEngine::compileSubroutineBody() {
     printSymbol(); // It must be '{'.
 
     /* When keyword 'var' exists, Print varDec. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs 'var' or keyword for statement, or '}'.");
+    advance("'var' or keyword for statement, or symbol('}')");
 
     while (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
         jack_tokenizer_->keyword() == "var") {
         compileVarDec();
 
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs 'var' or keyword for statement, or '}'.");
+        advance("'var' or keyword for statement, or symbol('}').");
     }
 
     /* Print statements. It can be empty statements. */
     compileStatements();
 
     /* Print '}'. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs '}'.");
+    advance("symbol('}')");
 
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '}') printSymbol();
@@ -387,15 +366,12 @@ void CompilationEngine::compileVarDec() {
     printKeyword(); // It must be 'var'.
 
     /* Print type and varName. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs type and varName for varDec.");
-
+    advance("type and identifier for varName");
     checkAndPrintTypeAndVarName();
 
     /* Print ',' varName until ';'. */
     while (true) {
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs symbol(';') or symbol(',')");
+        advance("symbol(';') or symbol(',')");
 
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
             jack_tokenizer_->symbol() == ';') break;
@@ -449,8 +425,7 @@ void CompilationEngine::compileStatements() {
         else if (jack_tokenizer_->keyword() == "return") compileReturn();
         else throw analyze_exception("Required symbol('}') or keyword for statement.");
         
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs symbol('}') or keyword for statement.");
+        advance("symbol('}') or keyword for statement");
     }
 
     --indent_depth_;
@@ -475,15 +450,12 @@ void CompilationEngine::compileDo() {
     printKeyword(); // It must be 'do'.
 
     /* Print identifier(it may be className or varName, or subroutineName). */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs identifier for className or varName, or subroutineName.");
-
+    advance("identifier for className or varName, or subroutineName");
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier for className or varName, or subroutineName.");
 
     /* If token is '.', print '.' and subroutineName. If token is '(', just print it. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs '.' or '('.");
+    advance("symbol('.') or symbol('(')");
 
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '.') {
@@ -491,15 +463,12 @@ void CompilationEngine::compileDo() {
         printSymbol();
 
         /* Print subroutineName. */
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs identifier for subroutineName.");
-
+        advance("identifier for subroutineName");
         if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
         else throw analyze_exception("Required identifier for subroutineName.");
 
         /* Get '(' token. */
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs '('.");
+        advance("symbol('(')");
     }
 
     /* Print '('. */
@@ -508,23 +477,17 @@ void CompilationEngine::compileDo() {
     else throw analyze_exception("Required symbol('(')");
 
     /* Print expressionList. It can be empty expressionList. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs expression or ')'.");
-
+    advance("expression or symbol(')')");
     compileExpressionList();
 
     /* Print ')'. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs ')'.");
-
+    advance("symbol(')')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == ')') printSymbol();
     else throw analyze_exception("Required symbol(')')");
 
     /* Print ';'. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs ';'.");
-
+    advance("symbol(';')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == ';') printSymbol();
     else throw analyze_exception("Required symbol(';')");
@@ -548,15 +511,12 @@ void CompilationEngine::compileLet() {
     printKeyword(); // It must be 'let'.
 
     /* Print varName. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs identifier for varName.");
-
+    advance("identifier for varName");
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else throw analyze_exception("Required identifier for varName.");
 
     /* If token is '[', print '[' expression ']'. If token is '=', print it. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs '[' or '='.");
+    advance("symbol('[') or symbol('=')");
 
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == '[') {
@@ -564,22 +524,17 @@ void CompilationEngine::compileLet() {
         printSymbol();
 
         /* Print expression. */
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs expression.");
-
+        advance("expression");
         /* Need to check token */
         compileExpression();
 
         /* Print ']'. */
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs ']'.");
-
+        advance("symbol(']')");
         if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
             jack_tokenizer_->symbol() == ']') printSymbol();
         
         /* Get '='. */
-        if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-        else throw analyze_exception("The token does not exist. It needs '='.");
+        advance("symbol('=')");
     }
 
     /* Print '='. */
@@ -587,16 +542,12 @@ void CompilationEngine::compileLet() {
         jack_tokenizer_->symbol() == '=') printSymbol();
 
     /* Print expression. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs expression.");
-
+    advance("expression");
     /* Need to check token */
     compileExpression();
 
     /* Print ';'. */
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. It needs ';'.");
-
+    advance("symbol(';')");
     if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
         jack_tokenizer_->symbol() == ';') printSymbol();
     else throw analyze_exception("Required symbol(';')");

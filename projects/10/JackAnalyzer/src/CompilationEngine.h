@@ -30,6 +30,8 @@ private:
 
     void initialize(JackTokenizer* jackTokenizer, std::ofstream* output);
 
+    void advance(const std::string& expectedToken);
+
     void printIndent();
     void printKeyword();
     void printSymbol();
