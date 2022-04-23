@@ -32,6 +32,8 @@ private:
 
     void advance(const std::string& expectedToken);
 
+    void printStartTag(const std::string& tag);
+    void printEndTag(const std::string& tag);
     void printIndent();
     void printKeyword();
     void printSymbol();

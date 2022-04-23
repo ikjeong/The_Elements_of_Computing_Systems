@@ -31,6 +31,18 @@ void CompilationEngine::advance(const std::string& expectedToken) {
  * checkAndPrintXXX() don't need to be checked that can be called.
  */
 
+void CompilationEngine::printStartTag(const std::string& tag) {
+    printIndent();
+    *output_ << "<" << tag << ">" << std::endl;
+    ++indent_depth_;
+}
+
+void CompilationEngine::printEndTag(const std::string& tag) {
+    --indent_depth_;
+    printIndent();
+    *output_ << "</" << tag << ">" << std::endl;
+}
+
 void CompilationEngine::printIndent() {
     for (int i = 0; i < indent_depth_ * 2; ++i)
         *output_ << ' ';
@@ -146,9 +158,7 @@ void CompilationEngine::checkAndPrintTypeAndVarName() {
  *                '(' parameterList ')' subroutineBody
  */
 void CompilationEngine::compileClass() {
-    printIndent();
-    *output_ << "<class>" << std::endl;
-    ++indent_depth_;
+    printStartTag("class");
 
     /* Print 'class'. */
     printKeyword(); // It must be 'class'.
@@ -178,9 +188,7 @@ void CompilationEngine::compileClass() {
     /* Print '}'. */
     printSymbol(); // It must be '}'.
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</class>" << std::endl;
+    printEndTag("class");
 }
 
 /**
@@ -190,9 +198,7 @@ void CompilationEngine::compileClass() {
  * type: 'int' | 'char' | 'boolean' | className
  */
 void CompilationEngine::compileClassVarDec() {
-    printIndent();
-    *output_ << "<classVarDec>" << std::endl;
-    ++indent_depth_;
+    printStartTag("classVarDec");
 
     /* Print 'static' or 'field'. */
     printKeyword(); // It must be 'static' or 'field'.
@@ -214,9 +220,7 @@ void CompilationEngine::compileClassVarDec() {
     /* Print ';'. */
     printSymbol(); // It must be ';'.
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</classVarDec>" << std::endl;
+    printEndTag("classVarDec");
 }
 
 /**
@@ -228,9 +232,7 @@ void CompilationEngine::compileClassVarDec() {
  * subroutineBody: '{' varDec* statements '}'
  */
 void CompilationEngine::compileSubroutine() {
-    printIndent();
-    *output_ << "<subroutine>" << std::endl;
-    ++indent_depth_;
+    printStartTag("subroutine");
 
     /* Print 'constructor' or 'function', or 'method'. */
     printKeyword(); // It must be 'static' or 'field', or 'method'.
@@ -265,9 +267,7 @@ void CompilationEngine::compileSubroutine() {
     if (checkSymbol('{')) compileSubroutineBody();
     else throw analyze_exception("Expected symbol('{')");
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</subroutine>" << std::endl;
+    printEndTag("subroutine");
 }
 
 /**
@@ -278,9 +278,7 @@ void CompilationEngine::compileSubroutine() {
  * parameterList: ((type varName) (',' type varName)*)?
  */
 void CompilationEngine::compileParameterList() {
-    printIndent();
-    *output_ << "<parameterList>" << std::endl;
-    ++indent_depth_;
+    printStartTag("parameterList");
 
     /* At first, check token.
        If token is ')', empty parameterList. */
@@ -310,9 +308,7 @@ void CompilationEngine::compileParameterList() {
         checkAndPrintTypeAndVarName();
     }
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</parameterList>" << std::endl;
+    printEndTag("parameterList");
     jack_tokenizer_->retreat();
 }
 
@@ -324,9 +320,7 @@ void CompilationEngine::compileParameterList() {
  * statements: statement*
  */
 void CompilationEngine::compileSubroutineBody() {
-    printIndent();
-    *output_ << "<subroutineBody>" << std::endl;
-    ++indent_depth_;
+    printStartTag("subroutineBody");
 
     /* Print '{'. */
     printSymbol(); // It must be '{'.
@@ -345,18 +339,14 @@ void CompilationEngine::compileSubroutineBody() {
     advance("symbol('}')");
     checkAndPrintSymbol('}');
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</subroutineBody>" << std::endl;
+    printEndTag("subroutineBody");
 }
 
 /**
  * Compile the var declaration.
  */
 void CompilationEngine::compileVarDec() {
-    printIndent();
-    *output_ << "<varDec>" << std::endl;
-    ++indent_depth_;
+    printStartTag("varDec");
 
     /* Print 'var'. */
     printKeyword(); // It must be 'var'.
@@ -378,9 +368,7 @@ void CompilationEngine::compileVarDec() {
     /* Print ';'. */
     printSymbol(); // It must be ';'.
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</varDec>" << std::endl;
+    printEndTag("varDec");
 }
 
 /**
@@ -399,9 +387,7 @@ void CompilationEngine::compileVarDec() {
  * returnStatement: 'return' expression? ';'
  */
 void CompilationEngine::compileStatements() {
-    printIndent();
-    *output_ << "<statements>" << std::endl;
-    ++indent_depth_;
+    printStartTag("statements");
 
     /* Check statement and print. */
     while (true) {
@@ -418,9 +404,7 @@ void CompilationEngine::compileStatements() {
         advance("symbol('}') or keyword for statement");
     }
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</statements>" << std::endl;
+    printEndTag("statements");
     jack_tokenizer_->retreat();
 }
 
@@ -432,9 +416,7 @@ void CompilationEngine::compileStatements() {
  *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
 void CompilationEngine::compileDo() {
-    printIndent();
-    *output_ << "<doStatement>" << std::endl;
-    ++indent_depth_;
+    printStartTag("doStatement");
 
     /* Print 'do'. */
     printKeyword(); // It must be 'do'.
@@ -473,9 +455,7 @@ void CompilationEngine::compileDo() {
     advance("symbol(';')");
     checkAndPrintSymbol(';');
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</doStatement>" << std::endl;
+    printEndTag("doStatement");
 }
 
 /**
@@ -484,9 +464,7 @@ void CompilationEngine::compileDo() {
  * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
  */
 void CompilationEngine::compileLet() {
-    printIndent();
-    *output_ << "<letStatement>" << std::endl;
-    ++indent_depth_;
+    printStartTag("letStatement");
 
     /* Print 'let'. */
     printKeyword(); // It must be 'let'.
@@ -527,9 +505,7 @@ void CompilationEngine::compileLet() {
     advance("symbol(';')");
     checkAndPrintSymbol(';');
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</letStatement>" << std::endl;
+    printEndTag("letStatement");
 }
 
 /**
@@ -557,32 +533,24 @@ void CompilationEngine::compileIf() {
  * Compile an expression.
  */
 void CompilationEngine::compileExpression() {
-    printIndent();
-    *output_ << "<expression>" << std::endl;
-    ++indent_depth_;
+    printStartTag("expression");
 
     /* Need Implement. Now on, just compile one term(identifier). */
     compileTerm();
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</expression>" << std::endl;
+    printEndTag("expression");
 }
 
 /**
  * Compile an term.
  */
 void CompilationEngine::compileTerm() {
-    printIndent();
-    *output_ << "<term>" << std::endl;
-    ++indent_depth_;
+    printStartTag("term");
 
     /* Need Implement. Now on, just compile one term(identifier). */
     checkAndPrintIdentifier("term");
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</term>" << std::endl;
+    printEndTag("term");
 }
 
 /**
@@ -591,17 +559,13 @@ void CompilationEngine::compileTerm() {
  *          Because it can be empty statements.
  */
 void CompilationEngine::compileExpressionList() {
-    printIndent();
-    *output_ << "<expressionList>" << std::endl;
-    ++indent_depth_;
+    printStartTag("expressionList");
 
 
     /* Need Implement. */
     
 
-    --indent_depth_;
-    printIndent();
-    *output_ << "</expressionList>" << std::endl;
+    printEndTag("expressionList");
     jack_tokenizer_->retreat();
 }
 
