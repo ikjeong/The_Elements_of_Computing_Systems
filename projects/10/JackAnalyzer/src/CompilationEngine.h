@@ -41,6 +41,8 @@ private:
     void printStringConstant();
     void printIdentifier();
 
+    std::string changeSymboltoXmlSymbol(const char& symbol) const;
+
     bool checkKeyword(const std::string& keyword) const;
     bool checkSymbol(const char& symbol) const;
     bool checkPrimitiveType() const;

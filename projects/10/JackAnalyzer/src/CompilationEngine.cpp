@@ -55,7 +55,7 @@ void CompilationEngine::printKeyword() {
 
 void CompilationEngine::printSymbol() {
     printIndent();
-    *output_ << "<symbol> " << jack_tokenizer_->symbol() << " </symbol>" << std::endl;
+    *output_ << "<symbol> " << changeSymboltoXmlSymbol(jack_tokenizer_->symbol()) << " </symbol>" << std::endl;
 }
 
 void CompilationEngine::printIntegerConstant() {
@@ -71,6 +71,14 @@ void CompilationEngine::printStringConstant() {
 void CompilationEngine::printIdentifier() {
     printIndent();
     *output_ << "<identifier> " << jack_tokenizer_->identifier() << " </identifier>" << std::endl;
+}
+
+std::string CompilationEngine::changeSymboltoXmlSymbol(const char& symbol) const {
+    if (symbol == '<') return "&lt";
+    else if (symbol == '>') return "&gt";
+    else if (symbol == '\"') return "&quot";
+    else if (symbol == '&') return "&amp";
+    else return std::string(1, symbol);
 }
 
 bool CompilationEngine::checkKeyword(const std::string& keyword) const {
