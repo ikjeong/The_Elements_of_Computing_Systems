@@ -226,13 +226,13 @@ void CompilationEngine::compileClassVarDec() {
 /**
  * Compiles an entire method, function, or constructor.
  * 
- * compileSubroutine: ('constructor' | 'function' | 'method') ('void' | type) subroutineName
- *                    '(' parameterList ')' subroutineBody
+ * subroutineDec: ('constructor' | 'function' | 'method') ('void' | type) subroutineName
+ *                '(' parameterList ')' subroutineBody
  * parameterList: ((type varName) (',' type varName)*)?
  * subroutineBody: '{' varDec* statements '}'
  */
 void CompilationEngine::compileSubroutine() {
-    printStartTag("subroutine");
+    printStartTag("subroutineDec");
 
     /* Print 'constructor' or 'function', or 'method'. */
     printKeyword(); // It must be 'static' or 'field', or 'method'.
@@ -267,7 +267,7 @@ void CompilationEngine::compileSubroutine() {
     if (checkSymbol('{')) compileSubroutineBody();
     else throw analyze_exception("Expected symbol('{')");
 
-    printEndTag("subroutine");
+    printEndTag("subroutineDec");
 }
 
 /**
@@ -589,7 +589,8 @@ void CompilationEngine::compileReturn() {
     /* Print expression and ';' when expression exist, or only print ';'. */
     advance("expression or symbol(';')");
     /* Need to check token */
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) {
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER ||
+        checkKeyword("this")) {
         compileExpression();
         advance("symbol(';')");
     }
@@ -692,7 +693,7 @@ void CompilationEngine::compileExpression() {
 void CompilationEngine::compileTerm() {
     printStartTag("term");
 
-    /* Need Implement. Now on, just compile one term(identifier). */
+    /* Need Implement. */
     checkAndPrintIdentifier("term");
 
     printEndTag("term");
@@ -706,10 +707,8 @@ void CompilationEngine::compileTerm() {
 void CompilationEngine::compileExpressionList() {
     printStartTag("expressionList");
 
-
-    /* Need Implement. */
+    /* Need Implement.*/
     
-
     printEndTag("expressionList");
     jack_tokenizer_->retreat();
 }
