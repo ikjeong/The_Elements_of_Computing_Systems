@@ -571,9 +571,31 @@ void CompilationEngine::compileWhile() {
 
 /**
  * Compile the return statement.
+ * 
+ * returnStatement: 'return' expression? ';'
+ * expression: term (op term)*
+ * term: integerConstant | stringConstant | keywordConstant |
+ *       varName | varName '[' expression ']' | subroutineCall |
+ *       '(' expression ')' unaryOp term
+ * subroutineCall: subroutineName '(' expressionList ')' |
+ *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
 void CompilationEngine::compileReturn() {
+    printStartTag("returnStatement");
 
+    /* Print 'return'. */
+    printKeyword(); // It must be 'return'.
+
+    /* Print expression and ';' when expression exist, or only print ';'. */
+    advance("expression or symbol(';')");
+    /* Need to check token */
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) {
+        compileExpression();
+        advance("symbol(';')");
+    }
+    checkAndPrintSymbol(';');
+
+    printEndTag("returnStatement");
 }
 
 /**
