@@ -414,6 +414,7 @@ void CompilationEngine::compileStatements() {
  * doStatement: 'do' subroutineCall ';'
  * subroutineCall: subroutineName '(' expressionList ')' |
  *                 (className | varName) '.' subroutineName '(' expressionList ')'
+ * expressionList: (expression (',' expression)*)?
  */
 void CompilationEngine::compileDo() {
     printStartTag("doStatement");
@@ -462,6 +463,12 @@ void CompilationEngine::compileDo() {
  * Compile the let statement.
  * 
  * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
+ * expression: term (op term)*
+ * term: integerConstant | stringConstant | keywordConstant |
+ *       varName | varName '[' expression ']' | subroutineCall |
+ *       '(' expression ')' unaryOp term
+ * subroutineCall: subroutineName '(' expressionList ')' |
+ *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
 void CompilationEngine::compileLet() {
     printStartTag("letStatement");
@@ -510,9 +517,56 @@ void CompilationEngine::compileLet() {
 
 /**
  * compile the while statement
+ * 
+ * whileStatement: 'while' '(' expression ')' '{' statements '}'
+ * expression: term (op term)*
+ * term: integerConstant | stringConstant | keywordConstant |
+ *       varName | varName '[' expression ']' | subroutineCall |
+ *       '(' expression ')' unaryOp term
+ * subroutineCall: subroutineName '(' expressionList ')' |
+ *                 (className | varName) '.' subroutineName '(' expressionList ')'
+ * statements: statement*
+ * statement: letStatement | ifStatement | whileStatement |
+ *            doStatement | returnStatement
+ * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
+ * ifStatement: 'if' '(' expression ')' '{' statements '}'
+ *              ('else' '{' statements '}')?
+ * whileStatement: 'while' '(' expression ')' '{' statements '}'
+ * doStatement: 'do' subroutineCall ';'
+ * returnStatement: 'return' expression? ';'
  */
 void CompilationEngine::compileWhile() {
+    printStartTag("whileStatement");
 
+    /* Print 'while'. */
+    printKeyword(); // It must be 'while'.
+
+    /* Print '('. */
+    advance("symbol('(')");
+    checkAndPrintSymbol('(');
+
+    /* Print expression. */
+    advance("expression");
+    /* Need to check token */
+    compileExpression();
+
+    /* Print ')'. */
+    advance("symbol(')')");
+    checkAndPrintSymbol(')');
+
+    /* Print '{'. */
+    advance("symbol('{')");
+    checkAndPrintSymbol('{');
+
+    /* Print statements. It can be empty statements. */
+    advance("keyword for statement, or symbol('}')");
+    compileStatements();
+
+    /* Print '}'. */
+    advance("symbol('}')");
+    checkAndPrintSymbol('}');
+
+    printEndTag("whileStatement");
 }
 
 /**
