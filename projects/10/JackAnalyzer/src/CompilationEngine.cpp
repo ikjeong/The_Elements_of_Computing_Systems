@@ -61,11 +61,20 @@ void CompilationEngine::printIdentifier() {
     *output_ << "<identifier> " << jack_tokenizer_->identifier() << " </identifier>" << std::endl;
 }
 
-bool CompilationEngine::checkPrimitiveType() {
+bool CompilationEngine::checkKeyword(const std::string& keyword) const {
     if (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
-       (jack_tokenizer_->keyword() == "int" ||
-        jack_tokenizer_->keyword() == "char" ||
-        jack_tokenizer_->keyword() == "boolean")) return true;
+        jack_tokenizer_->keyword() == keyword) return true;
+    else return false;
+}
+
+bool CompilationEngine::checkSymbol(const char& symbol) const {
+    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
+        jack_tokenizer_->symbol() == symbol) return true;
+    else return false;
+}
+
+bool CompilationEngine::checkPrimitiveType() const {
+    if (checkKeyword("int") || checkKeyword("char") || checkKeyword("boolean")) return true;
     else return false;
 }
 
@@ -73,14 +82,21 @@ bool CompilationEngine::checkPrimitiveType() {
  * It need to be called when token is expected type.
  */
 void CompilationEngine::checkAndPrintSymbol(const char& symbol) {
-    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
-        jack_tokenizer_->symbol() == symbol) printSymbol();
+    if (checkSymbol(symbol)) printSymbol();
     else throw analyze_exception("Expected symbol('" + std::string(1, symbol) + std::string("')"));
 }
 
 /**
  * It need to be called when token is expected type.
- * When return, token is type.
+ * @param expectedIdentifier Use only when outputting exception messages.
+ */
+void CompilationEngine::checkAndPrintIdentifier(const std::string& expectedIdentifier) {
+    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
+    else throw analyze_exception("Expected Identifier for " + expectedIdentifier);
+}
+
+/**
+ * It need to be called when token is expected type.
  */
 void CompilationEngine::checkAndPrintType() {
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
@@ -99,8 +115,7 @@ void CompilationEngine::checkAndPrintCommaAndVarName() {
     checkAndPrintSymbol(',');
 
     advance("identifier for varName");
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier(varName)");
+    checkAndPrintIdentifier("varName");
 }
 
 /**
@@ -113,8 +128,7 @@ void CompilationEngine::checkAndPrintTypeAndVarName() {
 
     /* Print varName. */
     advance("identifier for varName");
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier(varName) or type(primitive type or className)");
+    checkAndPrintIdentifier("varName or type(primitive type or className)");
 }
 
 /**
@@ -141,8 +155,7 @@ void CompilationEngine::compileClass() {
 
     /* Print className. */
     advance("identifier for className");
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier(className)");
+    checkAndPrintIdentifier("className");
 
     /* Print '{'. */
     advance("symbol('{')");
@@ -152,17 +165,13 @@ void CompilationEngine::compileClass() {
     while (true) {
         advance("symbol('}'), or keyword for classVarDec or subroutineDec.");
 
-        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
-           jack_tokenizer_->symbol() == '}') break;
+        if (checkSymbol('}')) break;
         
-        if (jack_tokenizer_->tokenType() != TokenType::KEYWORD)
-            throw analyze_exception("Expected symbol('}') or keyword(classVarDec or subroutineDec)");
-
-        if (jack_tokenizer_->keyword() == "static") compileClassVarDec();
-        else if (jack_tokenizer_->keyword() == "field") compileClassVarDec();
-        else if (jack_tokenizer_->keyword() == "constructor") compileSubroutine();
-        else if (jack_tokenizer_->keyword() == "function") compileSubroutine();
-        else if (jack_tokenizer_->keyword() == "method") compileSubroutine();
+        if (checkKeyword("static")) compileClassVarDec();
+        else if (checkKeyword("field")) compileClassVarDec();
+        else if (checkKeyword("constructor")) compileSubroutine();
+        else if (checkKeyword("function")) compileSubroutine();
+        else if (checkKeyword("method")) compileSubroutine();
         else throw analyze_exception("Expected symbol('}') or keyword(classVarDec or subroutineDec)");
     }
 
@@ -196,8 +205,7 @@ void CompilationEngine::compileClassVarDec() {
     while (true) {
         advance("symbol(';') or symbol(',')");
 
-        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
-            jack_tokenizer_->symbol() == ';') break;
+        if (checkSymbol(';')) break;
 
         try { checkAndPrintCommaAndVarName(); }
         catch(analyze_exception& e) { throw analyze_exception("Expected symbol(';') or symbol(',')"); }
@@ -227,20 +235,18 @@ void CompilationEngine::compileSubroutine() {
     /* Print 'constructor' or 'function', or 'method'. */
     printKeyword(); // It must be 'static' or 'field', or 'method'.
 
-    /* Print 'void' or type. */
+    /* Print type or 'void'. */
     try {
         advance("type");
         checkAndPrintType();
     } catch (analyze_exception& e) {
-        if (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
-            jack_tokenizer_->keyword() == "void") printKeyword();
+        if (checkKeyword("void")) printKeyword();
         else throw analyze_exception("Expected 'void' or type(primitive type or className)");
     }
     
     /* Print subroutineName. */
     advance("identifier for subroutineName");
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier(subroutineName) or return type('void' or type(primitive type or className))");
+    checkAndPrintIdentifier("subroutineName or return type('void' or type(primitive type or className)");
 
     /* Print '('. */
     advance("symbol('(')");
@@ -256,8 +262,7 @@ void CompilationEngine::compileSubroutine() {
 
     /* Print subroutineBody. */
     advance("symbol('{')");
-    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
-        jack_tokenizer_->symbol() == '{') compileSubroutineBody();
+    if (checkSymbol('{')) compileSubroutineBody();
     else throw analyze_exception("Expected symbol('{')");
 
     --indent_depth_;
@@ -279,8 +284,7 @@ void CompilationEngine::compileParameterList() {
 
     /* At first, check token.
        If token is ')', empty parameterList. */
-    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
-        jack_tokenizer_->symbol() == ')') {
+    if (checkSymbol(')')) {
         --indent_depth_;
         printIndent();
         *output_ << "</parameterList>" << std::endl;
@@ -295,8 +299,7 @@ void CompilationEngine::compileParameterList() {
     while (true) {
         advance("symbol(')'), or symbol(',') for more parameter");
         
-        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
-           jack_tokenizer_->symbol() == ')') break;
+        if (checkSymbol(')')) break;
 
         /* If symbol(',') exists, type and token(identifier(varName)) must exist. */
         try { checkAndPrintSymbol(','); }
@@ -330,11 +333,8 @@ void CompilationEngine::compileSubroutineBody() {
 
     /* When keyword 'var' exists, Print varDec. */
     advance("'var' or keyword for statement, or symbol('}')");
-
-    while (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
-        jack_tokenizer_->keyword() == "var") {
+    while (checkKeyword("var")) {
         compileVarDec();
-
         advance("'var' or keyword for statement, or symbol('}').");
     }
 
@@ -369,8 +369,7 @@ void CompilationEngine::compileVarDec() {
     while (true) {
         advance("symbol(';') or symbol(',')");
 
-        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
-            jack_tokenizer_->symbol() == ';') break;
+        if (checkSymbol(';')) break;
 
         try { checkAndPrintCommaAndVarName(); }
         catch(analyze_exception& e) { throw analyze_exception("Expected symbol(';') or symbol(',')"); }
@@ -407,17 +406,13 @@ void CompilationEngine::compileStatements() {
     /* Check statement and print. */
     while (true) {
         /* At first, check token. */
-        if (jack_tokenizer_->tokenType() == TokenType::SYMBOL &&
-            jack_tokenizer_->symbol() == '}') break;
-        
-        if (jack_tokenizer_->tokenType() != TokenType::KEYWORD)
-            throw analyze_exception("Expected symbol('}') or keyword for statement.");
+        if (checkSymbol('}')) break;
 
-        if (jack_tokenizer_->keyword() == "let") compileLet();
-        else if (jack_tokenizer_->keyword() == "if") compileIf();
-        else if (jack_tokenizer_->keyword() == "while") compileWhile();
-        else if (jack_tokenizer_->keyword() == "do") compileDo();
-        else if (jack_tokenizer_->keyword() == "return") compileReturn();
+        if (checkKeyword("let")) compileLet();
+        else if (checkKeyword("if")) compileIf();
+        else if (checkKeyword("while")) compileWhile();
+        else if (checkKeyword("do")) compileDo();
+        else if (checkKeyword("return")) compileReturn();
         else throw analyze_exception("Expected symbol('}') or keyword for statement.");
         
         advance("symbol('}') or keyword for statement");
@@ -446,21 +441,18 @@ void CompilationEngine::compileDo() {
 
     /* Print identifier(it may be className or varName, or subroutineName). */
     advance("identifier for className or varName, or subroutineName");
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier for className or varName, or subroutineName.");
+    checkAndPrintIdentifier("className or varName, or subroutineName.");
 
     /* If token is '.', print '.' and subroutineName. If token is '(', just print it. */
     advance("symbol('.') or symbol('(')");
 
-    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
-        jack_tokenizer_->symbol() == '.') {
+    if (checkSymbol('.')) {
         /* Print '.'. */
         printSymbol();
 
         /* Print subroutineName. */
         advance("identifier for subroutineName");
-        if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-        else throw analyze_exception("Expected identifier for subroutineName.");
+        checkAndPrintIdentifier("subroutineName.");
 
         /* Get '(' token. */
         advance("symbol('(')");
@@ -501,14 +493,12 @@ void CompilationEngine::compileLet() {
 
     /* Print varName. */
     advance("identifier for varName");
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier for varName.");
+    checkAndPrintIdentifier("varName.");
 
     /* If token is '[', print '[' expression ']'. If token is '=', print it. */
     advance("symbol('[') or symbol('=')");
 
-    if (jack_tokenizer_->tokenType() == TokenType::SYMBOL && 
-        jack_tokenizer_->symbol() == '[') {
+    if (checkSymbol('[')) {
         /* Print '['. */
         printSymbol();
 
@@ -588,8 +578,7 @@ void CompilationEngine::compileTerm() {
     ++indent_depth_;
 
     /* Need Implement. Now on, just compile one term(identifier). */
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected identifier");
+    checkAndPrintIdentifier("term");
 
     --indent_depth_;
     printIndent();
@@ -635,8 +624,7 @@ void CompilationEngine::compile(JackTokenizer* jackTokenizer, std::ofstream* out
     if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
     else throw analyze_exception("The token does not exist. Is it jack file?");
     
-    if (jack_tokenizer_->tokenType() == TokenType::KEYWORD && 
-        jack_tokenizer_->keyword() == "class") compileClass();
+    if (checkKeyword("class")) compileClass();
     else throw analyze_exception("The first syntax must be class.");
 
     if (jack_tokenizer_->hasMoreTokens()) throw analyze_exception("Only one class must exist in one file.");

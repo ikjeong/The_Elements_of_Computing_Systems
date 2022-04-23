@@ -39,9 +39,12 @@ private:
     void printStringConstant();
     void printIdentifier();
 
-    bool checkPrimitiveType();
+    bool checkKeyword(const std::string& keyword) const;
+    bool checkSymbol(const char& symbol) const;
+    bool checkPrimitiveType() const;
 
     void checkAndPrintSymbol(const char& symbol);
+    void checkAndPrintIdentifier(const std::string& expectedIdentifier);
     void checkAndPrintType();
     void checkAndPrintCommaAndVarName();
     void checkAndPrintTypeAndVarName();
