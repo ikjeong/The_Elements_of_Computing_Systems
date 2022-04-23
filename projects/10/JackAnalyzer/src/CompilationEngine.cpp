@@ -27,8 +27,8 @@ void CompilationEngine::advance(const std::string& expectedToken) {
 }
 
 /**
- * printXXX() functions need to be checked that can be called.
- * checkAndPrintXXX() don't need to be checked that can be called.
+ * printXXX() functions need to be checked before being called.
+ * checkAndPrintXXX() don't need to be checked before being called.
  */
 
 void CompilationEngine::printStartTag(const std::string& tag) {
@@ -99,15 +99,22 @@ bool CompilationEngine::checkPrimitiveType() const {
 }
 
 /**
- * It need to be called when token is expected type.
+ * term: integerConstant | stringConstant | keywordConstant |
+ *       varName | varName '[' expression ']' | subroutineCall |
+ *       '(' expression ')' unaryOp term
  */
+bool CompilationEngine::checkTerm() const {
+    if (jack_tokenizer_->tokenType() != TokenType::SYMBOL) return true;
+    else if (checkSymbol('(') || checkSymbol('-') || checkSymbol('~')) return true;
+    else return false;
+}
+
 void CompilationEngine::checkAndPrintSymbol(const char& symbol) {
     if (checkSymbol(symbol)) printSymbol();
     else throw analyze_exception("Expected symbol('" + std::string(1, symbol) + std::string("')"));
 }
 
 /**
- * It need to be called when token is expected type.
  * @param expectedIdentifier Use only when outputting exception messages.
  */
 void CompilationEngine::checkAndPrintIdentifier(const std::string& expectedIdentifier) {
@@ -116,7 +123,7 @@ void CompilationEngine::checkAndPrintIdentifier(const std::string& expectedIdent
 }
 
 /**
- * It need to be called when token is expected type.
+ * type: 'int' | 'char' | 'boolean' | className
  */
 void CompilationEngine::checkAndPrintType() {
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
@@ -124,29 +131,16 @@ void CompilationEngine::checkAndPrintType() {
     else throw analyze_exception("Expected type(primitive type or className)");
 }
 
-/**
- * It need to be called when token is ','.
- * When return, token is varName.
- * 
- * @param endSymbol Check and print comman & varName until token is endSymbol.
- */
 void CompilationEngine::checkAndPrintCommaAndVarName() {
-    /* If symbol(',') exists, token(identifier(varName)) must exist. */
     checkAndPrintSymbol(',');
 
     advance("identifier for varName");
     checkAndPrintIdentifier("varName");
 }
 
-/**
- * It need to be called when token is expected type.
- * When return, token is varName.
- */
 void CompilationEngine::checkAndPrintTypeAndVarName() {
-    /* Print type. */
     checkAndPrintType();
 
-    /* Print varName. */
     advance("identifier for varName");
     checkAndPrintIdentifier("varName or type(primitive type or className)");
 }
@@ -155,15 +149,17 @@ void CompilationEngine::checkAndPrintTypeAndVarName() {
  * All compileXXX() member functions must have
  * the tokenization module pointing to the token
  * that fits XXX before being called.
+ * 
+ * It may be empty, but if it must be called at least once, 
+ * it may not be pointing to the correct token.
+ *
+ * However, even at this time, it must point to a token that has not yet been processed.
  */
 
 /**
  * Compile the entire class.
  * 
  * Class: 'class' className '{' classVarDec* subroutineDec* '}'
- * classVarDec: ('static' | 'field') type varName (',' varName)* ';'
- * subroutineDec: ('constructor' | 'function' | 'method') ('void' | type) subroutineName
- *                '(' parameterList ')' subroutineBody
  */
 void CompilationEngine::compileClass() {
     printStartTag("class");
@@ -203,7 +199,6 @@ void CompilationEngine::compileClass() {
  * Compile static or field declarations.
  * 
  * VarDec: ('static' | 'field') type varName (',' varName)* ';'
- * type: 'int' | 'char' | 'boolean' | className
  */
 void CompilationEngine::compileClassVarDec() {
     printStartTag("classVarDec");
@@ -236,8 +231,6 @@ void CompilationEngine::compileClassVarDec() {
  * 
  * subroutineDec: ('constructor' | 'function' | 'method') ('void' | type) subroutineName
  *                '(' parameterList ')' subroutineBody
- * parameterList: ((type varName) (',' type varName)*)?
- * subroutineBody: '{' varDec* statements '}'
  */
 void CompilationEngine::compileSubroutine() {
     printStartTag("subroutineDec");
@@ -324,8 +317,6 @@ void CompilationEngine::compileParameterList() {
  * Compile the subroutine body.
  * 
  * subroutineBody: '{' varDec* statements '}'
- * varDec: 'var' type varName (',' varName)* ';'
- * statements: statement*
  */
 void CompilationEngine::compileSubroutineBody() {
     printStartTag("subroutineBody");
@@ -352,6 +343,8 @@ void CompilationEngine::compileSubroutineBody() {
 
 /**
  * Compile the var declaration.
+ * 
+ * varDec: 'var' type varName (',' varName)* ';'
  */
 void CompilationEngine::compileVarDec() {
     printStartTag("varDec");
@@ -385,14 +378,6 @@ void CompilationEngine::compileVarDec() {
  *          Because it can be empty statements.
  * 
  * statements: statement*
- * statement: letStatement | ifStatement | whileStatement |
- *            doStatement | returnStatement
- * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
- * ifStatement: 'if' '(' expression ')' '{' statements '}'
- *              ('else' '{' statements '}')?
- * whileStatement: 'while' '(' expression ')' '{' statements '}'
- * doStatement: 'do' subroutineCall ';'
- * returnStatement: 'return' expression? ';'
  */
 void CompilationEngine::compileStatements() {
     printStartTag("statements");
@@ -420,9 +405,6 @@ void CompilationEngine::compileStatements() {
  * Compile the do statement.
  * 
  * doStatement: 'do' subroutineCall ';'
- * subroutineCall: subroutineName '(' expressionList ')' |
- *                 (className | varName) '.' subroutineName '(' expressionList ')'
- * expressionList: (expression (',' expression)*)?
  */
 void CompilationEngine::compileDo() {
     printStartTag("doStatement");
@@ -471,12 +453,6 @@ void CompilationEngine::compileDo() {
  * Compile the let statement.
  * 
  * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
- * expression: term (op term)*
- * term: integerConstant | stringConstant | keywordConstant |
- *       varName | varName '[' expression ']' | subroutineCall |
- *       '(' expression ')' unaryOp term
- * subroutineCall: subroutineName '(' expressionList ')' |
- *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
 void CompilationEngine::compileLet() {
     printStartTag("letStatement");
@@ -497,8 +473,8 @@ void CompilationEngine::compileLet() {
 
         /* Print expression. */
         advance("expression");
-        /* Need to check token */
-        compileExpression();
+        if (checkTerm()) compileExpression();
+        else throw analyze_exception("Expected expression.");
 
         /* Print ']'. */
         advance("symbol(']')");
@@ -513,8 +489,8 @@ void CompilationEngine::compileLet() {
 
     /* Print expression. */
     advance("expression");
-    /* Need to check token */
-    compileExpression();
+    if (checkTerm()) compileExpression();
+    else throw analyze_exception("Expected expression.");
 
     /* Print ';'. */
     advance("symbol(';')");
@@ -527,21 +503,6 @@ void CompilationEngine::compileLet() {
  * compile the while statement
  * 
  * whileStatement: 'while' '(' expression ')' '{' statements '}'
- * expression: term (op term)*
- * term: integerConstant | stringConstant | keywordConstant |
- *       varName | varName '[' expression ']' | subroutineCall |
- *       '(' expression ')' unaryOp term
- * subroutineCall: subroutineName '(' expressionList ')' |
- *                 (className | varName) '.' subroutineName '(' expressionList ')'
- * statements: statement*
- * statement: letStatement | ifStatement | whileStatement |
- *            doStatement | returnStatement
- * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
- * ifStatement: 'if' '(' expression ')' '{' statements '}'
- *              ('else' '{' statements '}')?
- * whileStatement: 'while' '(' expression ')' '{' statements '}'
- * doStatement: 'do' subroutineCall ';'
- * returnStatement: 'return' expression? ';'
  */
 void CompilationEngine::compileWhile() {
     printStartTag("whileStatement");
@@ -555,8 +516,8 @@ void CompilationEngine::compileWhile() {
 
     /* Print expression. */
     advance("expression");
-    /* Need to check token */
-    compileExpression();
+    if (checkTerm()) compileExpression();
+    else throw analyze_exception("Expected expression.");
 
     /* Print ')'. */
     advance("symbol(')')");
@@ -581,12 +542,6 @@ void CompilationEngine::compileWhile() {
  * Compile the return statement.
  * 
  * returnStatement: 'return' expression? ';'
- * expression: term (op term)*
- * term: integerConstant | stringConstant | keywordConstant |
- *       varName | varName '[' expression ']' | subroutineCall |
- *       '(' expression ')' unaryOp term
- * subroutineCall: subroutineName '(' expressionList ')' |
- *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
 void CompilationEngine::compileReturn() {
     printStartTag("returnStatement");
@@ -596,13 +551,12 @@ void CompilationEngine::compileReturn() {
 
     /* Print expression and ';' when expression exist, or only print ';'. */
     advance("expression or symbol(';')");
-    /* Need to check token */
-    if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER ||
-        checkKeyword("this")) {
+    if (checkTerm()) {
         compileExpression();
         advance("symbol(';')");
     }
-    checkAndPrintSymbol(';');
+    try { checkAndPrintSymbol(';'); }
+    catch (analyze_exception& e) { throw analyze_exception("Expected expression or symbol(';')"); }
 
     printEndTag("returnStatement");
 }
@@ -612,21 +566,6 @@ void CompilationEngine::compileReturn() {
  * 
  * ifStatement: 'if' '(' expression ')' '{' statements '}'
  *              ('else' '{' statements '}')?
- * expression: term (op term)*
- * term: integerConstant | stringConstant | keywordConstant |
- *       varName | varName '[' expression ']' | subroutineCall |
- *       '(' expression ')' unaryOp term
- * subroutineCall: subroutineName '(' expressionList ')' |
- *                 (className | varName) '.' subroutineName '(' expressionList ')'
- * statements: statement*
- * statement: letStatement | ifStatement | whileStatement |
- *            doStatement | returnStatement
- * letStatement: 'let' varName ('[' expression ']')? '=' expression ';'
- * ifStatement: 'if' '(' expression ')' '{' statements '}'
- *              ('else' '{' statements '}')?
- * whileStatement: 'while' '(' expression ')' '{' statements '}'
- * doStatement: 'do' subroutineCall ';'
- * returnStatement: 'return' expression? ';'
  */
 void CompilationEngine::compileIf() {
     printStartTag("ifStatement");
@@ -640,8 +579,8 @@ void CompilationEngine::compileIf() {
 
     /* Print expression. */
     advance("expression");
-    /* Need to check token */
-    compileExpression();
+    if (checkTerm()) compileExpression();
+    else throw analyze_exception("Expected expression.");
 
     /* Print ')'. */
     advance("symbol(')')");
@@ -697,6 +636,10 @@ void CompilationEngine::compileExpression() {
 
 /**
  * Compile an term.
+ * 
+ * term: integerConstant | stringConstant | keywordConstant |
+ *       varName | varName '[' expression ']' | subroutineCall |
+ *       '(' expression ')' unaryOp term
  */
 void CompilationEngine::compileTerm() {
     printStartTag("term");

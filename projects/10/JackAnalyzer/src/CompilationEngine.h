@@ -46,6 +46,7 @@ private:
     bool checkKeyword(const std::string& keyword) const;
     bool checkSymbol(const char& symbol) const;
     bool checkPrimitiveType() const;
+    bool checkTerm() const;
 
     void checkAndPrintSymbol(const char& symbol);
     void checkAndPrintIdentifier(const std::string& expectedIdentifier);
