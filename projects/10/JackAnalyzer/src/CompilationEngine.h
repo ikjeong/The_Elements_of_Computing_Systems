@@ -47,6 +47,7 @@ private:
     bool checkSymbol(const char& symbol) const;
     bool checkPrimitiveType() const;
     bool checkTerm() const;
+    bool checkOp() const;
 
     void checkAndPrintSymbol(const char& symbol);
     void checkAndPrintIdentifier(const std::string& expectedIdentifier);

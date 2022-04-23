@@ -109,6 +109,22 @@ bool CompilationEngine::checkTerm() const {
     else return false;
 }
 
+/**
+ * op: '+' | '-' | '*' | '/' | '&' | '|' | '<' | '>' | '='
+ */
+bool CompilationEngine::checkOp() const {
+    if (checkSymbol('+')) return true;
+    else if (checkSymbol('-')) return true;
+    else if (checkSymbol('*')) return true;
+    else if (checkSymbol('/')) return true;
+    else if (checkSymbol('&')) return true;
+    else if (checkSymbol('|')) return true;
+    else if (checkSymbol('<')) return true;
+    else if (checkSymbol('>')) return true;
+    else if (checkSymbol('=')) return true;
+    else return false;
+}
+
 void CompilationEngine::checkAndPrintSymbol(const char& symbol) {
     if (checkSymbol(symbol)) printSymbol();
     else throw analyze_exception("Expected symbol('" + std::string(1, symbol) + std::string("')"));
@@ -282,12 +298,10 @@ void CompilationEngine::compileParameterList() {
     printStartTag("parameterList");
 
     /* At first, check token.
-       If token is ')', empty parameterList. */
-    if (checkSymbol(')')) {
-        --indent_depth_;
-        printIndent();
-        *output_ << "</parameterList>" << std::endl;
+       If first token isn't type, empty parameterList. */
+    if (!checkPrimitiveType() && jack_tokenizer_->tokenType() != TokenType::IDENTIFIER) {
         jack_tokenizer_->retreat();
+        printEndTag("parameterList");
         return;
     }
     
@@ -295,22 +309,20 @@ void CompilationEngine::compileParameterList() {
     checkAndPrintTypeAndVarName();  // It is expected that token points to type.
 
     /* Print ',' type, varName. */
-    while (true) {
-        advance("symbol(')'), or symbol(',') for more parameter");
-        
-        if (checkSymbol(')')) break;
-
+    advance("symbol for closing parameterList or symbol(',') for more parameter");
+    while (checkSymbol(',')) {
         /* If symbol(',') exists, type and token(identifier(varName)) must exist. */
-        try { checkAndPrintSymbol(','); }
-        catch(analyze_exception& e) { throw analyze_exception("Expected symbol(')') or symbol(',')"); }
+        checkAndPrintSymbol(',');
 
         /* Print type and varName. */
         advance("type and varName for more parameter");
         checkAndPrintTypeAndVarName();
+
+        advance("symbol for closing parameterList or symbol(',') for more parameter");
     }
+    jack_tokenizer_->retreat();
 
     printEndTag("parameterList");
-    jack_tokenizer_->retreat();
 }
 
 /**
@@ -384,21 +396,18 @@ void CompilationEngine::compileStatements() {
 
     /* Check statement and print. */
     while (true) {
-        /* At first, check token. */
-        if (checkSymbol('}')) break;
-
         if (checkKeyword("let")) compileLet();
         else if (checkKeyword("if")) compileIf();
         else if (checkKeyword("while")) compileWhile();
         else if (checkKeyword("do")) compileDo();
         else if (checkKeyword("return")) compileReturn();
-        else throw analyze_exception("Expected symbol('}') or keyword for statement.");
+        else break;
         
-        advance("symbol('}') or keyword for statement");
+        advance("symbol for closing statements or keyword for statement");
     }
+    jack_tokenizer_->retreat();
 
     printEndTag("statements");
-    jack_tokenizer_->retreat();
 }
 
 /**
@@ -601,8 +610,8 @@ void CompilationEngine::compileIf() {
     /* If keyword 'else' exists, print else statement. */
     advance("keyword('else')");
     if (!checkKeyword("else")) {
-        printEndTag("ifStatement");
         jack_tokenizer_->retreat();
+        printEndTag("ifStatement");
         return;
     }
     printKeyword();
@@ -624,12 +633,27 @@ void CompilationEngine::compileIf() {
 
 /**
  * Compile an expression.
+ * 
+ * expression: term (op term)*
  */
 void CompilationEngine::compileExpression() {
     printStartTag("expression");
-
-    /* Need Implement. Now on, just compile one term(identifier). */
+    
+    /* Check term and print. */
     compileTerm();
+
+    /* If op exists, print op and term. */
+    advance("symbol for op or symbol for closing expression or expressionList.");
+    while (checkOp()) {
+        printSymbol();
+
+        advance("term");
+        if (checkTerm()) compileTerm();
+        else throw analyze_exception("Expected term.");
+
+        advance("symbol for op or symbol for closing expression or expressionList.");
+    }
+    jack_tokenizer_->retreat();
 
     printEndTag("expression");
 }
@@ -658,10 +682,30 @@ void CompilationEngine::compileTerm() {
 void CompilationEngine::compileExpressionList() {
     printStartTag("expressionList");
 
-    /* Need Implement.*/
+    /* If empty expressionList, return. */
+    if (!checkTerm()) {
+        jack_tokenizer_->retreat();
+        printEndTag("expressionList");
+        return;
+    }
+
+    /* Print expression. */
+    compileExpression();
+
+    /* If symbol(',') exists, print ',' and expression. */
+    advance("symbol(',') or symbol for closing expressionList.");
+    while (checkSymbol(',')) {
+        printSymbol();
+
+        advance("expression");
+        if (checkTerm()) compileExpression();
+        else throw analyze_exception("Expected expression.");
+
+        advance("symbol(',') or symbol for closing expressionList.");
+    }
+    jack_tokenizer_->retreat();
     
     printEndTag("expressionList");
-    jack_tokenizer_->retreat();
 }
 
 /* =========== PUBLIC ============= */
