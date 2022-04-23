@@ -34,6 +34,7 @@ bool JackAnalyzer::isJackFile(const std::string& path) const {
 /**
  * Analyze the file given by param.
  * v1: After tokenization, the token is saved as a .xml file by attaching a keyword to the token. The file name is xxxMT.xml.
+ * v2: Analyze the syntax of the program. The analyzed files are saved in xxx.xml format.
  *
  * @param path Set the path to the file to be analyzed(Must be a .jack file).
  */ 
@@ -55,7 +56,7 @@ void JackAnalyzer::setOutputFile(std::string path) {
     if (output_.is_open()) output_.close();
     if (!isJackFile(path)) throw file_exception(path);
     path.erase(path.find(".jack"), std::string::npos);
-    path.append("M.xml");
+    path.append(".xml");
     output_.open(path);
     if (output_.fail()) throw file_exception(path);
 }
