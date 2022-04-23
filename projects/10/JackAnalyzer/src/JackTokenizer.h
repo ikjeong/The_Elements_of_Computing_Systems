@@ -3,7 +3,7 @@
  * This module decomposes the program into tokens.
  *
  * Interface
- * - setFile: set the program to tokenize.
+ * - tokenize: set the program to tokenize.
  * - hasMoreCommands
  * - advance: read next token
  * - tokenType: return current token's type
@@ -59,9 +59,10 @@ public:
     JackTokenizer();
     ~JackTokenizer();
 
-    void setFile(const std::string& path);
+    void tokenize(const std::string& path);
     bool hasMoreTokens() const;
     void advance();
+    void retreat();
     TokenType tokenType() const;
     std::string keyword() const;
     char symbol() const;

@@ -188,9 +188,9 @@ JackTokenizer::~JackTokenizer() {
 
 /**
  * Set the input stream, initialize the module, and tokenize the file.
- * To use this module, you must call the setFile() member function to initialize it.
+ * To use this module, you must call the tokenize() member function to initialize it.
  */
-void JackTokenizer::setFile(const std::string& path) {
+void JackTokenizer::tokenize(const std::string& path) {
     if (input_.is_open()) input_.close();
     if (!isJackFile(path)) throw file_exception(path);
     input_.open(path);
@@ -211,6 +211,16 @@ bool JackTokenizer::hasMoreTokens() const {
 void JackTokenizer::advance() {
     if (!hasMoreTokens()) throw analyze_exception("No more tokens, but advance() is called.");
     ++current_token_index_;
+    current_token_type_ = checkTokenType(token_[current_token_index_]);
+}
+
+/**
+ * Point to the before token.
+ * Called only when current_token_index_ excesses 0.
+ */
+void JackTokenizer::retreat() {
+    if (current_token_index_ <= 0) throw analyze_exception("No previous tokens available for lookup, but retreat() is called.");
+    --current_token_index_;
     current_token_type_ = checkTokenType(token_[current_token_index_]);
 }
 
