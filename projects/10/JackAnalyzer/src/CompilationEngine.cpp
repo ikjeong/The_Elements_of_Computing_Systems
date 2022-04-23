@@ -74,10 +74,10 @@ void CompilationEngine::printIdentifier() {
 }
 
 std::string CompilationEngine::changeSymboltoXmlSymbol(const char& symbol) const {
-    if (symbol == '<') return "&lt";
-    else if (symbol == '>') return "&gt";
-    else if (symbol == '\"') return "&quot";
-    else if (symbol == '&') return "&amp";
+    if (symbol == '<') return "&lt;";
+    else if (symbol == '>') return "&gt;";
+    else if (symbol == '\"') return "&quot;";
+    else if (symbol == '&') return "&amp;";
     else return std::string(1, symbol);
 }
 
@@ -104,7 +104,10 @@ bool CompilationEngine::checkPrimitiveType() const {
  *       '(' expression ')' unaryOp term
  */
 bool CompilationEngine::checkTerm() const {
-    if (jack_tokenizer_->tokenType() != TokenType::SYMBOL) return true;
+    if (jack_tokenizer_->tokenType() == TokenType::INT_CONST) return true;
+    else if (jack_tokenizer_->tokenType() == TokenType::STRING_CONST) return true;
+    else if (checkKeywordConstant()) return true;
+    else if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) return true;
     else if (checkSymbol('(') || checkSymbol('-') || checkSymbol('~')) return true;
     else return false;
 }
@@ -122,6 +125,17 @@ bool CompilationEngine::checkOp() const {
     else if (checkSymbol('<')) return true;
     else if (checkSymbol('>')) return true;
     else if (checkSymbol('=')) return true;
+    else return false;
+}
+
+/**
+ * KeywordConstant: 'true' | 'false' | 'null' | 'this'
+ */
+bool CompilationEngine::checkKeywordConstant() const {
+    if (checkKeyword("true")) return true;
+    else if (checkKeyword("false")) return true;
+    else if (checkKeyword("null")) return true;
+    else if (checkKeyword("this")) return true;
     else return false;
 }
 
@@ -159,6 +173,41 @@ void CompilationEngine::checkAndPrintTypeAndVarName() {
 
     advance("identifier for varName");
     checkAndPrintIdentifier("varName or type(primitive type or className)");
+}
+
+/**
+ * subroutineCall: subroutineName '(' expressionList ')' |
+ *                 (className | varName) '.' subroutineName '(' expressionList ')'
+ */
+void CompilationEngine::checkAndPrintSubroutineCall() {
+    /* Print identifier(it may be className or varName, or subroutineName). */
+    checkAndPrintIdentifier("className or varName, or subroutineName.");
+
+    /* If token is '.', print '.' and subroutineName. If token is '(', just print it. */
+    advance("symbol('.') or symbol('(')");
+
+    if (checkSymbol('.')) {
+        /* Print '.'. */
+        printSymbol();
+
+        /* Print subroutineName. */
+        advance("identifier for subroutineName");
+        checkAndPrintIdentifier("subroutineName.");
+
+        /* Get '(' token. */
+        advance("symbol('(')");
+    }
+
+    /* Print '('. */
+    checkAndPrintSymbol('(');
+
+    /* Print expressionList. It can be empty expressionList. */
+    advance("expressionList or symbol(')')");
+    compileExpressionList();
+
+    /* Print ')'. */
+    advance("symbol(')')");
+    checkAndPrintSymbol(')');
 }
 
 /**
@@ -421,35 +470,9 @@ void CompilationEngine::compileDo() {
     /* Print 'do'. */
     printKeyword(); // It must be 'do'.
 
-    /* Print identifier(it may be className or varName, or subroutineName). */
+    /* Print subroutineCall. */
     advance("identifier for className or varName, or subroutineName");
-    checkAndPrintIdentifier("className or varName, or subroutineName.");
-
-    /* If token is '.', print '.' and subroutineName. If token is '(', just print it. */
-    advance("symbol('.') or symbol('(')");
-
-    if (checkSymbol('.')) {
-        /* Print '.'. */
-        printSymbol();
-
-        /* Print subroutineName. */
-        advance("identifier for subroutineName");
-        checkAndPrintIdentifier("subroutineName.");
-
-        /* Get '(' token. */
-        advance("symbol('(')");
-    }
-
-    /* Print '('. */
-    checkAndPrintSymbol('(');
-
-    /* Print expressionList. It can be empty expressionList. */
-    advance("expression or symbol(')')");
-    compileExpressionList();
-
-    /* Print ')'. */
-    advance("symbol(')')");
-    checkAndPrintSymbol(')');
+    checkAndPrintSubroutineCall();
 
     /* Print ';'. */
     advance("symbol(';')");
@@ -668,8 +691,67 @@ void CompilationEngine::compileExpression() {
 void CompilationEngine::compileTerm() {
     printStartTag("term");
 
-    /* Need Implement. */
-    checkAndPrintIdentifier("term");
+    /* Print term. It must be term. */
+    if (jack_tokenizer_->tokenType() == TokenType::INT_CONST) {
+        /* Print integerConstant. */
+        printIntegerConstant();
+    } else if (jack_tokenizer_->tokenType() == TokenType::STRING_CONST) {
+        /* Print stringConstant. */
+        printStringConstant();
+    } else if (checkKeywordConstant()) {
+        /* Print keywordConstant. */
+        printKeyword();
+    } else if (checkSymbol('-') || checkSymbol('~')) {
+        /* Print unaryOp. */
+        printSymbol();
+
+        /* Print term. */
+        advance("term");
+        if (checkTerm()) compileTerm();
+        else throw analyze_exception("Expected term.");
+    } else if (checkSymbol('(')) {
+        /* Print '('. */
+        printSymbol();
+
+        /* Print expression. */
+        advance("expression");
+        if (checkTerm()) compileExpression();
+        else throw analyze_exception("Expected expression.");
+
+        /* Print ')'. */
+        advance("symbol(')')");
+        checkAndPrintSymbol(')');
+    } else if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) {
+        advance("symbol for closing term or symbol('['), or symbol('(' or '.') for subroutineCall");
+        if (checkSymbol('[')) {
+            /* Print varName. */
+            jack_tokenizer_->retreat();
+            printIdentifier();
+
+            /* Print '['. */
+            advance("symbol('[')");
+            checkAndPrintSymbol('[');
+
+            /* Print expression. */
+            advance("expression");
+            if (checkTerm()) compileExpression();
+            else throw analyze_exception("Expected expression.");
+
+            /* Print ']'. */
+            advance("symbol(']')");
+            checkAndPrintSymbol(']');
+        } else if (checkSymbol('(') || checkSymbol('.')) {
+            /* Print subroutineCall. */
+            jack_tokenizer_->retreat();
+            checkAndPrintSubroutineCall();
+        } else {
+            /* Print varName. */
+            jack_tokenizer_->retreat();
+            printIdentifier();
+        }
+    } else {
+        throw analyze_exception("Invalid function call. Debug whether the token element is term before calling compileTerm().");
+    }
 
     printEndTag("term");
 }

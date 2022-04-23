@@ -48,12 +48,14 @@ private:
     bool checkPrimitiveType() const;
     bool checkTerm() const;
     bool checkOp() const;
+    bool checkKeywordConstant() const;
 
     void checkAndPrintSymbol(const char& symbol);
     void checkAndPrintIdentifier(const std::string& expectedIdentifier);
     void checkAndPrintType();
     void checkAndPrintCommaAndVarName();
     void checkAndPrintTypeAndVarName();
+    void checkAndPrintSubroutineCall();
 
     void compileClass();
     void compileClassVarDec();
