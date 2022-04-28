@@ -1,16 +1,16 @@
 /**
- * Implementation of JackAnalyzer.h
+ * Implementation of JackCompiler.h
  */
 
-#include "JackAnalyzer.h"
+#include "JackCompiler.h"
 
 /* =========== PRIVATE ============= */
 
 /**
- * All jack files in the program to be analyzed are stored in the member variable path_.
- * @param path The path of the program to be analyzed.
+ * All jack files in the program to be compiled are stored in the member variable path_.
+ * @param path The path of the program to be compiled.
  */
-void JackAnalyzer::loadFilePaths(const std::string& path) {
+void JackCompiler::loadFilePaths(const std::string& path) {
     if (std::filesystem::is_directory(path)){
         for (const std::filesystem::directory_entry& entry : std::filesystem::recursive_directory_iterator(path)) {
             if (std::filesystem::is_directory(entry.path())) continue;
@@ -27,18 +27,17 @@ void JackAnalyzer::loadFilePaths(const std::string& path) {
  * @param path Path to the file to determine if it is a jack file.
  * @return Returns whether the file is a jack file or not.
  */
-bool JackAnalyzer::isJackFile(const std::string& path) const {
+bool JackCompiler::isJackFile(const std::string& path) const {
     return path.find(".jack") != std::string::npos;
 }
 
 /**
- * Analyze the file given by param.
- * v1: After tokenization, the token is saved as a .xml file by attaching a keyword to the token. The file name is xxxMT.xml.
- * v2: Analyze the syntax of the program. The analyzed files are saved in xxx.xml format.
+ * Compile the file given by param.
+ * v1: Use the SymbolTable module to classify identifiers.
  *
- * @param path Set the path to the file to be analyzed(Must be a .jack file).
+ * @param path Set the path to the file to be compiled(Must be a .jack file).
  */ 
-void JackAnalyzer::analyzeFile(const std::string& path) {
+void JackCompiler::compileFile(const std::string& path) {
     /* Tokenize the input data using the JackTokenizer module. */
     jack_tokenizer_->tokenize(path);
 
@@ -52,7 +51,7 @@ void JackAnalyzer::analyzeFile(const std::string& path) {
 /**
  * Set XXXM.xml output file. Input file(XXX.jack) must be .jack file.
  */
-void JackAnalyzer::setOutputFile(std::string path) {
+void JackCompiler::setOutputFile(std::string path) {
     if (output_.is_open()) output_.close();
     if (!isJackFile(path)) throw file_exception(path);
     path.erase(path.find(".jack"), std::string::npos);
@@ -61,40 +60,27 @@ void JackAnalyzer::setOutputFile(std::string path) {
     if (output_.fail()) throw file_exception(path);
 }
 
-/**
- * Symbol output member function according to XML convention. This shall be included in the Compilation Engine module.
- * @param symbol Token of type symbol.
- * @return Return symbols according to xml convention.
- */
-// std::string JackAnalyzer::changeSymboltoXml(const char& symbol) const {
-//     if (symbol == '<') return "&lt;";
-//     if (symbol == '>') return "&gt;";
-//     if (symbol == '\"') return "&quot;";
-//     if (symbol == '&') return "&amp;";
-//     return std::string(1, symbol);
-// }
-
 /* =========== PUBLIC ============= */
 
 /**
  * Creates a jack parser module. Prepare to parse all .jack files in a given program with param.
  * @param path Path to the program you want to parse.
  */
-JackAnalyzer::JackAnalyzer(const std::string& path)
+JackCompiler::JackCompiler(const std::string& path)
 : jack_tokenizer_(new JackTokenizer()), compilation_engine_(new CompilationEngine()) {
     loadFilePaths(path);
 }
 
-JackAnalyzer::~JackAnalyzer() {
+JackCompiler::~JackCompiler() {
     if (output_.is_open()) output_.close();
 }
 
 /**
- * Parses all .jack files in the program and saves them as .xml files.
+ * Compile all .jack files in the program and saves them as .vm files.
  */
-void JackAnalyzer::analyze() {
+void JackCompiler::compile() {
     if (paths_.empty()) throw file_exception("No .jack files");
     for (auto path : paths_) {
-        analyzeFile(path);
+        compileFile(path);
     }
 }
