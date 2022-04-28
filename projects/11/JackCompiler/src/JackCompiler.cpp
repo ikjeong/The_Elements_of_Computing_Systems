@@ -68,6 +68,7 @@ void JackCompiler::setOutputFile(std::string path) {
  */
 JackCompiler::JackCompiler(const std::string& path)
 : jack_tokenizer_(new JackTokenizer()), compilation_engine_(new CompilationEngine()) {
+    root_path_= path;
     loadFilePaths(path);
 }
 
@@ -79,7 +80,7 @@ JackCompiler::~JackCompiler() {
  * Compile all .jack files in the program and saves them as .vm files.
  */
 void JackCompiler::compile() {
-    if (paths_.empty()) throw file_exception("No .jack files");
+    if (paths_.empty()) throw file_exception(root_path_ + ", Error: There is no .jack file.");
     for (auto path : paths_) {
         compileFile(path);
     }

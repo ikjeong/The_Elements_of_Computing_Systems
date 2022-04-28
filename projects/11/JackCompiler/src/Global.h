@@ -37,16 +37,23 @@ public:
 };
 
 /**
- * Exception class used when an error occurs during analysis.
+ * Exception class used when an error occurs during compile.
  * Inherits std::runtime_error.
  */
-class analyze_exception : public std::runtime_error {
+class compile_exception : public std::runtime_error {
 public:
     /**
-     * @param message "Analyze Exception: fail to analyze (" + message + ")."
+     * Exception message: Compile Exception: message
+     *                    Line number: line
      */
-    analyze_exception(const std::string& message)
-    : runtime_error("Analyze Exception: fail to analyze (" + message + ").") { }
+    compile_exception(const std::string& message, const int line)
+    : runtime_error("Compile Exception: " + message + "\nLine number: " + std::to_string(line)) { }
+
+    /**
+     * Exception message: Compile Exception: message
+     */
+    compile_exception(const std::string& message)
+    : runtime_error("Compile Exception: " + message) { }
 };
 
 #endif

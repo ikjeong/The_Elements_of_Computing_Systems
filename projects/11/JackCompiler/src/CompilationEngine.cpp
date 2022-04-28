@@ -23,7 +23,7 @@ void CompilationEngine::initialize(JackTokenizer* jackTokenizer, std::ofstream* 
  */
 void CompilationEngine::advance(const std::string& expectedToken) {
     if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("Next token does not exist. Compiler expects " + expectedToken + std::string("."));
+    else throw compile_exception("Next token does not exist. Compiler expects " + expectedToken + std::string("."));
 }
 
 /**
@@ -141,7 +141,7 @@ bool CompilationEngine::checkKeywordConstant() const {
 
 void CompilationEngine::checkAndPrintSymbol(const char& symbol) {
     if (checkSymbol(symbol)) printSymbol();
-    else throw analyze_exception("Expected symbol('" + std::string(1, symbol) + std::string("')"));
+    else throw compile_exception("Expected symbol('" + std::string(1, symbol) + std::string("')"), jack_tokenizer_->getCurrentTokenLineNumber());
 }
 
 /**
@@ -149,7 +149,7 @@ void CompilationEngine::checkAndPrintSymbol(const char& symbol) {
  */
 void CompilationEngine::checkAndPrintIdentifier(const std::string& expectedIdentifier) {
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
-    else throw analyze_exception("Expected Identifier for " + expectedIdentifier);
+    else throw compile_exception("Expected Identifier for " + expectedIdentifier, jack_tokenizer_->getCurrentTokenLineNumber());
 }
 
 /**
@@ -158,7 +158,7 @@ void CompilationEngine::checkAndPrintIdentifier(const std::string& expectedIdent
 void CompilationEngine::checkAndPrintType() {
     if (jack_tokenizer_->tokenType() == TokenType::IDENTIFIER) printIdentifier();
     else if (checkPrimitiveType()) printKeyword();
-    else throw analyze_exception("Expected type(primitive type or className)");
+    else throw compile_exception("Expected type(primitive type or className)", jack_tokenizer_->getCurrentTokenLineNumber());
 }
 
 void CompilationEngine::checkAndPrintCommaAndVarName() {
@@ -251,7 +251,7 @@ void CompilationEngine::compileClass() {
         else if (checkKeyword("constructor")) compileSubroutine();
         else if (checkKeyword("function")) compileSubroutine();
         else if (checkKeyword("method")) compileSubroutine();
-        else throw analyze_exception("Expected symbol('}') or keyword(classVarDec or subroutineDec)");
+        else throw compile_exception("Expected symbol('}') or keyword(classVarDec or subroutineDec)", jack_tokenizer_->getCurrentTokenLineNumber());
     }
 
     /* Print '}'. */
@@ -282,7 +282,7 @@ void CompilationEngine::compileClassVarDec() {
         if (checkSymbol(';')) break;
 
         try { checkAndPrintCommaAndVarName(); }
-        catch(analyze_exception& e) { throw analyze_exception("Expected symbol(';') or symbol(',')"); }
+        catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
     }
 
     /* Print ';'. */
@@ -307,9 +307,9 @@ void CompilationEngine::compileSubroutine() {
     try {
         advance("type");
         checkAndPrintType();
-    } catch (analyze_exception& e) {
+    } catch (compile_exception& e) {
         if (checkKeyword("void")) printKeyword();
-        else throw analyze_exception("Expected 'void' or type(primitive type or className)");
+        else throw compile_exception("Expected 'void' or type(primitive type or className)", jack_tokenizer_->getCurrentTokenLineNumber());
     }
     
     /* Print subroutineName. */
@@ -331,7 +331,7 @@ void CompilationEngine::compileSubroutine() {
     /* Print subroutineBody. */
     advance("symbol('{')");
     if (checkSymbol('{')) compileSubroutineBody();
-    else throw analyze_exception("Expected symbol('{')");
+    else throw compile_exception("Expected symbol('{')", jack_tokenizer_->getCurrentTokenLineNumber());
 
     printEndTag("subroutineDec");
 }
@@ -424,7 +424,7 @@ void CompilationEngine::compileVarDec() {
         if (checkSymbol(';')) break;
 
         try { checkAndPrintCommaAndVarName(); }
-        catch(analyze_exception& e) { throw analyze_exception("Expected symbol(';') or symbol(',')"); }
+        catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
     }
 
     /* Print ';'. */
@@ -506,7 +506,7 @@ void CompilationEngine::compileLet() {
         /* Print expression. */
         advance("expression");
         if (checkTerm()) compileExpression();
-        else throw analyze_exception("Expected expression.");
+        else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
         /* Print ']'. */
         advance("symbol(']')");
@@ -522,7 +522,7 @@ void CompilationEngine::compileLet() {
     /* Print expression. */
     advance("expression");
     if (checkTerm()) compileExpression();
-    else throw analyze_exception("Expected expression.");
+    else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
     /* Print ';'. */
     advance("symbol(';')");
@@ -549,7 +549,7 @@ void CompilationEngine::compileWhile() {
     /* Print expression. */
     advance("expression");
     if (checkTerm()) compileExpression();
-    else throw analyze_exception("Expected expression.");
+    else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
     /* Print ')'. */
     advance("symbol(')')");
@@ -588,7 +588,7 @@ void CompilationEngine::compileReturn() {
         advance("symbol(';')");
     }
     try { checkAndPrintSymbol(';'); }
-    catch (analyze_exception& e) { throw analyze_exception("Expected expression or symbol(';')"); }
+    catch (compile_exception& e) { throw compile_exception("Expected expression or symbol(';')", jack_tokenizer_->getCurrentTokenLineNumber()); }
 
     printEndTag("returnStatement");
 }
@@ -612,7 +612,7 @@ void CompilationEngine::compileIf() {
     /* Print expression. */
     advance("expression");
     if (checkTerm()) compileExpression();
-    else throw analyze_exception("Expected expression.");
+    else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
     /* Print ')'. */
     advance("symbol(')')");
@@ -672,7 +672,7 @@ void CompilationEngine::compileExpression() {
 
         advance("term");
         if (checkTerm()) compileTerm();
-        else throw analyze_exception("Expected term.");
+        else throw compile_exception("Expected term.", jack_tokenizer_->getCurrentTokenLineNumber());
 
         advance("symbol for op or symbol for closing expression or expressionList.");
     }
@@ -708,7 +708,7 @@ void CompilationEngine::compileTerm() {
         /* Print term. */
         advance("term");
         if (checkTerm()) compileTerm();
-        else throw analyze_exception("Expected term.");
+        else throw compile_exception("Expected term.", jack_tokenizer_->getCurrentTokenLineNumber());
     } else if (checkSymbol('(')) {
         /* Print '('. */
         printSymbol();
@@ -716,7 +716,7 @@ void CompilationEngine::compileTerm() {
         /* Print expression. */
         advance("expression");
         if (checkTerm()) compileExpression();
-        else throw analyze_exception("Expected expression.");
+        else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
         /* Print ')'. */
         advance("symbol(')')");
@@ -735,7 +735,7 @@ void CompilationEngine::compileTerm() {
             /* Print expression. */
             advance("expression");
             if (checkTerm()) compileExpression();
-            else throw analyze_exception("Expected expression.");
+            else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
             /* Print ']'. */
             advance("symbol(']')");
@@ -750,7 +750,7 @@ void CompilationEngine::compileTerm() {
             printIdentifier();
         }
     } else {
-        throw analyze_exception("Invalid function call. Debug whether the token element is term before calling compileTerm().");
+        throw compile_exception("Invalid function call. Debug whether the token element is term before calling compileTerm().");
     }
 
     printEndTag("term");
@@ -781,7 +781,7 @@ void CompilationEngine::compileExpressionList() {
 
         advance("expression");
         if (checkTerm()) compileExpression();
-        else throw analyze_exception("Expected expression.");
+        else throw compile_exception("Expected expression.", jack_tokenizer_->getCurrentTokenLineNumber());
 
         advance("symbol(',') or symbol for closing expressionList.");
     }
@@ -807,10 +807,10 @@ void CompilationEngine::compile(JackTokenizer* jackTokenizer, std::ofstream* out
     initialize(jackTokenizer, output);
 
     if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw analyze_exception("The token does not exist. Is it jack file?");
+    else throw compile_exception("The token does not exist. Is it jack file?");
     
     if (checkKeyword("class")) compileClass();
-    else throw analyze_exception("The first syntax must be class.");
+    else throw compile_exception("The first syntax must be class.", jack_tokenizer_->getCurrentTokenLineNumber());
 
-    if (jack_tokenizer_->hasMoreTokens()) throw analyze_exception("Only one class must exist in one file.");
+    if (jack_tokenizer_->hasMoreTokens()) throw compile_exception("Only one class must exist in one file.");
 }

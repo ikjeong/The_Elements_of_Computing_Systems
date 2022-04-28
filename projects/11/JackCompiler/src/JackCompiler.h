@@ -18,6 +18,7 @@ private:
     std::unique_ptr<CompilationEngine> compilation_engine_;
     std::vector<std::string> paths_;
     std::ofstream output_;
+    std::string root_path_;
     
     void loadFilePaths(const std::string& path);
     bool isJackFile(const std::string& path) const;
