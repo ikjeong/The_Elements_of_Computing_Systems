@@ -8,6 +8,7 @@
 
 void JackTokenizer::initialize() {
     token_.clear();
+    token_line_number_.clear();
     current_token_index_ = -1;
     current_token_type_ = TokenType::NOTHING;
 }
@@ -16,19 +17,22 @@ void JackTokenizer::initialize() {
  * Tokenize the file set in the input stream.
  */
 void JackTokenizer::tokenizeFile() {
+    int lineNumber = 1;
     bool doesQuotationOpen = false;
     bool doesCommentOpen = false;
     while (!input_.eof()) {
         std::string buffer;
         std::getline(input_, buffer);
-        tokenizeLine(buffer, doesQuotationOpen, doesCommentOpen);
+        tokenizeLine(buffer, doesQuotationOpen, doesCommentOpen, lineNumber);
+        ++lineNumber;
+        std::cout << "TOKENIZE: " << lineNumber << std::endl;
     }
 }
 
 /**
  * @param buffer a single line of input.
  */
-void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen) {
+void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen, int lineNumber) {
     int startIndex = 0;
 
     /* If double quotes or annotations are already open, inspect and process for closure. */
@@ -38,12 +42,14 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
             /* If you cannot close double quotes, 
                modify the last token and receive the following input. */
             token_.back().append(buffer);
+            token_line_number_.back() = lineNumber;
             return;
         } else {
             /* If you can close double quotes, 
                close them and prepare for the next token processing. */
             startIndex = index+1;
             token_.back().append(buffer.substr(0, startIndex));
+            token_line_number_.back() = lineNumber;
             doesQuotationOpen = false;
         }
     } else if (doesCommentOpen) {
@@ -67,19 +73,19 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
             /* The double quotation surface tokenizes the string created so far
                and starts processing the string. */
             if (buffer[endIndex] == '\"') {
-                pushToken(token);
+                pushToken(token, lineNumber);
 
                 string_index index = buffer.find("\"", endIndex+1);
                 if (index == string_end) {
                     /* If you cannot close double quotes, 
                        receive the following input. */
-                    pushToken(buffer.substr(endIndex, string_end));
+                    pushToken(buffer.substr(endIndex, string_end), lineNumber);
                     doesQuotationOpen = true;
                     return;
                 } else {
                     /* If you can close double quotes, 
                        close them and process tokens. */
-                    pushToken(buffer.substr(endIndex, index-endIndex+1));
+                    pushToken(buffer.substr(endIndex, index-endIndex+1), lineNumber);
                     startIndex = index+1;
                     break;
                 }
@@ -88,12 +94,13 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
             /* Comment, tokenize the string you have created so far 
                and start processing the annotation. */
             if (endIndex >= 1 && buffer.substr(endIndex-1, 2) == "//") {
-                token_.pop_back(); // Remove the symbol token that entered the '/' shape.
-                pushToken(token);
+                popToken(); // Remove the symbol token that entered the '/' shape.
+
+                pushToken(token, lineNumber);
                 return;
             } else if (endIndex >= 1 && buffer.substr(endIndex-1, 2) == "/*") {
-                token_.pop_back(); // Remove the symbol token that entered the '/' shape.
-                pushToken(token);
+                popToken(); // Remove the symbol token that entered the '/' shape.
+                pushToken(token, lineNumber);
 
                 string_index index = buffer.find("*/", endIndex+1);
                 if (index == string_end) {
@@ -110,7 +117,7 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
 
             /* When a blank text comes, the token that has been created is tokenized. */
             if (buffer[endIndex] == ' ' || buffer[endIndex] == '\t' || buffer[endIndex] == '\n') {
-                pushToken(token);
+                pushToken(token, lineNumber);
                 startIndex = endIndex+1;
                 break;
             }
@@ -118,8 +125,8 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
             /* When a symbol comes, it tokenizes the token it has been created
                and tokenizes the symbol. */
             if (isSymbol(buffer[endIndex])) {
-                pushToken(token);
-                pushToken(std::string(1, buffer[endIndex]));
+                pushToken(token, lineNumber);
+                pushToken(std::string(1, buffer[endIndex]), lineNumber);
                 startIndex = endIndex+1;
                 break;
             }
@@ -129,7 +136,7 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
 
             /* If you come to the end of the input, tokenize the token. */
             if (endIndex+1 == (int)buffer.size()) {
-                pushToken(token);
+                pushToken(token, lineNumber);
                 startIndex = endIndex+1;
                 break;
             }
@@ -140,10 +147,18 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
 /**
  * Put the given token into the member variable token_. If it is an empty token, do not insert it.
  * @param token Tokens to save.
+ * @param lineNumber Token's line number.
  */
-void JackTokenizer::pushToken(const std::string& token) {
+void JackTokenizer::pushToken(const std::string& token, int lineNumber) {
     if (token == "") return;
     token_.push_back(token);
+    token_line_number_.push_back(lineNumber);
+    std::cout << "PUSH TOKEN: " << token << ", " << lineNumber << std::endl;
+}
+
+void JackTokenizer::popToken() {
+    token_.pop_back();
+    token_line_number_.pop_back();
 }
 
 bool JackTokenizer::isKeyword(const std::string& token) const {
@@ -275,4 +290,8 @@ int JackTokenizer::intVal() const {
 std::string JackTokenizer::stringVal() const {
     if (current_token_type_ != TokenType::STRING_CONST) throw analyze_exception(token_[current_token_index_]);
     return token_[current_token_index_].substr(1, token_[current_token_index_].size()-2);
+}
+
+int JackTokenizer::getCurrentTokenLineNumber() const {
+    return token_line_number_[current_token_index_];
 }

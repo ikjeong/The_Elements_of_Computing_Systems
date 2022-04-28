@@ -12,6 +12,7 @@
  * - identifier: return token's identifier (tokenType == IDENTIFIER)
  * - intVal: return token's int valute (tokenType == INT_CONST)
  * - stringVal: return token's string value (tokenType == STRING_CONST)
+ * - getCurrentTokenLineNumber: Returns which line the token is on in the program
  *
  * Caution
  * - When generated, current token is initialized to ""(Empty string).
@@ -43,13 +44,15 @@ class JackTokenizer {
 private:
     std::ifstream input_;
     std::vector<std::string> token_;
+    std::vector<int> token_line_number_;
     int current_token_index_;
     TokenType current_token_type_;
 
     void initialize();
     void tokenizeFile();
-    void tokenizeLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen);
-    void pushToken(const std::string& token);
+    void tokenizeLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen, int lineNumber);
+    void pushToken(const std::string& token, int lineNumber);
+    void popToken();
     bool isKeyword(const std::string& token) const;
     bool isSymbol(const char& token) const;
     TokenType checkTokenType(const std::string& token) const;
@@ -69,6 +72,7 @@ public:
     std::string identifier() const;
     int intVal() const;
     std::string stringVal() const;
+    int getCurrentTokenLineNumber() const;
 };
 
 #endif
