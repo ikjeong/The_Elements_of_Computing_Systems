@@ -11,6 +11,7 @@
 #include <vector>
 #include <memory>
 #include <regex>
+#include <map>
 /* If gcc version is under 9, use '-lstdc++fs' when compiling. */
 #include <filesystem>
 
@@ -21,6 +22,14 @@ enum class TokenType {
     IDENTIFIER = 3,
     INT_CONST = 4,
     STRING_CONST = 5
+};
+
+enum class VarKind {
+    NONE = 0,
+    STATIC = 1,
+    FIELD = 2,
+    ARGUMENT = 3,
+    VAR = 4
 };
 
 /**
