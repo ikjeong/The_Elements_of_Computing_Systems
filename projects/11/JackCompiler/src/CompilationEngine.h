@@ -21,14 +21,16 @@
 
 #include "Global.h"
 #include "JackTokenizer.h"
+#include "SymbolTable.h"
 
 class CompilationEngine {
 private:
     JackTokenizer* jack_tokenizer_;
+    SymbolTable* symbol_table_;
     std::ofstream* output_;
     int indent_depth_;
 
-    void initialize(JackTokenizer* jackTokenizer, std::ofstream* output);
+    void initialize(JackTokenizer* jackTokenizer, SymbolTable* symbolTable, std::ofstream* output);
 
     void advance(const std::string& expectedToken);
 
@@ -77,7 +79,7 @@ public:
     CompilationEngine();
     ~CompilationEngine();
 
-    void compile(JackTokenizer* JackTokenizer, std::ofstream* output);
+    void compile(JackTokenizer* JackTokenizer, SymbolTable* symbolTable, std::ofstream* output);
 };
 
 #endif
