@@ -7,11 +7,7 @@
  * - hasMoreCommands
  * - advance: read next token
  * - tokenType: return current token's type
- * - keyword: return current token's keyword (tokenType == KEYWORD)
- * - symbol: return token's character (tokenType == SYMBOL)
- * - identifier: return token's identifier (tokenType == IDENTIFIER)
- * - intVal: return token's int valute (tokenType == INT_CONST)
- * - stringVal: return token's string value (tokenType == STRING_CONST)
+ * - getToken: return current token
  * - getCurrentTokenLineNumber: Returns which line the token is on in the program
  *
  * Caution
@@ -51,12 +47,15 @@ private:
     void initialize();
     void tokenizeFile();
     void tokenizeLine(std::string& buffer, bool& doesQuotationOpen, bool& doesCommentOpen, int lineNumber);
+    
     void pushToken(const std::string& token, int lineNumber);
     void popToken();
+    
     bool isKeyword(const std::string& token) const;
     bool isSymbol(const char& token) const;
-    TokenType checkTokenType(const std::string& token) const;
     bool isJackFile(const std::string& path) const;
+    
+    TokenType getTokenTypeOf(const std::string& token) const;
 
 public:
     JackTokenizer();
@@ -67,11 +66,7 @@ public:
     void advance();
     void retreat();
     TokenType tokenType() const;
-    std::string keyword() const;
-    char symbol() const;
-    std::string identifier() const;
-    int intVal() const;
-    std::string stringVal() const;
+    std::string getToken() const;
     int getCurrentTokenLineNumber() const;
 };
 

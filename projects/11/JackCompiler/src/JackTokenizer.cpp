@@ -139,9 +139,11 @@ void JackTokenizer::tokenizeLine(std::string& buffer, bool& doesQuotationOpen, b
                 startIndex = endIndex+1;
                 break;
             }
-        }
-    } // End Tokenization.
+        } //End of one line.
+    } // End of tokenization.
 }
+
+
 
 /**
  * Put the given token into the member variable token_. If it is an empty token, do not insert it.
@@ -159,6 +161,8 @@ void JackTokenizer::popToken() {
     token_line_number_.pop_back();
 }
 
+
+
 bool JackTokenizer::isKeyword(const std::string& token) const {
     for (const std::string& keyword : KEYWORDS) {
         if (token == keyword) return true;
@@ -173,7 +177,7 @@ bool JackTokenizer::isSymbol(const char& token) const {
     return false;
 }
 
-TokenType JackTokenizer::checkTokenType(const std::string& token) const {
+TokenType JackTokenizer::getTokenTypeOf(const std::string& token) const {
     if (isKeyword(token)) return TokenType::KEYWORD;
     if (token.size() == 1 && isSymbol(token[0])) return TokenType::SYMBOL;
     if (token.size() >= 2 && token[0] == '\"' && token[token.size()-1] == '\"') return TokenType::STRING_CONST;
@@ -224,7 +228,7 @@ bool JackTokenizer::hasMoreTokens() const {
 void JackTokenizer::advance() {
     if (!hasMoreTokens()) throw compile_exception("No more tokens, but advance() is called.");
     ++current_token_index_;
-    current_token_type_ = checkTokenType(token_[current_token_index_]);
+    current_token_type_ = getTokenTypeOf(token_[current_token_index_]);
 }
 
 /**
@@ -234,7 +238,7 @@ void JackTokenizer::advance() {
 void JackTokenizer::retreat() {
     if (current_token_index_ <= 0) throw compile_exception("No previous tokens available for lookup, but retreat() is called.");
     --current_token_index_;
-    current_token_type_ = checkTokenType(token_[current_token_index_]);
+    current_token_type_ = getTokenTypeOf(token_[current_token_index_]);
 }
 
 /**
@@ -245,49 +249,11 @@ TokenType JackTokenizer::tokenType() const {
 }
 
 /**
- * It should only be called when the current token is a keyword.
- * @return Returns the keyword of the current token.
+ * @return Returns the current token.
  */
-std::string JackTokenizer::keyword() const {
-    if (current_token_type_ != TokenType::KEYWORD) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
-    return token_[current_token_index_];
-}
-
-/**
- * It should only be called when the current token is a symbol.
- * @return Returns the symbol of the current token.
- */
-char JackTokenizer::symbol() const {
-    if (current_token_type_ != TokenType::SYMBOL) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
-    return token_[current_token_index_][0];
-}
-
-/**
- * It should only be called when the current token is a identifier.
- * @return Returns the identifier of the current token.
- */
-std::string JackTokenizer::identifier() const {
-    if (current_token_type_ != TokenType::IDENTIFIER) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
-    return token_[current_token_index_];
-}
-
-/**
- * It should only be called when the current token is a int constant.
- * @return Returns the int value of the current token.
- */
-int JackTokenizer::intVal() const {
-    if (current_token_type_ != TokenType::INT_CONST) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
-    return std::stoi(token_[current_token_index_]);
-}
-
-/**
- * It should only be called when the current token is a string constant.
- * Double quotation marks are removed.
- * @return Returns the string value of the current token.
- */
-std::string JackTokenizer::stringVal() const {
-    if (current_token_type_ != TokenType::STRING_CONST) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
-    return token_[current_token_index_].substr(1, token_[current_token_index_].size()-2);
+std::string JackTokenizer::getToken() const {
+    if (current_token_type_ == TokenType::NOTHING) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
+    else return token_[current_token_index_];
 }
 
 int JackTokenizer::getCurrentTokenLineNumber() const {
