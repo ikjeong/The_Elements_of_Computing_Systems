@@ -12,6 +12,7 @@
 #include <memory>
 #include <regex>
 #include <map>
+#include <tuple>
 /* If gcc version is under 9, use '-lstdc++fs' when compiling. */
 #include <filesystem>
 
@@ -29,7 +30,9 @@ enum class VarKind {
     STATIC = 1,
     FIELD = 2,
     ARGUMENT = 3,
-    VAR = 4
+    VAR = 4,
+    CLASS = 5,
+    SUBROUTINE = 6
 };
 
 /**

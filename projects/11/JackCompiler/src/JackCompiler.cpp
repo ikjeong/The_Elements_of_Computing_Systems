@@ -41,11 +41,15 @@ void JackCompiler::compileFile(const std::string& path) {
     /* Tokenize the input data using the JackTokenizer module. */
     jack_tokenizer_->tokenize(path);
 
+    /* Initalize Symbol Table. */
+    symbol_table_->resetTable();
+
     /* Make XXXM.xml output file and ready to write. */
+    /* It need to be replaced by the VMWriter output module. */
     setOutputFile(path);
 
     /* Compiled and printed using the CompilationEngine module. */
-    compilation_engine_->compile(jack_tokenizer_.get(), &output_);
+    compilation_engine_->compile(jack_tokenizer_.get(), symbol_table_.get(), &output_);
 }
 
 /**
@@ -67,7 +71,8 @@ void JackCompiler::setOutputFile(std::string path) {
  * @param path Path to the program you want to parse.
  */
 JackCompiler::JackCompiler(const std::string& path)
-: jack_tokenizer_(new JackTokenizer()), compilation_engine_(new CompilationEngine()) {
+: jack_tokenizer_(new JackTokenizer()), symbol_table_(new SymbolTable()),
+  compilation_engine_(new CompilationEngine()) {
     root_path_= path;
     loadFilePaths(path);
 }

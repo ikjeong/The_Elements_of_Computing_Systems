@@ -8,8 +8,8 @@
  * - startSubroutine: Reset the symbol table for subroutine.
  * - define: Define a new identifier.
  * - varCount: Returns the number of variables according to a given type.
- * - kindOf: Returns the kind of identifier as the variable name.
  * - typeOf:Returns the type of identifier as the variable name.
+ * - kindOf: Returns the kind of identifier as the variable name.
  * - indexOf: Returns the index assigned to the identifier by the variable name.
  *
  */
@@ -21,6 +21,16 @@
 
 class SymbolTable {
 private:
+    int static_index_;
+    int field_index_;
+    int argument_index_;
+    int var_index_;
+
+    std::map<std::string, std::tuple<std::string, VarKind, int>> classTable;
+    std::map<std::string, std::tuple<std::string, VarKind, int>> subroutineTable;
+
+    bool isInClassTable(const std::string& name) const;
+    bool isInSubroutineTable(const std::string& name) const;
 
 public:
     SymbolTable();
@@ -30,9 +40,9 @@ public:
     void startSubroutine();
     void define(const std::string& name, const std::string& type, const VarKind& kind);
     int varCount(const VarKind& kind) const;
-    VarKind kindOf(const std::string& name) const;
     std::string typeOf(const std::string& name) const;
-    int indexOf(const std::string* name) const;
+    VarKind kindOf(const std::string& name) const;
+    int indexOf(const std::string& name) const;
 };
 
 #endif

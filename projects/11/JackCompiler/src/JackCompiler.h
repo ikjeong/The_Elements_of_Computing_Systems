@@ -11,10 +11,12 @@
 #include "Global.h"
 #include "JackTokenizer.h"
 #include "CompilationEngine.h"
+#include "SymbolTable.h"
 
 class JackCompiler {
 private:
     std::unique_ptr<JackTokenizer> jack_tokenizer_;
+    std::unique_ptr<SymbolTable> symbol_table_;
     std::unique_ptr<CompilationEngine> compilation_engine_;
     std::vector<std::string> paths_;
     std::ofstream output_;
