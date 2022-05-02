@@ -1,0 +1,81 @@
+<class>
+  <keyword> class </keyword>
+  <identifier> Main </identifier>
+  <Attribute> VarKind: class </Attribute>
+  <symbol> { </symbol>
+  <subroutineDec>
+    <keyword> function </keyword>
+    <keyword> void </keyword>
+    <identifier> main </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <varDec>
+        <keyword> var </keyword>
+        <identifier> SquareGame </identifier>
+        <Attribute> VarKind: class </Attribute>
+        <identifier> game </identifier>
+        <Attribute> VarKind: var, type: SquareGame, index: 0 </Attribute>
+        <symbol> ; </symbol>
+      </varDec>
+      <statements>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> game </identifier>
+          <Attribute> VarKind: var, type: SquareGame, index: 0 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> SquareGame </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> new </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+              </expressionList>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> game </identifier>
+          <Attribute> VarKind: var, type: SquareGame, index: 0 </Attribute>
+          <symbol> . </symbol>
+          <identifier> run </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> game </identifier>
+          <Attribute> VarKind: var, type: SquareGame, index: 0 </Attribute>
+          <symbol> . </symbol>
+          <identifier> dispose </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <symbol> } </symbol>
+</class>

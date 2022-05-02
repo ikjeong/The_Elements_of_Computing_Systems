@@ -1,0 +1,2079 @@
+<class>
+  <keyword> class </keyword>
+  <identifier> Ball </identifier>
+  <Attribute> VarKind: class </Attribute>
+  <symbol> { </symbol>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> x </identifier>
+    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+    <symbol> , </symbol>
+    <identifier> y </identifier>
+    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> lengthx </identifier>
+    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+    <symbol> , </symbol>
+    <identifier> lengthy </identifier>
+    <Attribute> VarKind: field, type: int, index: 3 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> d </identifier>
+    <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+    <symbol> , </symbol>
+    <identifier> straightD </identifier>
+    <Attribute> VarKind: field, type: int, index: 5 </Attribute>
+    <symbol> , </symbol>
+    <identifier> diagonalD </identifier>
+    <Attribute> VarKind: field, type: int, index: 6 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> boolean </keyword>
+    <identifier> invert </identifier>
+    <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+    <symbol> , </symbol>
+    <identifier> positivex </identifier>
+    <Attribute> VarKind: field, type: boolean, index: 8 </Attribute>
+    <symbol> , </symbol>
+    <identifier> positivey </identifier>
+    <Attribute> VarKind: field, type: boolean, index: 9 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> leftWall </identifier>
+    <Attribute> VarKind: field, type: int, index: 10 </Attribute>
+    <symbol> , </symbol>
+    <identifier> rightWall </identifier>
+    <Attribute> VarKind: field, type: int, index: 11 </Attribute>
+    <symbol> , </symbol>
+    <identifier> topWall </identifier>
+    <Attribute> VarKind: field, type: int, index: 12 </Attribute>
+    <symbol> , </symbol>
+    <identifier> bottomWall </identifier>
+    <Attribute> VarKind: field, type: int, index: 13 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> wall </identifier>
+    <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <subroutineDec>
+    <keyword> constructor </keyword>
+    <identifier> Ball </identifier>
+    <Attribute> VarKind: class </Attribute>
+    <identifier> new </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+      <keyword> int </keyword>
+      <identifier> Ax </identifier>
+      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> Ay </identifier>
+      <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> AleftWall </identifier>
+      <Attribute> VarKind: argument, type: int, index: 2 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> ArightWall </identifier>
+      <Attribute> VarKind: argument, type: int, index: 3 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> AtopWall </identifier>
+      <Attribute> VarKind: argument, type: int, index: 4 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> AbottomWall </identifier>
+      <Attribute> VarKind: argument, type: int, index: 5 </Attribute>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> x </identifier>
+          <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Ax </identifier>
+              <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> y </identifier>
+          <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Ay </identifier>
+              <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> leftWall </identifier>
+          <Attribute> VarKind: field, type: int, index: 10 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> AleftWall </identifier>
+              <Attribute> VarKind: argument, type: int, index: 2 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> rightWall </identifier>
+          <Attribute> VarKind: field, type: int, index: 11 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> ArightWall </identifier>
+              <Attribute> VarKind: argument, type: int, index: 3 </Attribute>
+            </term>
+            <symbol> - </symbol>
+            <term>
+              <integerConstant> 6 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> topWall </identifier>
+          <Attribute> VarKind: field, type: int, index: 12 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> AtopWall </identifier>
+              <Attribute> VarKind: argument, type: int, index: 4 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> bottomWall </identifier>
+          <Attribute> VarKind: field, type: int, index: 13 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> AbottomWall </identifier>
+              <Attribute> VarKind: argument, type: int, index: 5 </Attribute>
+            </term>
+            <symbol> - </symbol>
+            <term>
+              <integerConstant> 6 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> wall </identifier>
+          <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <integerConstant> 0 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> show </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <expression>
+            <term>
+              <keyword> this </keyword>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> dispose </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Memory </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> deAlloc </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <keyword> this </keyword>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> show </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> setColor </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <keyword> true </keyword>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> draw </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> hide </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> setColor </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <keyword> false </keyword>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> draw </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> draw </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> drawRectangle </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> x </identifier>
+                <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> y </identifier>
+                <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> x </identifier>
+                <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              </term>
+              <symbol> + </symbol>
+              <term>
+                <integerConstant> 5 </integerConstant>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> y </identifier>
+                <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              </term>
+              <symbol> + </symbol>
+              <term>
+                <integerConstant> 5 </integerConstant>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> int </keyword>
+    <identifier> getLeft </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <returnStatement>
+          <keyword> return </keyword>
+          <expression>
+            <term>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> int </keyword>
+    <identifier> getRight </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <returnStatement>
+          <keyword> return </keyword>
+          <expression>
+            <term>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+            </term>
+            <symbol> + </symbol>
+            <term>
+              <integerConstant> 5 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> setDestination </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+      <keyword> int </keyword>
+      <identifier> destx </identifier>
+      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> desty </identifier>
+      <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <varDec>
+        <keyword> var </keyword>
+        <keyword> int </keyword>
+        <identifier> dx </identifier>
+        <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+        <symbol> , </symbol>
+        <identifier> dy </identifier>
+        <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+        <symbol> , </symbol>
+        <identifier> temp </identifier>
+        <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+        <symbol> ; </symbol>
+      </varDec>
+      <statements>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> lengthx </identifier>
+          <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> destx </identifier>
+              <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+            </term>
+            <symbol> - </symbol>
+            <term>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> lengthy </identifier>
+          <Attribute> VarKind: field, type: int, index: 3 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> desty </identifier>
+              <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+            </term>
+            <symbol> - </symbol>
+            <term>
+              <identifier> y </identifier>
+              <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> dx </identifier>
+          <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Math </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> abs </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> lengthx </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> dy </identifier>
+          <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Math </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> abs </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> lengthy </identifier>
+                    <Attribute> VarKind: field, type: int, index: 3 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> invert </identifier>
+          <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> dx </identifier>
+                  <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                </term>
+                <symbol> &lt; </symbol>
+                <term>
+                  <identifier> dy </identifier>
+                  <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> invert </identifier>
+              <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> temp </identifier>
+              <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> dx </identifier>
+                  <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> dx </identifier>
+              <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> dy </identifier>
+                  <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> dy </identifier>
+              <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> temp </identifier>
+                  <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> positivex </identifier>
+              <Attribute> VarKind: field, type: boolean, index: 8 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> &lt; </symbol>
+                    <term>
+                      <identifier> desty </identifier>
+                      <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> positivey </identifier>
+              <Attribute> VarKind: field, type: boolean, index: 9 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                    </term>
+                    <symbol> &lt; </symbol>
+                    <term>
+                      <identifier> destx </identifier>
+                      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+          <keyword> else </keyword>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> positivex </identifier>
+              <Attribute> VarKind: field, type: boolean, index: 8 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                    </term>
+                    <symbol> &lt; </symbol>
+                    <term>
+                      <identifier> destx </identifier>
+                      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> positivey </identifier>
+              <Attribute> VarKind: field, type: boolean, index: 9 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> &lt; </symbol>
+                    <term>
+                      <identifier> desty </identifier>
+                      <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> d </identifier>
+          <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+                <symbol> * </symbol>
+                <term>
+                  <identifier> dy </identifier>
+                  <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+            <symbol> - </symbol>
+            <term>
+              <identifier> dx </identifier>
+              <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> straightD </identifier>
+          <Attribute> VarKind: field, type: int, index: 5 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <integerConstant> 2 </integerConstant>
+            </term>
+            <symbol> * </symbol>
+            <term>
+              <identifier> dy </identifier>
+              <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> diagonalD </identifier>
+          <Attribute> VarKind: field, type: int, index: 6 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <integerConstant> 2 </integerConstant>
+            </term>
+            <symbol> * </symbol>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> dy </identifier>
+                  <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                </term>
+                <symbol> - </symbol>
+                <term>
+                  <identifier> dx </identifier>
+                  <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> int </keyword>
+    <identifier> move </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> hide </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> d </identifier>
+              <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+            </term>
+            <symbol> &lt; </symbol>
+            <term>
+              <integerConstant> 0 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> d </identifier>
+              <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> d </identifier>
+                  <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <identifier> straightD </identifier>
+                  <Attribute> VarKind: field, type: int, index: 5 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+          <keyword> else </keyword>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> d </identifier>
+              <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> d </identifier>
+                  <Attribute> VarKind: field, type: int, index: 4 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <identifier> diagonalD </identifier>
+                  <Attribute> VarKind: field, type: int, index: 6 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <ifStatement>
+              <keyword> if </keyword>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> positivey </identifier>
+                  <Attribute> VarKind: field, type: boolean, index: 9 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+              <symbol> { </symbol>
+              <statements>
+                <ifStatement>
+                  <keyword> if </keyword>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> invert </identifier>
+                      <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                  <symbol> { </symbol>
+                  <statements>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <identifier> x </identifier>
+                          <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                        </term>
+                        <symbol> + </symbol>
+                        <term>
+                          <integerConstant> 4 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                  </statements>
+                  <symbol> } </symbol>
+                  <keyword> else </keyword>
+                  <symbol> { </symbol>
+                  <statements>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <identifier> y </identifier>
+                          <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                        </term>
+                        <symbol> + </symbol>
+                        <term>
+                          <integerConstant> 4 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                  </statements>
+                  <symbol> } </symbol>
+                </ifStatement>
+              </statements>
+              <symbol> } </symbol>
+              <keyword> else </keyword>
+              <symbol> { </symbol>
+              <statements>
+                <ifStatement>
+                  <keyword> if </keyword>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> invert </identifier>
+                      <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                  <symbol> { </symbol>
+                  <statements>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <identifier> x </identifier>
+                          <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                        </term>
+                        <symbol> - </symbol>
+                        <term>
+                          <integerConstant> 4 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                  </statements>
+                  <symbol> } </symbol>
+                  <keyword> else </keyword>
+                  <symbol> { </symbol>
+                  <statements>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <identifier> y </identifier>
+                          <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                        </term>
+                        <symbol> - </symbol>
+                        <term>
+                          <integerConstant> 4 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                  </statements>
+                  <symbol> } </symbol>
+                </ifStatement>
+              </statements>
+              <symbol> } </symbol>
+            </ifStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> positivex </identifier>
+              <Attribute> VarKind: field, type: boolean, index: 8 </Attribute>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <ifStatement>
+              <keyword> if </keyword>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> invert </identifier>
+                  <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> y </identifier>
+                  <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> + </symbol>
+                    <term>
+                      <integerConstant> 4 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+              <keyword> else </keyword>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> x </identifier>
+                  <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                    </term>
+                    <symbol> + </symbol>
+                    <term>
+                      <integerConstant> 4 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+            </ifStatement>
+          </statements>
+          <symbol> } </symbol>
+          <keyword> else </keyword>
+          <symbol> { </symbol>
+          <statements>
+            <ifStatement>
+              <keyword> if </keyword>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> invert </identifier>
+                  <Attribute> VarKind: field, type: boolean, index: 7 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> y </identifier>
+                  <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> - </symbol>
+                    <term>
+                      <integerConstant> 4 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+              <keyword> else </keyword>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> x </identifier>
+                  <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                    </term>
+                    <symbol> - </symbol>
+                    <term>
+                      <integerConstant> 4 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+            </ifStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ~ </symbol>
+              <term>
+                <symbol> ( </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> &gt; </symbol>
+                  <term>
+                    <identifier> leftWall </identifier>
+                    <Attribute> VarKind: field, type: int, index: 10 </Attribute>
+                  </term>
+                </expression>
+                <symbol> ) </symbol>
+              </term>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> wall </identifier>
+              <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> leftWall </identifier>
+                  <Attribute> VarKind: field, type: int, index: 10 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ~ </symbol>
+              <term>
+                <symbol> ( </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> &lt; </symbol>
+                  <term>
+                    <identifier> rightWall </identifier>
+                    <Attribute> VarKind: field, type: int, index: 11 </Attribute>
+                  </term>
+                </expression>
+                <symbol> ) </symbol>
+              </term>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> wall </identifier>
+              <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> rightWall </identifier>
+                  <Attribute> VarKind: field, type: int, index: 11 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ~ </symbol>
+              <term>
+                <symbol> ( </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> &gt; </symbol>
+                  <term>
+                    <identifier> topWall </identifier>
+                    <Attribute> VarKind: field, type: int, index: 12 </Attribute>
+                  </term>
+                </expression>
+                <symbol> ) </symbol>
+              </term>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> wall </identifier>
+              <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 3 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> y </identifier>
+              <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> topWall </identifier>
+                  <Attribute> VarKind: field, type: int, index: 12 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ~ </symbol>
+              <term>
+                <symbol> ( </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> &lt; </symbol>
+                  <term>
+                    <identifier> bottomWall </identifier>
+                    <Attribute> VarKind: field, type: int, index: 13 </Attribute>
+                  </term>
+                </expression>
+                <symbol> ) </symbol>
+              </term>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> wall </identifier>
+              <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 4 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> y </identifier>
+              <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> bottomWall </identifier>
+                  <Attribute> VarKind: field, type: int, index: 13 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> show </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <expression>
+            <term>
+              <identifier> wall </identifier>
+              <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> bounce </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+      <keyword> int </keyword>
+      <identifier> bouncingDirection </identifier>
+      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <varDec>
+        <keyword> var </keyword>
+        <keyword> int </keyword>
+        <identifier> newx </identifier>
+        <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+        <symbol> , </symbol>
+        <identifier> newy </identifier>
+        <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+        <symbol> , </symbol>
+        <identifier> divLengthx </identifier>
+        <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+        <symbol> , </symbol>
+        <identifier> divLengthy </identifier>
+        <Attribute> VarKind: var, type: int, index: 3 </Attribute>
+        <symbol> , </symbol>
+        <identifier> factor </identifier>
+        <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+        <symbol> ; </symbol>
+      </varDec>
+      <statements>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> divLengthx </identifier>
+          <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> lengthx </identifier>
+              <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+            </term>
+            <symbol> / </symbol>
+            <term>
+              <integerConstant> 10 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> divLengthy </identifier>
+          <Attribute> VarKind: var, type: int, index: 3 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> lengthy </identifier>
+              <Attribute> VarKind: field, type: int, index: 3 </Attribute>
+            </term>
+            <symbol> / </symbol>
+            <term>
+              <integerConstant> 10 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> bouncingDirection </identifier>
+              <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+            </term>
+            <symbol> = </symbol>
+            <term>
+              <integerConstant> 0 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> factor </identifier>
+              <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 10 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+          <keyword> else </keyword>
+          <symbol> { </symbol>
+          <statements>
+            <ifStatement>
+              <keyword> if </keyword>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <symbol> ~ </symbol>
+                          <term>
+                            <symbol> ( </symbol>
+                            <expression>
+                              <term>
+                                <identifier> lengthx </identifier>
+                                <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                              </term>
+                              <symbol> &lt; </symbol>
+                              <term>
+                                <integerConstant> 0 </integerConstant>
+                              </term>
+                            </expression>
+                            <symbol> ) </symbol>
+                          </term>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                    <symbol> &amp; </symbol>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <identifier> bouncingDirection </identifier>
+                          <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+                        </term>
+                        <symbol> = </symbol>
+                        <term>
+                          <integerConstant> 1 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+                <symbol> | </symbol>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <identifier> lengthx </identifier>
+                          <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                        </term>
+                        <symbol> &lt; </symbol>
+                        <term>
+                          <integerConstant> 0 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                    <symbol> &amp; </symbol>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <identifier> bouncingDirection </identifier>
+                          <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+                        </term>
+                        <symbol> = </symbol>
+                        <term>
+                          <symbol> ( </symbol>
+                          <expression>
+                            <term>
+                              <symbol> - </symbol>
+                              <term>
+                                <integerConstant> 1 </integerConstant>
+                              </term>
+                            </term>
+                          </expression>
+                          <symbol> ) </symbol>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> factor </identifier>
+                  <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 20 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+              <keyword> else </keyword>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> factor </identifier>
+                  <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 5 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+            </ifStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> wall </identifier>
+              <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+            </term>
+            <symbol> = </symbol>
+            <term>
+              <integerConstant> 1 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> newx </identifier>
+              <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 506 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> newy </identifier>
+              <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> divLengthy </identifier>
+                      <Attribute> VarKind: var, type: int, index: 3 </Attribute>
+                    </term>
+                    <symbol> * </symbol>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <symbol> - </symbol>
+                          <term>
+                            <integerConstant> 50 </integerConstant>
+                          </term>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+                <symbol> / </symbol>
+                <term>
+                  <identifier> divLengthx </identifier>
+                  <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> newy </identifier>
+              <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> y </identifier>
+                  <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> newy </identifier>
+                      <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> * </symbol>
+                    <term>
+                      <identifier> factor </identifier>
+                      <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+          <keyword> else </keyword>
+          <symbol> { </symbol>
+          <statements>
+            <ifStatement>
+              <keyword> if </keyword>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> wall </identifier>
+                  <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+                </term>
+                <symbol> = </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+              <symbol> { </symbol>
+              <statements>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> newx </identifier>
+                  <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 0 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> newy </identifier>
+                  <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <identifier> divLengthy </identifier>
+                          <Attribute> VarKind: var, type: int, index: 3 </Attribute>
+                        </term>
+                        <symbol> * </symbol>
+                        <term>
+                          <integerConstant> 50 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                    <symbol> / </symbol>
+                    <term>
+                      <identifier> divLengthx </identifier>
+                      <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+                <letStatement>
+                  <keyword> let </keyword>
+                  <identifier> newy </identifier>
+                  <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                  <symbol> = </symbol>
+                  <expression>
+                    <term>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> + </symbol>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <identifier> newy </identifier>
+                          <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                        </term>
+                        <symbol> * </symbol>
+                        <term>
+                          <identifier> factor </identifier>
+                          <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                  </expression>
+                  <symbol> ; </symbol>
+                </letStatement>
+              </statements>
+              <symbol> } </symbol>
+              <keyword> else </keyword>
+              <symbol> { </symbol>
+              <statements>
+                <ifStatement>
+                  <keyword> if </keyword>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> wall </identifier>
+                      <Attribute> VarKind: field, type: int, index: 14 </Attribute>
+                    </term>
+                    <symbol> = </symbol>
+                    <term>
+                      <integerConstant> 3 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                  <symbol> { </symbol>
+                  <statements>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> newy </identifier>
+                      <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <integerConstant> 250 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> newx </identifier>
+                      <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <symbol> ( </symbol>
+                          <expression>
+                            <term>
+                              <identifier> divLengthx </identifier>
+                              <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+                            </term>
+                            <symbol> * </symbol>
+                            <term>
+                              <symbol> ( </symbol>
+                              <expression>
+                                <term>
+                                  <symbol> - </symbol>
+                                  <term>
+                                    <integerConstant> 25 </integerConstant>
+                                  </term>
+                                </term>
+                              </expression>
+                              <symbol> ) </symbol>
+                            </term>
+                          </expression>
+                          <symbol> ) </symbol>
+                        </term>
+                        <symbol> / </symbol>
+                        <term>
+                          <identifier> divLengthy </identifier>
+                          <Attribute> VarKind: var, type: int, index: 3 </Attribute>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> newx </identifier>
+                      <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <identifier> x </identifier>
+                          <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                        </term>
+                        <symbol> + </symbol>
+                        <term>
+                          <symbol> ( </symbol>
+                          <expression>
+                            <term>
+                              <identifier> newx </identifier>
+                              <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                            </term>
+                            <symbol> * </symbol>
+                            <term>
+                              <identifier> factor </identifier>
+                              <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+                            </term>
+                          </expression>
+                          <symbol> ) </symbol>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                  </statements>
+                  <symbol> } </symbol>
+                  <keyword> else </keyword>
+                  <symbol> { </symbol>
+                  <statements>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> newy </identifier>
+                      <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <integerConstant> 0 </integerConstant>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> newx </identifier>
+                      <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <symbol> ( </symbol>
+                          <expression>
+                            <term>
+                              <identifier> divLengthx </identifier>
+                              <Attribute> VarKind: var, type: int, index: 2 </Attribute>
+                            </term>
+                            <symbol> * </symbol>
+                            <term>
+                              <integerConstant> 25 </integerConstant>
+                            </term>
+                          </expression>
+                          <symbol> ) </symbol>
+                        </term>
+                        <symbol> / </symbol>
+                        <term>
+                          <identifier> divLengthy </identifier>
+                          <Attribute> VarKind: var, type: int, index: 3 </Attribute>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                    <letStatement>
+                      <keyword> let </keyword>
+                      <identifier> newx </identifier>
+                      <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                      <symbol> = </symbol>
+                      <expression>
+                        <term>
+                          <identifier> x </identifier>
+                          <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                        </term>
+                        <symbol> + </symbol>
+                        <term>
+                          <symbol> ( </symbol>
+                          <expression>
+                            <term>
+                              <identifier> newx </identifier>
+                              <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+                            </term>
+                            <symbol> * </symbol>
+                            <term>
+                              <identifier> factor </identifier>
+                              <Attribute> VarKind: var, type: int, index: 4 </Attribute>
+                            </term>
+                          </expression>
+                          <symbol> ) </symbol>
+                        </term>
+                      </expression>
+                      <symbol> ; </symbol>
+                    </letStatement>
+                  </statements>
+                  <symbol> } </symbol>
+                </ifStatement>
+              </statements>
+              <symbol> } </symbol>
+            </ifStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> setDestination </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> newx </identifier>
+                <Attribute> VarKind: var, type: int, index: 0 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> newy </identifier>
+                <Attribute> VarKind: var, type: int, index: 1 </Attribute>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <symbol> } </symbol>
+</class>
