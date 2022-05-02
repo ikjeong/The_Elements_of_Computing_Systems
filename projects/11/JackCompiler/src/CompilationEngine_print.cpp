@@ -254,17 +254,6 @@ bool CompilationEngine::checkUnaryOp() const {
 
 
 
-void CompilationEngine::checkAndDefineIdentifier(const std::string& type, const VarKind varKind) {
-    if (jack_tokenizer_->tokenType() != TokenType::IDENTIFIER) throw compile_exception("Expected Identifier for VarDec.", jack_tokenizer_->getCurrentTokenLineNumber());
-
-    VarKind varKindInSymTable = symbol_table_->kindOf(jack_tokenizer_->getToken());
-    if (varKindInSymTable != VarKind::NONE) throw compile_exception("This variable is already defined.", jack_tokenizer_->getCurrentTokenLineNumber());
-
-    symbol_table_->define(jack_tokenizer_->getToken(), type, varKind);
-}
-
-
-
 void CompilationEngine::checkAndPrintKeyword(const std::string& keyword) {
     if (checkKeyword(keyword)) printKeyword();
     else throw compile_exception("Expected keyword('" + keyword + "')", jack_tokenizer_->getCurrentTokenLineNumber());

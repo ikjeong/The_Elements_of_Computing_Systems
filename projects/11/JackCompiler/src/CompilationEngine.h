@@ -33,6 +33,7 @@ private:
     /* About setting module */
     void initialize(JackTokenizer* jackTokenizer, SymbolTable* symbolTable, std::ofstream* output);
     void advance(const std::string& expectedToken);
+    void checkAndDefineIdentifier(const std::string& type, const VarKind varKind);
 
     /* Print about xml */
     void printIndent();
@@ -65,8 +66,6 @@ private:
     bool checkTerm() const;
     bool checkOp() const;
     bool checkUnaryOp() const;
-
-    void checkAndDefineIdentifier(const std::string& type, const VarKind varKind);
 
     /* Check and print token by using Tokenizer */
     void checkAndPrintKeyword(const std::string& keyword);
