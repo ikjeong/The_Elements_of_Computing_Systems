@@ -20,6 +20,15 @@ void CompilationEngine::initialize(JackTokenizer* jackTokenizer, SymbolTable* sy
     indent_depth_ = 0;
 }
 
+/**
+ * Advance Tokenizer.
+ * @param expectedToken when fail to advance, throw exception with message includes expected token.
+ */
+void CompilationEngine::advance(const std::string& expectedToken) {
+    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
+    else throw compile_exception("Next token does not exist. Compiler expects " + expectedToken + std::string("."));
+}
+
 /* =========== PUBLIC ============= */
 
 CompilationEngine::CompilationEngine() {

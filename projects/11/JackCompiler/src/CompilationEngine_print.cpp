@@ -120,7 +120,6 @@ bool CompilationEngine::checkSymbol(const std::vector<char>& symbol) const {
 bool CompilationEngine::checkIdentifier(const VarKind varKind) const {
     if (jack_tokenizer_->tokenType() != TokenType::IDENTIFIER) return false;
     
-    /* 만약 예상되는 종류의 identifier면 참을 반환 */
     VarKind varKindInSymTable = symbol_table_->kindOf(jack_tokenizer_->getToken());
     if (varKindInSymTable == VarKind::NONE) {
         if (varKind == VarKind::CLASS || varKind == VarKind::SUBROUTINE) return true;
@@ -147,7 +146,7 @@ bool CompilationEngine::checkIdentifier(const VarKind varKind) const {
  */
 bool CompilationEngine::checkIdentifier(const std::vector<VarKind>& varKind) const {
     if (jack_tokenizer_->tokenType() != TokenType::IDENTIFIER) return false;
-    /* 만약 예상되는 종류의 identifier면 참을 반환 */
+
     VarKind varKindInSymTable = symbol_table_->kindOf(jack_tokenizer_->getToken());
     for (const VarKind k : varKind) {
         if (varKindInSymTable == VarKind::NONE) {

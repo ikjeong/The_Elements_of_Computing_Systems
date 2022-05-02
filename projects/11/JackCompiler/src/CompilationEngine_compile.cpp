@@ -8,15 +8,6 @@
 /* =========== PRIVATE ============= */
 
 /**
- * Advance Tokenizer.
- * @param expectedToken when fail to advance, throw exception with message includes expected token.
- */
-void CompilationEngine::advance(const std::string& expectedToken) {
-    if (jack_tokenizer_->hasMoreTokens()) jack_tokenizer_->advance();
-    else throw compile_exception("Next token does not exist. Compiler expects " + expectedToken + std::string("."));
-}
-
-/**
  * All compileXXX() member functions must have
  * the tokenization module pointing to the token
  * that fits XXX before being called.
@@ -257,7 +248,7 @@ void CompilationEngine::compileVarDec() {
 
         try { checkAndPrintSymbol(','); }
         catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
-                
+        
         advance("identifier for varName");
         checkAndDefineIdentifier(type, VarKind::VAR);
         checkAndPrintIdentifier(VarKind::VAR);
