@@ -16,25 +16,6 @@
 /* If gcc version is under 9, use '-lstdc++fs' when compiling. */
 #include <filesystem>
 
-enum class TokenType {
-    NOTHING = 0,
-    KEYWORD = 1,
-    SYMBOL = 2,
-    IDENTIFIER = 3,
-    INT_CONST = 4,
-    STRING_CONST = 5
-};
-
-enum class VarKind {
-    NONE = 0,
-    STATIC = 1,
-    FIELD = 2,
-    ARGUMENT = 3,
-    VAR = 4,
-    CLASS = 5,
-    SUBROUTINE = 6
-};
-
 /**
  * Exception class used when a file-related error occurs.
  * Inherits std::runtime_error.
@@ -67,5 +48,42 @@ public:
     compile_exception(const std::string& message)
     : runtime_error("Compile Exception: " + message) { }
 };
+
+namespace Token {
+    enum class TokenType {
+        NOTHING = 0,
+        KEYWORD = 1,
+        SYMBOL = 2,
+        IDENTIFIER = 3,
+        INT_CONST = 4,
+        STRING_CONST = 5
+    };
+
+    /**
+     * @return TokenType to string.
+     */
+    std::string tokenTypeToString(TokenType tokenType);
+};
+using namespace Token;
+
+namespace Var {
+    enum class VarKind {
+        NONE = 0,
+        STATIC = 1,
+        FIELD = 2,
+        ARGUMENT = 3,
+        VAR = 4,
+        CLASS = 5,
+        SUBROUTINE = 6,
+        UNKNOWN = 7     // require check.
+    };
+
+    /**
+     * @return TokenType to string.
+     */
+    std::string varKindToString(VarKind varKind);
+};
+using namespace Var;
+
 
 #endif
