@@ -52,11 +52,8 @@ void CompilationEngine::compileClass() {
 
         if (checkSymbol('}')) break;
         
-        if (checkKeyword("static")) compileClassVarDec();
-        else if (checkKeyword("field")) compileClassVarDec();
-        else if (checkKeyword("constructor")) compileSubroutine();
-        else if (checkKeyword("function")) compileSubroutine();
-        else if (checkKeyword("method")) compileSubroutine();
+        if (checkVarDecKeyword()) compileClassVarDec();
+        else if (checkSubroutineDecKeyword()) compileSubroutine();
         else throw compile_exception("Expected symbol('}') or keyword(classVarDec or subroutineDec)", jack_tokenizer_->getCurrentTokenLineNumber());
     }
 
@@ -79,7 +76,10 @@ void CompilationEngine::compileClassVarDec() {
 
     /* Print type and varName. */
     advance("type");
-    checkAndPrintTypeAndVarName();
+    checkAndPrintType();
+
+    advance("identifier for varName");
+    checkAndPrintIdentifier("varName");
 
     /* Print ',' varName until ';'. */
     while (true) {
@@ -87,8 +87,11 @@ void CompilationEngine::compileClassVarDec() {
 
         if (checkSymbol(';')) break;
 
-        try { checkAndPrintCommaAndVarName(); }
+        try { checkAndPrintSymbol(','); }
         catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
+                
+        advance("identifier for varName");
+        checkAndPrintIdentifier("varName");
     }
 
     /* Print ';'. */
@@ -120,7 +123,7 @@ void CompilationEngine::compileSubroutine() {
     
     /* Print subroutineName. */
     advance("identifier for subroutineName");
-    checkAndPrintIdentifier("subroutineName or return type('void' or type(primitive type or className)");
+    checkAndPrintIdentifier("subroutineName");
 
     /* Print '('. */
     advance("symbol('(')");
@@ -154,14 +157,17 @@ void CompilationEngine::compileParameterList() {
 
     /* At first, check token.
        If first token isn't type, empty parameterList. */
-    if (!checkPrimitiveType() && jack_tokenizer_->tokenType() != TokenType::IDENTIFIER) {
+    if (!checkType()) {
         jack_tokenizer_->retreat();
         printEndTag("parameterList");
         return;
     }
     
     /* Print type and varName. */
-    checkAndPrintTypeAndVarName();  // It is expected that token points to type.
+    checkAndPrintType();
+
+    advance("identifier for varName");
+    checkAndPrintIdentifier("varName");
 
     /* Print ',' type, varName. */
     advance("symbol for closing parameterList or symbol(',') for more parameter");
@@ -171,7 +177,10 @@ void CompilationEngine::compileParameterList() {
 
         /* Print type and varName. */
         advance("type and varName for more parameter");
-        checkAndPrintTypeAndVarName();
+        checkAndPrintType();
+
+        advance("identifier for varName");
+        checkAndPrintIdentifier("varName");
 
         advance("symbol for closing parameterList or symbol(',') for more parameter");
     }
@@ -221,7 +230,10 @@ void CompilationEngine::compileVarDec() {
 
     /* Print type and varName. */
     advance("type and identifier for varName");
-    checkAndPrintTypeAndVarName();
+    checkAndPrintType();
+
+    advance("identifier for varName");
+    checkAndPrintIdentifier("varName");
 
     /* Print ',' varName until ';'. */
     while (true) {
@@ -229,8 +241,11 @@ void CompilationEngine::compileVarDec() {
 
         if (checkSymbol(';')) break;
 
-        try { checkAndPrintCommaAndVarName(); }
+        try { checkAndPrintSymbol(','); }
         catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
+                
+        advance("identifier for varName");
+        checkAndPrintIdentifier("varName");
     }
 
     /* Print ';'. */
@@ -498,16 +513,16 @@ void CompilationEngine::compileTerm() {
     printStartTag("term");
 
     /* Print term. It must be term. */
-    if (jack_tokenizer_->tokenType() == TokenType::INT_CONST) {
+    if (checkIntegerConstant()) {
         /* Print integerConstant. */
         printIntegerConstant();
-    } else if (jack_tokenizer_->tokenType() == TokenType::STRING_CONST) {
+    } else if (checkStringConstant()) {
         /* Print stringConstant. */
         printStringConstant();
     } else if (checkKeywordConstant()) {
         /* Print keywordConstant. */
         printKeyword();
-    } else if (checkSymbol('-') || checkSymbol('~')) {
+    } else if (checkUnaryOp()) {
         /* Print unaryOp. */
         printSymbol();
 
@@ -532,7 +547,7 @@ void CompilationEngine::compileTerm() {
         if (checkSymbol('[')) {
             /* Print varName. */
             jack_tokenizer_->retreat();
-            printIdentifier();
+            checkAndPrintIdentifier("varName");
 
             /* Print '['. */
             advance("symbol('[')");
@@ -553,7 +568,7 @@ void CompilationEngine::compileTerm() {
         } else {
             /* Print varName. */
             jack_tokenizer_->retreat();
-            printIdentifier();
+            checkAndPrintIdentifier("varName");
         }
     } else {
         throw compile_exception("Invalid function call. Debug whether the token element is term before calling compileTerm().");
