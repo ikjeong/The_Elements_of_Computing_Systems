@@ -68,20 +68,25 @@ using namespace Token;
 
 namespace Var {
     enum class VarKind {
-        NONE = 0,
+        NONE = 0,       // if it isn't in table, return NONE.
         STATIC = 1,
         FIELD = 2,
         ARGUMENT = 3,
         VAR = 4,
-        CLASS = 5,
-        SUBROUTINE = 6,
-        UNKNOWN = 7     // require check.
+        CLASS = 5,      // class isn't in table. so symbolTable need to return NONE.
+        SUBROUTINE = 6, // subroutine isn't in table. so symbolTable need to return NONE.
+        VARNAME = 7     // require check. It will be static, field, argument, var.
     };
 
     /**
      * @return TokenType to string.
      */
     std::string varKindToString(VarKind varKind);
+
+    /**
+     * @return String to VarKind.
+     */
+    VarKind stringToVarKind(const std::string& varKind);
 };
 using namespace Var;
 

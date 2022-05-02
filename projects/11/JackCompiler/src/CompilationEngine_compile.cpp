@@ -40,7 +40,7 @@ void CompilationEngine::compileClass() {
 
     /* Print className. */
     advance("identifier for className");
-    checkAndPrintIdentifier("className");
+    checkAndPrintIdentifier(VarKind::CLASS);
 
     /* Print '{'. */
     advance("symbol('{')");
@@ -73,13 +73,17 @@ void CompilationEngine::compileClassVarDec() {
 
     /* Print 'static' or 'field'. */
     printKeyword(); // It must be 'static' or 'field'.
+    VarKind varKind = stringToVarKind(jack_tokenizer_->getToken());
 
     /* Print type and varName. */
     advance("type");
     checkAndPrintType();
+    std::string type = jack_tokenizer_->getToken();
 
+    /* Define new var. */
     advance("identifier for varName");
-    checkAndPrintIdentifier("varName");
+    checkAndDefineIdentifier(type, varKind);
+    checkAndPrintIdentifier(varKind);
 
     /* Print ',' varName until ';'. */
     while (true) {
@@ -91,7 +95,8 @@ void CompilationEngine::compileClassVarDec() {
         catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
                 
         advance("identifier for varName");
-        checkAndPrintIdentifier("varName");
+        checkAndDefineIdentifier(type, varKind);
+        checkAndPrintIdentifier(varKind);
     }
 
     /* Print ';'. */
@@ -110,7 +115,7 @@ void CompilationEngine::compileSubroutine() {
     printStartTag("subroutineDec");
 
     /* Print 'constructor' or 'function', or 'method'. */
-    printKeyword(); // It must be 'static' or 'field', or 'method'.
+    printKeyword(); // It must be 'constructor' or 'function', or 'method'.
 
     /* Print type or 'void'. */
     try {
@@ -123,11 +128,14 @@ void CompilationEngine::compileSubroutine() {
     
     /* Print subroutineName. */
     advance("identifier for subroutineName");
-    checkAndPrintIdentifier("subroutineName");
+    checkAndPrintIdentifier(VarKind::SUBROUTINE);
 
     /* Print '('. */
     advance("symbol('(')");
     checkAndPrintSymbol('(');
+
+    /* Start Symbol Table for subroutine. */
+    symbol_table_->startSubroutine();
 
     /* Print parameterList. */
     advance("type for parameter or symbol ')'");
@@ -164,10 +172,12 @@ void CompilationEngine::compileParameterList() {
     }
     
     /* Print type and varName. */
+    std::string type = jack_tokenizer_->getToken();
     checkAndPrintType();
 
     advance("identifier for varName");
-    checkAndPrintIdentifier("varName");
+    checkAndDefineIdentifier(type, VarKind::ARGUMENT);
+    checkAndPrintIdentifier(VarKind::ARGUMENT);
 
     /* Print ',' type, varName. */
     advance("symbol for closing parameterList or symbol(',') for more parameter");
@@ -177,10 +187,12 @@ void CompilationEngine::compileParameterList() {
 
         /* Print type and varName. */
         advance("type and varName for more parameter");
+        std::string type = jack_tokenizer_->getToken();
         checkAndPrintType();
 
         advance("identifier for varName");
-        checkAndPrintIdentifier("varName");
+        checkAndDefineIdentifier(type, VarKind::ARGUMENT);
+        checkAndPrintIdentifier(VarKind::ARGUMENT);
 
         advance("symbol for closing parameterList or symbol(',') for more parameter");
     }
@@ -230,10 +242,12 @@ void CompilationEngine::compileVarDec() {
 
     /* Print type and varName. */
     advance("type and identifier for varName");
+    std::string type = jack_tokenizer_->getToken();
     checkAndPrintType();
 
     advance("identifier for varName");
-    checkAndPrintIdentifier("varName");
+    checkAndDefineIdentifier(type, VarKind::VAR);
+    checkAndPrintIdentifier(VarKind::VAR);
 
     /* Print ',' varName until ';'. */
     while (true) {
@@ -245,7 +259,8 @@ void CompilationEngine::compileVarDec() {
         catch(compile_exception& e) { throw compile_exception("Expected symbol(';') or symbol(',')", jack_tokenizer_->getCurrentTokenLineNumber()); }
                 
         advance("identifier for varName");
-        checkAndPrintIdentifier("varName");
+        checkAndDefineIdentifier(type, VarKind::VAR);
+        checkAndPrintIdentifier(VarKind::VAR);
     }
 
     /* Print ';'. */
@@ -315,7 +330,7 @@ void CompilationEngine::compileLet() {
 
     /* Print varName. */
     advance("identifier for varName");
-    checkAndPrintIdentifier("varName.");
+    checkAndPrintIdentifier(VarKind::VARNAME);
 
     /* If token is '[', print '[' expression ']'. If token is '=', print it. */
     advance("symbol('[') or symbol('=')");
@@ -547,7 +562,7 @@ void CompilationEngine::compileTerm() {
         if (checkSymbol('[')) {
             /* Print varName. */
             jack_tokenizer_->retreat();
-            checkAndPrintIdentifier("varName");
+            checkAndPrintIdentifier(VarKind::VARNAME);
 
             /* Print '['. */
             advance("symbol('[')");
@@ -568,7 +583,7 @@ void CompilationEngine::compileTerm() {
         } else {
             /* Print varName. */
             jack_tokenizer_->retreat();
-            checkAndPrintIdentifier("varName");
+            checkAndPrintIdentifier(VarKind::VARNAME);
         }
     } else {
         throw compile_exception("Invalid function call. Debug whether the token element is term before calling compileTerm().");

@@ -43,7 +43,7 @@ private:
 
     void printKeyword();
     void printSymbol();
-    void printIdentifier();
+    void printIdentifier(const VarKind varKind, const std::string& type = "", const int index = 0);
     void printIntegerConstant();
     void printStringConstant();
 
@@ -52,8 +52,8 @@ private:
     bool checkKeyword(const std::vector<std::string>& keyword) const;
     bool checkSymbol(const char symbol) const;
     bool checkSymbol(const std::vector<char>& symbol) const;
-    bool checkIdentifier(const std::string& expectedIdentifier) const;
-    bool checkIdentifier(const std::vector<std::string>& expectedIdentifier) const;
+    bool checkIdentifier(const VarKind varKind) const;
+    bool checkIdentifier(const std::vector<VarKind>& varKind) const;
     bool checkIntegerConstant() const;
     bool checkStringConstant() const;
 
@@ -66,13 +66,15 @@ private:
     bool checkOp() const;
     bool checkUnaryOp() const;
 
+    void checkAndDefineIdentifier(const std::string& type, const VarKind varKind);
+
     /* Check and print token by using Tokenizer */
     void checkAndPrintKeyword(const std::string& keyword);
     void checkAndPrintKeyword(const std::vector<std::string>& keyword);
     void checkAndPrintSymbol(const char symbol);
     void checkAndPrintSymbol(const std::vector<char>& symbol);
-    void checkAndPrintIdentifier(const std::string& expectedIdentifier);
-    void checkAndPrintIdentifier(const std::vector<std::string>& expectedIdentifier);
+    void checkAndPrintIdentifier(const VarKind varKind);
+    void checkAndPrintIdentifier(const std::vector<VarKind>& varKind);
     void checkAndPrintIntegerConstant();
     void checkAndPrintStringConstant();
 

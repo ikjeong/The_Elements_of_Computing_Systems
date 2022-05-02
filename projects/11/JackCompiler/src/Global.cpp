@@ -33,8 +33,23 @@ std::string Var::varKindToString(VarKind varKind) {
         { VarKind::CLASS, "class" },
         { VarKind::SUBROUTINE, "subroutine" }
     };
-
     auto   it  = VarKindStrings.find(varKind);
     if (it == VarKindStrings.end()) throw compile_exception("Can't change VarKind to string.");
+    else return it->second;
+}
+
+/**
+ * @return String to VarKind.
+ */
+VarKind Var::stringToVarKind(const std::string& varKind) {
+    const std::map<std::string, VarKind> VarKindStrings {
+        { "static", VarKind::STATIC },
+        { "field", VarKind::FIELD  },
+        { "argument", VarKind::ARGUMENT },
+        { "var", VarKind::VAR }
+    };
+
+    auto   it  = VarKindStrings.find(varKind);
+    if (it == VarKindStrings.end()) throw compile_exception("Can't change string to VarKind.");
     else return it->second;
 }
