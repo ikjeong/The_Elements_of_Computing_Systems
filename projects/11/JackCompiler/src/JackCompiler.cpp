@@ -44,24 +44,11 @@ void JackCompiler::compileFile(const std::string& path) {
     /* Initalize Symbol Table. */
     symbol_table_->resetTable();
 
-    /* Make XXXM.xml output file and ready to write. */
-    /* It need to be replaced by the VMWriter output module. */
-    setOutputFile(path);
+    /* Set Output File. */
+    vm_writer_->setOutputFile(path);
 
     /* Compiled and printed using the CompilationEngine module. */
-    compilation_engine_->compile(jack_tokenizer_.get(), symbol_table_.get(), &output_);
-}
-
-/**
- * Set XXXM.xml output file. Input file(XXX.jack) must be .jack file.
- */
-void JackCompiler::setOutputFile(std::string path) {
-    if (output_.is_open()) output_.close();
-    if (!isJackFile(path)) throw file_exception(path);
-    path.erase(path.find(".jack"), std::string::npos);
-    path.append(".xml");
-    output_.open(path);
-    if (output_.fail()) throw file_exception(path);
+    compilation_engine_->compile(jack_tokenizer_.get(), symbol_table_.get(), vm_writer_.get());
 }
 
 /* =========== PUBLIC ============= */
@@ -72,13 +59,12 @@ void JackCompiler::setOutputFile(std::string path) {
  */
 JackCompiler::JackCompiler(const std::string& path)
 : jack_tokenizer_(new JackTokenizer()), symbol_table_(new SymbolTable()),
-  compilation_engine_(new CompilationEngine()) {
+  compilation_engine_(new CompilationEngine()), vm_writer_(new VMWriter()) {
     root_path_= path;
     loadFilePaths(path);
 }
 
 JackCompiler::~JackCompiler() {
-    if (output_.is_open()) output_.close();
 }
 
 /**

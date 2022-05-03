@@ -22,16 +22,17 @@
 #include "Global.h"
 #include "JackTokenizer.h"
 #include "SymbolTable.h"
+#include "VMWriter.h"
 
 class CompilationEngine {
 private:
     JackTokenizer* jack_tokenizer_;
     SymbolTable* symbol_table_;
-    std::ofstream* output_;
+    VMWriter* vm_writer_;
     int indent_depth_;
 
     /* About setting module */
-    void initialize(JackTokenizer* jackTokenizer, SymbolTable* symbolTable, std::ofstream* output);
+    void initialize(JackTokenizer* jackTokenizer, SymbolTable* symbolTable, VMWriter* vmWriter);
     void advance(const std::string& expectedToken);
     void checkAndDefineIdentifier(const std::string& type, const VarKind varKind);
 
@@ -101,7 +102,7 @@ public:
     CompilationEngine();
     ~CompilationEngine();
 
-    void compile(JackTokenizer* JackTokenizer, SymbolTable* symbolTable, std::ofstream* output);
+    void compile(JackTokenizer* JackTokenizer, SymbolTable* symbolTable, VMWriter* vmWriter);
 };
 
 #endif
