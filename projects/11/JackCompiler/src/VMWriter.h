@@ -32,7 +32,7 @@ public:
     VMWriter();
     ~VMWriter();
 
-    void setOutputFile(const std::string& path);
+    void setOutputFile(std::string path);
     void close();
 
     void writePush(const Segment segment, const int index);

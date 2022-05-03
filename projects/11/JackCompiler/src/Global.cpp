@@ -16,7 +16,7 @@ std::string Token::tokenTypeToString(TokenType tokenType) {
         { TokenType::STRING_CONST, "stringConstant" }
     };
 
-    auto   it  = TokenTypeStrings.find(tokenType);
+    auto it  = TokenTypeStrings.find(tokenType);
     if (it == TokenTypeStrings.end()) throw compile_exception("Can't change TokenType to string.");
     else return it->second;
 }
@@ -33,7 +33,7 @@ std::string Var::varKindToString(VarKind varKind) {
         { VarKind::CLASS, "class" },
         { VarKind::SUBROUTINE, "subroutine" }
     };
-    auto   it  = VarKindStrings.find(varKind);
+    auto it  = VarKindStrings.find(varKind);
     if (it == VarKindStrings.end()) throw compile_exception("Can't change VarKind to string.");
     else return it->second;
 }
@@ -49,7 +49,46 @@ VarKind Var::stringToVarKind(const std::string& varKind) {
         { "var", VarKind::VAR }
     };
 
-    auto   it  = VarKindStrings.find(varKind);
+    auto it  = VarKindStrings.find(varKind);
     if (it == VarKindStrings.end()) throw compile_exception("Can't change string to VarKind.");
+    else return it->second;
+}
+
+/**
+ * @return Segment to string.
+ */
+std::string VM::segmentToString(Segment segment) {
+    const std::map<Segment, std::string> SegmentStrings {
+        { Segment::CONST, "constant" },
+        { Segment::ARG, "argument" },
+        { Segment::LOCAL, "local" },
+        { Segment::STATIC, "static" },
+        { Segment::THIS, "this" },
+        { Segment::THAT, "that" },
+        { Segment::POINTER, "pointer" },
+        { Segment::TEMP, "temp" }
+    };
+    auto it  = SegmentStrings.find(segment);
+    if (it == SegmentStrings.end()) throw compile_exception("Can't change Segment to string.");
+    else return it->second;
+}
+
+/**
+ * @return Command to string.
+ */
+std::string VM::commandToString(Command command) {
+    const std::map<Command, std::string> CommandStrings {
+        { Command::ADD, "add" },
+        { Command::SUB, "sub" },
+        { Command::NEG, "neg" },
+        { Command::EQ, "eq" },
+        { Command::GT, "gt" },
+        { Command::LT, "lt" },
+        { Command::AND, "and" },
+        { Command::OR, "or" },
+        { Command::NOT, "not" }
+    };
+    auto it  = CommandStrings.find(command);
+    if (it == CommandStrings.end()) throw compile_exception("Can't change Command to string.");
     else return it->second;
 }
