@@ -90,5 +90,27 @@ namespace Var {
 };
 using namespace Var;
 
+enum class Segment {
+    CONST = 0,
+    ARG = 1,
+    LOCAL = 2,
+    STATIC = 3,
+    THIS = 4,
+    THAT = 5,
+    POINTER = 6,
+    TEMP = 7
+};
+
+enum class Command {
+    ADD = 0,
+    SUB = 1,
+    NEG = 2,
+    EQ = 3,
+    GT = 4,
+    LT = 5,
+    AND = 6,
+    OR = 7,
+    NOT = 8
+};
 
 #endif
