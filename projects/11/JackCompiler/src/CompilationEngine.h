@@ -29,12 +29,17 @@ private:
     JackTokenizer* jack_tokenizer_;
     SymbolTable* symbol_table_;
     VMWriter* vm_writer_;
+    std::string file_name_;
     int indent_depth_;
+    int while_label_index_;
+    int if_label_index_;
 
     /* About setting module */
-    void initialize(JackTokenizer* jackTokenizer, SymbolTable* symbolTable, VMWriter* vmWriter);
+    void initialize(JackTokenizer* jackTokenizer, SymbolTable* symbolTable, VMWriter* vmWriter, const std::string& path);
     void advance(const std::string& expectedToken);
     void checkAndDefineIdentifier(const std::string& type, const VarKind varKind);
+    void pushVariable(const VarKind varKind, const int index);
+    void popToVariable(const VarKind varKind, const int index);
 
     /* Print about xml */
     void printIndent();
@@ -79,14 +84,14 @@ private:
     void checkAndPrintStringConstant();
 
     void checkAndPrintType();
-    void checkAndPrintSubroutineCall();
+    void checkAndCompileSubroutineCall();
 
     /* Compile XXX */
     void compileClass();
     void compileClassVarDec();
     void compileSubroutine();
-    void compileParameterList();
-    void compileSubroutineBody();
+    void compileParameterList(const std::string& subroutineType);
+    void compileSubroutineBody(const std::string& subroutineType, const std::string& subroutineName);
     void compileVarDec();
     void compileStatements();
     void compileDo();
@@ -96,13 +101,13 @@ private:
     void compileIf();
     void compileExpression();
     void compileTerm();
-    void compileExpressionList();
+    int compileExpressionList();
 
 public:
     CompilationEngine();
     ~CompilationEngine();
 
-    void compile(JackTokenizer* JackTokenizer, SymbolTable* symbolTable, VMWriter* vmWriter);
+    void compile(JackTokenizer* JackTokenizer, SymbolTable* symbolTable, VMWriter* vmWriter, const std::string& path);
 };
 
 #endif

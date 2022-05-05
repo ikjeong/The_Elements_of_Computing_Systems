@@ -369,37 +369,70 @@ void CompilationEngine::checkAndPrintType() {
  * subroutineCall: subroutineName '(' expressionList ')' |
  *                 (className | varName) '.' subroutineName '(' expressionList ')'
  */
-void CompilationEngine::checkAndPrintSubroutineCall() {
-    /* If token is '.', print '.' and subroutineName. If token is '(', just print it. */
+void CompilationEngine::checkAndCompileSubroutineCall() {
+    bool hasDot = false;
+    VarKind varKind;
+    std::string identifierName = "";
+    std::string subroutineName = "";
+
+    /* If token is '.', compile method or function call. If token is '(', just compile own method call. */
     advance("symbol('.') or symbol('(')");
     if (checkSymbol('.')) {
-        /* Print identifier for className or varName. */
+        hasDot = true;
+        
+        /* Check identifier for className or varName. */
         jack_tokenizer_->retreat();
         std::vector<VarKind> expectedIdentifier = {VarKind::CLASS, VarKind::VARNAME};
-        checkAndPrintIdentifier(expectedIdentifier);
+        checkIdentifier(expectedIdentifier);
 
-        /* Print '.'. */
+        identifierName = jack_tokenizer_->getToken();
+        varKind = symbol_table_->kindOf(identifierName);
+        if (varKind == VarKind::NONE) varKind = VarKind::CLASS;
+
+        /* Check '.'. */
         advance("symbol('.')");
-        checkAndPrintSymbol('.');
+        checkSymbol('.');
 
-        /* Print subroutineName. */
+        /* Check subroutineName. */
         advance("identifier for subroutineName");
-        checkAndPrintIdentifier(VarKind::SUBROUTINE);
+        checkIdentifier(VarKind::SUBROUTINE);
+        subroutineName = jack_tokenizer_->getToken();
     } else {
-        /* Print identifier for subroutineName. */
+        /* Check identifier for subroutineName. */
         jack_tokenizer_->retreat();
-        checkAndPrintIdentifier(VarKind::SUBROUTINE);
+        checkIdentifier(VarKind::SUBROUTINE);
+        subroutineName = jack_tokenizer_->getToken();
     }
 
-    /* Print '('. */
+    /* If method call, push pointer. */
+    if (hasDot && varKind != VarKind::CLASS) {
+        VarKind vK = symbol_table_->kindOf(identifierName);
+        int index = symbol_table_->indexOf(identifierName);
+
+        pushVariable(vK, index);
+    } else if (!hasDot) {
+        vm_writer_->writePush(Segment::POINTER, 0);
+    }
+
+    /* Check '('. */
     advance("symbol('(')");
-    checkAndPrintSymbol('(');
+    checkSymbol('(');
 
-    /* Print expressionList. It can be empty expressionList. */
+    /* Compile expressionList. It can be empty expressionList. */
     advance("expressionList or symbol(')')");
-    compileExpressionList();
+    int nArgs = compileExpressionList();
 
-    /* Print ')'. */
+    /* Check ')'. */
     advance("symbol(')')");
-    checkAndPrintSymbol(')');
+    checkSymbol(')');
+
+    /* Write vm code. */
+    if (hasDot) {
+        if (varKind == VarKind::CLASS)
+            vm_writer_->writeCall(identifierName + "." + subroutineName, nArgs);
+        else
+            vm_writer_->writeCall(identifierName + "." + subroutineName, nArgs+1);
+    } else {
+        vm_writer_->writeCall(file_name_ + "." + subroutineName, nArgs+1);
+    }
 }
