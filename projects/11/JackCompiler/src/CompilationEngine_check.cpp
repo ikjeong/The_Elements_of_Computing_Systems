@@ -7,74 +7,6 @@
 
 /* =========== PRIVATE ============= */
 
-/**
- * printXXX() functions need to be checked before being called.
- * checkAndPrintXXX() don't need to be checked before being called.
- */
-
-void CompilationEngine::printIndent() {
-    for (int i = 0; i < indent_depth_ * 2; ++i)
-        *output_ << ' ';
-}
-
-void CompilationEngine::printStartTag(const std::string& tag) {
-    printIndent();
-    *output_ << "<" << tag << ">" << std::endl;
-    ++indent_depth_;
-}
-
-void CompilationEngine::printEndTag(const std::string& tag) {
-    --indent_depth_;
-    printIndent();
-    *output_ << "</" << tag << ">" << std::endl;
-}
-
-void CompilationEngine::printTerminalNode(const TokenType tokenType, const std::string& token) {
-    printIndent();
-    *output_ << "<" << tokenTypeToString(tokenType) << "> ";
-    if (tokenType == TokenType::SYMBOL) *output_ << changeSymboltoXmlSymbol(token[0]);
-    else                                *output_ << token;
-    *output_ << " </" << tokenTypeToString(tokenType) << ">" << std::endl;
-}
-
-std::string CompilationEngine::changeSymboltoXmlSymbol(const char& symbol) const {
-    if (symbol == '<') return "&lt;";
-    else if (symbol == '>') return "&gt;";
-    else if (symbol == '\"') return "&quot;";
-    else if (symbol == '&') return "&amp;";
-    else return std::string(1, symbol);
-}
-
-
-
-void CompilationEngine::printKeyword() {
-    printTerminalNode(TokenType::KEYWORD, jack_tokenizer_->getToken());
-}
-
-void CompilationEngine::printSymbol() {
-    printTerminalNode(TokenType::SYMBOL, jack_tokenizer_->getToken());
-}
-
-void CompilationEngine::printIdentifier(const VarKind varKind, const std::string& type, const int index) {
-    printTerminalNode(TokenType::IDENTIFIER, jack_tokenizer_->getToken());
-    printIndent();
-    *output_ << "<Attribute> ";
-    *output_ << "VarKind: " << varKindToString(varKind);
-    if (varKind != VarKind::CLASS && varKind != VarKind::SUBROUTINE) *output_ << ", type: " << type;
-    if (varKind != VarKind::CLASS && varKind != VarKind::SUBROUTINE) *output_ << ", index: " << index;
-    *output_ << " </Attribute>" << std::endl;
-}
-
-void CompilationEngine::printIntegerConstant() {
-    printTerminalNode(TokenType::INT_CONST, jack_tokenizer_->getToken());
-}
-
-void CompilationEngine::printStringConstant() {
-    printTerminalNode(TokenType::STRING_CONST, jack_tokenizer_->getToken());
-}
-
-
-
 bool CompilationEngine::checkKeyword(const std::string& keyword) const {
     if (jack_tokenizer_->tokenType() == TokenType::KEYWORD &&
         jack_tokenizer_->getToken() == keyword) return true;
@@ -254,117 +186,6 @@ bool CompilationEngine::checkUnaryOp() const {
 
 
 
-void CompilationEngine::checkAndPrintKeyword(const std::string& keyword) {
-    if (checkKeyword(keyword)) printKeyword();
-    else throw compile_exception("Expected keyword('" + keyword + "')", jack_tokenizer_->getCurrentTokenLineNumber());
-}
-
-void CompilationEngine::checkAndPrintKeyword(const std::vector<std::string>& keyword) {
-    if (checkKeyword(keyword)) printKeyword();
-    else {
-        std::string exceptionMessage = "Expected keyword('";
-        for (const std::string& k : keyword) {
-            exceptionMessage.append(k);
-            exceptionMessage.append("or ");
-        }
-        for (int i = 0; i < std::string("or ").size(); ++i)
-            exceptionMessage.pop_back();
-        exceptionMessage.append("')");
-        throw compile_exception(exceptionMessage, jack_tokenizer_->getCurrentTokenLineNumber());
-    }
-}
-
-void CompilationEngine::checkAndPrintSymbol(const char symbol) {
-    if (checkSymbol(symbol)) printSymbol();
-    else throw compile_exception("Expected symbol('" + std::string(1, symbol) + std::string("')"), jack_tokenizer_->getCurrentTokenLineNumber());
-}
-
-void CompilationEngine::checkAndPrintSymbol(const std::vector<char>& symbol) {
-    if (checkSymbol(symbol)) printSymbol();
-    else {
-        std::string exceptionMessage = "Expected symbol('";
-        for (const char s : symbol) {
-            exceptionMessage.push_back(s);
-            exceptionMessage.append(" or ");
-        }
-        for (int i = 0; i < std::string(" or ").size(); ++i)
-            exceptionMessage.pop_back();
-        exceptionMessage.append("')");
-        throw compile_exception(exceptionMessage, jack_tokenizer_->getCurrentTokenLineNumber());
-    }
-}
-
-/**
- * Check that the identifier you want to verify is same varKind.
- * VARNAME: Use for identifiers that must have been declared. This is one of var, argument, field, static.
- * VAR: The identifier must be declared as a regional variable.
- * ARGUMENT: The identifier must be declared as a parameter.
- * STATIC: Must be a variable declared static.
- * FIELD: Must be a variable declared field.
- * CLASS: As the class name, symbolTable returns NONE.
- * SUBROUTINE: As a subroutine name, symbolTable returns NONE.
- * 
- * Caution: It is judged by the symbol table, so it is impossible to confirm that it is both CLASS and SUBROUTINE.
- */
-void CompilationEngine::checkAndPrintIdentifier(const VarKind varKind) {
-    if (checkIdentifier(varKind)) {
-        VarKind varKindInSymTable = symbol_table_->kindOf(jack_tokenizer_->getToken());
-        if (varKindInSymTable == VarKind::NONE) printIdentifier(varKind);
-        else printIdentifier(varKindInSymTable, symbol_table_->typeOf(jack_tokenizer_->getToken()), symbol_table_->indexOf(jack_tokenizer_->getToken()));
-    } else throw compile_exception("Expected Identifier('" + varKindToString(varKind) + "')", jack_tokenizer_->getCurrentTokenLineNumber());
-}
-
-/**
- * Check that the identifier you want to verify is same varKind.
- * VARNAME: Use for identifiers that must have been declared. This is one of var, argument, field, static.
- * VAR: The identifier must be declared as a regional variable.
- * ARGUMENT: The identifier must be declared as a parameter.
- * STATIC: Must be a variable declared static.
- * FIELD: Must be a variable declared field.
- * CLASS: As the class name, symbolTable returns NONE.
- * SUBROUTINE: As a subroutine name, symbolTable returns NONE.
- * 
- * Caution: It is judged by the symbol table, so it is impossible to confirm that it is both CLASS and SUBROUTINE.
- */
-void CompilationEngine::checkAndPrintIdentifier(const std::vector<VarKind>& varKind) {
-    if (checkIdentifier(varKind)) {
-        VarKind varKindInSymTable = symbol_table_->kindOf(jack_tokenizer_->getToken());
-        if (varKindInSymTable == VarKind::NONE && std::find(varKind.begin(), varKind.end(), VarKind::CLASS) != varKind.end()) printIdentifier(VarKind::CLASS);
-        else if (varKindInSymTable == VarKind::NONE && std::find(varKind.begin(), varKind.end(), VarKind::SUBROUTINE) != varKind.end()) printIdentifier(VarKind::SUBROUTINE);
-        else printIdentifier(varKindInSymTable, symbol_table_->typeOf(jack_tokenizer_->getToken()), symbol_table_->indexOf(jack_tokenizer_->getToken()));
-    } else {
-        std::string exceptionMessage = "Expected Identifier('";
-        for (const VarKind k : varKind) {
-            exceptionMessage.append(varKindToString(k));
-            exceptionMessage.append(" or ");
-        }
-        for (int i = 0; i < std::string(" or ").size(); ++i)
-            exceptionMessage.pop_back();
-        exceptionMessage.append("')");
-        throw compile_exception(exceptionMessage, jack_tokenizer_->getCurrentTokenLineNumber());
-    }
-}
-
-void CompilationEngine::checkAndPrintIntegerConstant() {
-    if (checkIntegerConstant()) printIntegerConstant();
-    else throw compile_exception("Expected Integer Constant", jack_tokenizer_->getCurrentTokenLineNumber());
-}
-
-void CompilationEngine::checkAndPrintStringConstant() {
-    if (checkStringConstant()) printStringConstant();
-    else throw compile_exception("Expected String Constant", jack_tokenizer_->getCurrentTokenLineNumber());
-
-}
-
-/**
- * type: 'int' | 'char' | 'boolean' | className
- */
-void CompilationEngine::checkAndPrintType() {
-    if (checkIdentifier(VarKind::CLASS)) printIdentifier(VarKind::CLASS);
-    else if (checkPrimitiveType()) printKeyword();
-    else throw compile_exception("Expected type(primitive type or className)", jack_tokenizer_->getCurrentTokenLineNumber());
-}
-
 /**
  * subroutineCall: subroutineName '(' expressionList ')' |
  *                 (className | varName) '.' subroutineName '(' expressionList ')'
@@ -406,10 +227,8 @@ void CompilationEngine::checkAndCompileSubroutineCall() {
 
     /* If method call, push pointer. */
     if (hasDot && varKind != VarKind::CLASS) {
-        VarKind vK = symbol_table_->kindOf(identifierName);
         int index = symbol_table_->indexOf(identifierName);
-
-        pushVariable(vK, index);
+        pushVariable(varKind, index);
     } else if (!hasDot) {
         vm_writer_->writePush(Segment::POINTER, 0);
     }
@@ -431,7 +250,7 @@ void CompilationEngine::checkAndCompileSubroutineCall() {
         if (varKind == VarKind::CLASS)
             vm_writer_->writeCall(identifierName + "." + subroutineName, nArgs);
         else
-            vm_writer_->writeCall(identifierName + "." + subroutineName, nArgs+1);
+            vm_writer_->writeCall(symbol_table_->typeOf(identifierName) + "." + subroutineName, nArgs+1);
     } else {
         vm_writer_->writeCall(file_name_ + "." + subroutineName, nArgs+1);
     }
