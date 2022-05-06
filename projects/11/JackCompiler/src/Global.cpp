@@ -66,7 +66,8 @@ std::string VM::segmentToString(Segment segment) {
         { Segment::THIS, "this" },
         { Segment::THAT, "that" },
         { Segment::POINTER, "pointer" },
-        { Segment::TEMP, "temp" }
+        { Segment::TEMP, "temp" },
+        { Segment::NONE, "" }
     };
     auto it  = SegmentStrings.find(segment);
     if (it == SegmentStrings.end()) throw compile_exception("Can't change Segment to string.");
@@ -90,5 +91,36 @@ std::string VM::commandToString(Command command) {
     };
     auto it  = CommandStrings.find(command);
     if (it == CommandStrings.end()) throw compile_exception("Can't change Command to string.");
+    else return it->second;
+}
+
+/**
+ * @return string to binray operation command.
+ */
+Command VM::stringToBinaryOperation(const std::string& command) {
+    const std::map<std::string, Command> StringCommands {
+        { "+", Command::ADD },
+        { "-", Command::SUB },
+        { "=", Command::EQ },
+        { ">", Command::GT},
+        { "<", Command::LT},
+        { "&", Command::AND },
+        { "|", Command::OR }
+    };
+    auto it  = StringCommands.find(command);
+    if (it == StringCommands.end()) throw compile_exception("Can't change string to Command.");
+    else return it->second;
+}
+
+/**
+ * @return string to unary operation command.
+ */
+Command VM::stringToUnaryOperation(const std::string& command) {
+    const std::map<std::string, Command> StringCommands {
+        { "~", Command::NOT },
+        { "-", Command::NEG }
+    };
+    auto it  = StringCommands.find(command);
+    if (it == StringCommands.end()) throw compile_exception("Can't change string to Command.");
     else return it->second;
 }

@@ -79,7 +79,7 @@ namespace Var {
     };
 
     /**
-     * @return TokenType to string.
+     * @return VarKind to string.
      */
     std::string varKindToString(VarKind varKind);
 
@@ -123,6 +123,16 @@ namespace VM {
      * @return Command to string.
      */
     std::string commandToString(Command command);
+
+    /**
+     * @return string to binray operation command.
+     */
+    Command stringToBinaryOperation(const std::string& command);
+
+    /**
+     * @return string to unary operation command.
+     */
+    Command stringToUnaryOperation(const std::string& command);
 }
 using namespace VM;
 

@@ -48,7 +48,7 @@ void JackCompiler::compileFile(const std::string& path) {
     vm_writer_->setOutputFile(path);
 
     /* Compiled and printed using the CompilationEngine module. */
-    compilation_engine_->compile(jack_tokenizer_.get(), symbol_table_.get(), vm_writer_.get());
+    compilation_engine_->compile(jack_tokenizer_.get(), symbol_table_.get(), vm_writer_.get(), path);
 }
 
 /* =========== PUBLIC ============= */
