@@ -29,6 +29,7 @@ private:
     JackTokenizer* jack_tokenizer_;
     SymbolTable* symbol_table_;
     VMWriter* vm_writer_;
+    
     std::string file_name_;
     int indent_depth_;
     int while_label_index_;
@@ -40,19 +41,6 @@ private:
     void checkAndDefineIdentifier(const std::string& type, const VarKind varKind);
     void pushVariable(const VarKind varKind, const int index);
     void popToVariable(const VarKind varKind, const int index);
-
-    /* Print about xml */
-    void printIndent();
-    void printStartTag(const std::string& tag);
-    void printEndTag(const std::string& tag);
-    void printTerminalNode(const TokenType tokenType, const std::string& token);
-    std::string changeSymboltoXmlSymbol(const char& symbol) const;
-
-    void printKeyword();
-    void printSymbol();
-    void printIdentifier(const VarKind varKind, const std::string& type = "", const int index = 0);
-    void printIntegerConstant();
-    void printStringConstant();
 
     /* Check token by using Tokenizer */
     bool checkKeyword(const std::string& keyword) const;
@@ -73,17 +61,7 @@ private:
     bool checkOp() const;
     bool checkUnaryOp() const;
 
-    /* Check and print token by using Tokenizer */
-    void checkAndPrintKeyword(const std::string& keyword);
-    void checkAndPrintKeyword(const std::vector<std::string>& keyword);
-    void checkAndPrintSymbol(const char symbol);
-    void checkAndPrintSymbol(const std::vector<char>& symbol);
-    void checkAndPrintIdentifier(const VarKind varKind);
-    void checkAndPrintIdentifier(const std::vector<VarKind>& varKind);
-    void checkAndPrintIntegerConstant();
-    void checkAndPrintStringConstant();
-
-    void checkAndPrintType();
+    /* Check and compile subroutine call by using Tokenizer */
     void checkAndCompileSubroutineCall();
 
     /* Compile XXX */
