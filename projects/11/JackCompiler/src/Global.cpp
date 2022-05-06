@@ -66,8 +66,7 @@ std::string VM::segmentToString(Segment segment) {
         { Segment::THIS, "this" },
         { Segment::THAT, "that" },
         { Segment::POINTER, "pointer" },
-        { Segment::TEMP, "temp" },
-        { Segment::NONE, "" }
+        { Segment::TEMP, "temp" }
     };
     auto it  = SegmentStrings.find(segment);
     if (it == SegmentStrings.end()) throw compile_exception("Can't change Segment to string.");
