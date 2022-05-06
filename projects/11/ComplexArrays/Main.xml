@@ -1,0 +1,960 @@
+<class>
+  <keyword> class </keyword>
+  <identifier> Main </identifier>
+  <Attribute> VarKind: class </Attribute>
+  <symbol> { </symbol>
+  <subroutineDec>
+    <keyword> function </keyword>
+    <keyword> void </keyword>
+    <identifier> main </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <varDec>
+        <keyword> var </keyword>
+        <identifier> Array </identifier>
+        <Attribute> VarKind: class </Attribute>
+        <identifier> a </identifier>
+        <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+        <symbol> , </symbol>
+        <identifier> b </identifier>
+        <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+        <symbol> , </symbol>
+        <identifier> c </identifier>
+        <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+        <symbol> ; </symbol>
+      </varDec>
+      <statements>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> a </identifier>
+          <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Array </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> new </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <integerConstant> 10 </integerConstant>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> b </identifier>
+          <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Array </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> new </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <integerConstant> 5 </integerConstant>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> c </identifier>
+          <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Array </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> new </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> a </identifier>
+          <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+          <symbol> [ </symbol>
+          <expression>
+            <term>
+              <integerConstant> 3 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ] </symbol>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <integerConstant> 2 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> a </identifier>
+          <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+          <symbol> [ </symbol>
+          <expression>
+            <term>
+              <integerConstant> 4 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ] </symbol>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <integerConstant> 8 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> a </identifier>
+          <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+          <symbol> [ </symbol>
+          <expression>
+            <term>
+              <integerConstant> 5 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ] </symbol>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <integerConstant> 4 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> b </identifier>
+          <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+          <symbol> [ </symbol>
+          <expression>
+            <term>
+              <identifier> a </identifier>
+              <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 3 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+            </term>
+          </expression>
+          <symbol> ] </symbol>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> a </identifier>
+              <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 3 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+            </term>
+            <symbol> + </symbol>
+            <term>
+              <integerConstant> 3 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> a </identifier>
+          <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+          <symbol> [ </symbol>
+          <expression>
+            <term>
+              <identifier> b </identifier>
+              <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <identifier> a </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 3 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+            </term>
+          </expression>
+          <symbol> ] </symbol>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> a </identifier>
+              <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <identifier> a </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 5 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+            </term>
+            <symbol> * </symbol>
+            <term>
+              <identifier> b </identifier>
+              <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <symbol> ( </symbol>
+                      <expression>
+                        <term>
+                          <integerConstant> 7 </integerConstant>
+                        </term>
+                        <symbol> - </symbol>
+                        <term>
+                          <identifier> a </identifier>
+                          <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                          <symbol> [ </symbol>
+                          <expression>
+                            <term>
+                              <integerConstant> 3 </integerConstant>
+                            </term>
+                          </expression>
+                          <symbol> ] </symbol>
+                        </term>
+                      </expression>
+                      <symbol> ) </symbol>
+                    </term>
+                    <symbol> - </symbol>
+                    <term>
+                      <identifier> Main </identifier>
+                      <Attribute> VarKind: class </Attribute>
+                      <symbol> . </symbol>
+                      <identifier> double </identifier>
+                      <Attribute> VarKind: subroutine </Attribute>
+                      <symbol> ( </symbol>
+                      <expressionList>
+                        <expression>
+                          <term>
+                            <integerConstant> 2 </integerConstant>
+                          </term>
+                        </expression>
+                      </expressionList>
+                      <symbol> ) </symbol>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> c </identifier>
+          <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+          <symbol> [ </symbol>
+          <expression>
+            <term>
+              <integerConstant> 0 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ] </symbol>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <keyword> null </keyword>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> c </identifier>
+          <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> c </identifier>
+              <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 0 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printString </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <stringConstant> "Test 1: expected result: 5; actual result: " </stringConstant>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printInt </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> b </identifier>
+                <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+                <symbol> [ </symbol>
+                <expression>
+                  <term>
+                    <integerConstant> 2 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> ] </symbol>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> println </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printString </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <stringConstant> "Test 2: expected result: 40; actual result: " </stringConstant>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printInt </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> a </identifier>
+                <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                <symbol> [ </symbol>
+                <expression>
+                  <term>
+                    <integerConstant> 5 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> ] </symbol>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> println </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printString </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <stringConstant> "Test 3: expected result: 0; actual result: " </stringConstant>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printInt </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> c </identifier>
+                <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> println </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> c </identifier>
+          <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <keyword> null </keyword>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> c </identifier>
+              <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+            </term>
+            <symbol> = </symbol>
+            <term>
+              <keyword> null </keyword>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Main </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> fill </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> a </identifier>
+                    <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <integerConstant> 10 </integerConstant>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> c </identifier>
+              <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> a </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 3 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> c </identifier>
+              <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 33 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> c </identifier>
+              <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> a </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 7 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> c </identifier>
+              <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 77 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> b </identifier>
+              <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> a </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 0 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 3 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> b </identifier>
+              <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> b </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 1 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <identifier> c </identifier>
+                  <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+                  <symbol> [ </symbol>
+                  <expression>
+                    <term>
+                      <integerConstant> 1 </integerConstant>
+                    </term>
+                  </expression>
+                  <symbol> ] </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printString </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <stringConstant> "Test 4: expected result: 77; actual result: " </stringConstant>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printInt </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> c </identifier>
+                <Attribute> VarKind: var, type: Array, index: 2 </Attribute>
+                <symbol> [ </symbol>
+                <expression>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> ] </symbol>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> println </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printString </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <stringConstant> "Test 5: expected result: 110; actual result: " </stringConstant>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> printInt </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> b </identifier>
+                <Attribute> VarKind: var, type: Array, index: 1 </Attribute>
+                <symbol> [ </symbol>
+                <expression>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> ] </symbol>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Output </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> println </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> function </keyword>
+    <keyword> int </keyword>
+    <identifier> double </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+      <keyword> int </keyword>
+      <identifier> a </identifier>
+      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <returnStatement>
+          <keyword> return </keyword>
+          <expression>
+            <term>
+              <identifier> a </identifier>
+              <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+            </term>
+            <symbol> * </symbol>
+            <term>
+              <integerConstant> 2 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> function </keyword>
+    <keyword> void </keyword>
+    <identifier> fill </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+      <identifier> Array </identifier>
+      <Attribute> VarKind: class </Attribute>
+      <identifier> a </identifier>
+      <Attribute> VarKind: argument, type: Array, index: 0 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> size </identifier>
+      <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <whileStatement>
+          <keyword> while </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> size </identifier>
+              <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+            </term>
+            <symbol> &gt; </symbol>
+            <term>
+              <integerConstant> 0 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> size </identifier>
+              <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> size </identifier>
+                  <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+                </term>
+                <symbol> - </symbol>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> a </identifier>
+              <Attribute> VarKind: argument, type: Array, index: 0 </Attribute>
+              <symbol> [ </symbol>
+              <expression>
+                <term>
+                  <identifier> size </identifier>
+                  <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+                </term>
+              </expression>
+              <symbol> ] </symbol>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> Array </identifier>
+                  <Attribute> VarKind: class </Attribute>
+                  <symbol> . </symbol>
+                  <identifier> new </identifier>
+                  <Attribute> VarKind: subroutine </Attribute>
+                  <symbol> ( </symbol>
+                  <expressionList>
+                    <expression>
+                      <term>
+                        <integerConstant> 3 </integerConstant>
+                      </term>
+                    </expression>
+                  </expressionList>
+                  <symbol> ) </symbol>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+          </statements>
+          <symbol> } </symbol>
+        </whileStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <symbol> } </symbol>
+</class>

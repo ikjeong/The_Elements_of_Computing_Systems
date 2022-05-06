@@ -1,0 +1,13 @@
+function Main.main 1
+call PongGame.newInstance 0
+sub
+call PongGame.getInstance 0
+pop local 0
+push local 0
+call PongGame.run 1
+sub
+push local 0
+call PongGame.dispose 1
+sub
+push constant 0
+return

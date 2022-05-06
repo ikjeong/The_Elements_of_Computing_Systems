@@ -1,0 +1,310 @@
+function Bat.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+push pointer 0
+pop pointer 1
+pop that 0
+push argument 1
+push pointer 0
+pop pointer 1
+pop that 1
+push argument 2
+push pointer 0
+pop pointer 1
+pop that 2
+push argument 3
+push pointer 0
+pop pointer 1
+pop that 3
+push constant 2
+push pointer 0
+pop pointer 1
+pop that 4
+push pointer 0
+call Bat.show 1
+sub
+push pointer 0
+return
+function Bat.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+sub
+push constant 0
+return
+function Bat.show 0
+push argument 0
+pop pointer 0
+push constant 1
+neg
+call Screen.setColor 1
+sub
+push pointer 0
+call Bat.draw 1
+sub
+push constant 0
+return
+function Bat.hide 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+sub
+push pointer 0
+call Bat.draw 1
+sub
+push constant 0
+return
+function Bat.draw 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 3
+add
+call Screen.drawRectangle 4
+sub
+push constant 0
+return
+function Bat.setDirection 0
+push argument 0
+pop pointer 0
+push argument 1
+push pointer 0
+pop pointer 1
+pop that 4
+push constant 0
+return
+function Bat.getLeft 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 0
+return
+function Bat.getRight 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+return
+function Bat.setWidth 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Bat.hide 1
+sub
+push argument 1
+push pointer 0
+pop pointer 1
+pop that 2
+push pointer 0
+call Bat.show 1
+sub
+push constant 0
+return
+function Bat.move 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 4
+push constant 1
+eq
+not
+if-goto ifLabel0
+push pointer 0
+pop pointer 1
+push that 0
+push constant 4
+sub
+push pointer 0
+pop pointer 1
+pop that 0
+push pointer 0
+pop pointer 1
+push that 0
+push constant 0
+lt
+not
+if-goto ifLabel2
+push constant 0
+push pointer 0
+pop pointer 1
+pop that 0
+goto ifLabel3
+label ifLabel2
+label ifLabel3
+push constant 0
+call Screen.setColor 1
+sub
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+push constant 1
+add
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+push constant 4
+add
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 3
+add
+call Screen.drawRectangle 4
+sub
+push constant 1
+neg
+call Screen.setColor 1
+sub
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 0
+push constant 3
+add
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 3
+add
+call Screen.drawRectangle 4
+sub
+goto ifLabel1
+label ifLabel0
+push pointer 0
+pop pointer 1
+push that 0
+push constant 4
+add
+push pointer 0
+pop pointer 1
+pop that 0
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+push constant 511
+gt
+not
+if-goto ifLabel4
+push constant 511
+push pointer 0
+pop pointer 1
+push that 2
+sub
+push pointer 0
+pop pointer 1
+pop that 0
+goto ifLabel5
+label ifLabel4
+label ifLabel5
+push constant 0
+call Screen.setColor 1
+sub
+push pointer 0
+pop pointer 1
+push that 0
+push constant 4
+sub
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 0
+push constant 1
+sub
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 3
+add
+call Screen.drawRectangle 4
+sub
+push constant 1
+neg
+call Screen.setColor 1
+sub
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+push constant 3
+sub
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 0
+push pointer 0
+pop pointer 1
+push that 2
+add
+push pointer 0
+pop pointer 1
+push that 1
+push pointer 0
+pop pointer 1
+push that 3
+add
+call Screen.drawRectangle 4
+sub
+label ifLabel1
+push constant 0
+return

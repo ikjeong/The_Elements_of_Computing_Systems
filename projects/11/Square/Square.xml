@@ -1,0 +1,1365 @@
+<class>
+  <keyword> class </keyword>
+  <identifier> Square </identifier>
+  <Attribute> VarKind: class </Attribute>
+  <symbol> { </symbol>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> x </identifier>
+    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+    <symbol> , </symbol>
+    <identifier> y </identifier>
+    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <classVarDec>
+    <keyword> field </keyword>
+    <keyword> int </keyword>
+    <identifier> size </identifier>
+    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+    <symbol> ; </symbol>
+  </classVarDec>
+  <subroutineDec>
+    <keyword> constructor </keyword>
+    <identifier> Square </identifier>
+    <Attribute> VarKind: class </Attribute>
+    <identifier> new </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+      <keyword> int </keyword>
+      <identifier> Ax </identifier>
+      <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> Ay </identifier>
+      <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+      <symbol> , </symbol>
+      <keyword> int </keyword>
+      <identifier> Asize </identifier>
+      <Attribute> VarKind: argument, type: int, index: 2 </Attribute>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> x </identifier>
+          <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Ax </identifier>
+              <Attribute> VarKind: argument, type: int, index: 0 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> y </identifier>
+          <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Ay </identifier>
+              <Attribute> VarKind: argument, type: int, index: 1 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier> size </identifier>
+          <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier> Asize </identifier>
+              <Attribute> VarKind: argument, type: int, index: 2 </Attribute>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> draw </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <expression>
+            <term>
+              <keyword> this </keyword>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> dispose </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Memory </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> deAlloc </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <keyword> this </keyword>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> draw </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> setColor </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <keyword> true </keyword>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> drawRectangle </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> x </identifier>
+                <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> y </identifier>
+                <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> x </identifier>
+                <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              </term>
+              <symbol> + </symbol>
+              <term>
+                <identifier> size </identifier>
+                <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> y </identifier>
+                <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              </term>
+              <symbol> + </symbol>
+              <term>
+                <identifier> size </identifier>
+                <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> erase </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> setColor </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <keyword> false </keyword>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <doStatement>
+          <keyword> do </keyword>
+          <identifier> Screen </identifier>
+          <Attribute> VarKind: class </Attribute>
+          <symbol> . </symbol>
+          <identifier> drawRectangle </identifier>
+          <Attribute> VarKind: subroutine </Attribute>
+          <symbol> ( </symbol>
+          <expressionList>
+            <expression>
+              <term>
+                <identifier> x </identifier>
+                <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> y </identifier>
+                <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> x </identifier>
+                <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              </term>
+              <symbol> + </symbol>
+              <term>
+                <identifier> size </identifier>
+                <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> y </identifier>
+                <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              </term>
+              <symbol> + </symbol>
+              <term>
+                <identifier> size </identifier>
+                <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+              </term>
+            </expression>
+          </expressionList>
+          <symbol> ) </symbol>
+          <symbol> ; </symbol>
+        </doStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> incSize </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> y </identifier>
+                      <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                    </term>
+                    <symbol> + </symbol>
+                    <term>
+                      <identifier> size </identifier>
+                      <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+                <symbol> &lt; </symbol>
+                <term>
+                  <integerConstant> 254 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+            <symbol> &amp; </symbol>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <symbol> ( </symbol>
+                  <expression>
+                    <term>
+                      <identifier> x </identifier>
+                      <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                    </term>
+                    <symbol> + </symbol>
+                    <term>
+                      <identifier> size </identifier>
+                      <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                    </term>
+                  </expression>
+                  <symbol> ) </symbol>
+                </term>
+                <symbol> &lt; </symbol>
+                <term>
+                  <integerConstant> 510 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> erase </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> size </identifier>
+              <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> size </identifier>
+                  <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> draw </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> decSize </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> size </identifier>
+              <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+            </term>
+            <symbol> &gt; </symbol>
+            <term>
+              <integerConstant> 2 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> erase </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> size </identifier>
+              <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> size </identifier>
+                  <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                </term>
+                <symbol> - </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> draw </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> moveUp </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> y </identifier>
+              <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+            </term>
+            <symbol> &gt; </symbol>
+            <term>
+              <integerConstant> 1 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> false </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <symbol> ( </symbol>
+                    <expression>
+                      <term>
+                        <identifier> y </identifier>
+                        <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                      </term>
+                      <symbol> + </symbol>
+                      <term>
+                        <identifier> size </identifier>
+                        <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                      </term>
+                    </expression>
+                    <symbol> ) </symbol>
+                  </term>
+                  <symbol> - </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> y </identifier>
+              <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> y </identifier>
+                  <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                </term>
+                <symbol> - </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> true </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> moveDown </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> y </identifier>
+                  <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <identifier> size </identifier>
+                  <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+            <symbol> &lt; </symbol>
+            <term>
+              <integerConstant> 254 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> false </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> y </identifier>
+              <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> y </identifier>
+                  <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> true </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <symbol> ( </symbol>
+                    <expression>
+                      <term>
+                        <identifier> y </identifier>
+                        <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                      </term>
+                      <symbol> + </symbol>
+                      <term>
+                        <identifier> size </identifier>
+                        <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                      </term>
+                    </expression>
+                    <symbol> ) </symbol>
+                  </term>
+                  <symbol> - </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> moveLeft </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+            </term>
+            <symbol> &gt; </symbol>
+            <term>
+              <integerConstant> 1 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> false </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <symbol> ( </symbol>
+                    <expression>
+                      <term>
+                        <identifier> x </identifier>
+                        <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                      </term>
+                      <symbol> + </symbol>
+                      <term>
+                        <identifier> size </identifier>
+                        <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                      </term>
+                    </expression>
+                    <symbol> ) </symbol>
+                  </term>
+                  <symbol> - </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> x </identifier>
+                  <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                </term>
+                <symbol> - </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> true </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <subroutineDec>
+    <keyword> method </keyword>
+    <keyword> void </keyword>
+    <identifier> moveRight </identifier>
+    <Attribute> VarKind: subroutine </Attribute>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <statements>
+        <ifStatement>
+          <keyword> if </keyword>
+          <symbol> ( </symbol>
+          <expression>
+            <term>
+              <symbol> ( </symbol>
+              <expression>
+                <term>
+                  <identifier> x </identifier>
+                  <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <identifier> size </identifier>
+                  <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                </term>
+              </expression>
+              <symbol> ) </symbol>
+            </term>
+            <symbol> &lt; </symbol>
+            <term>
+              <integerConstant> 510 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ) </symbol>
+          <symbol> { </symbol>
+          <statements>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> false </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <letStatement>
+              <keyword> let </keyword>
+              <identifier> x </identifier>
+              <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+              <symbol> = </symbol>
+              <expression>
+                <term>
+                  <identifier> x </identifier>
+                  <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                </term>
+                <symbol> + </symbol>
+                <term>
+                  <integerConstant> 2 </integerConstant>
+                </term>
+              </expression>
+              <symbol> ; </symbol>
+            </letStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> setColor </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <keyword> true </keyword>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+            <doStatement>
+              <keyword> do </keyword>
+              <identifier> Screen </identifier>
+              <Attribute> VarKind: class </Attribute>
+              <symbol> . </symbol>
+              <identifier> drawRectangle </identifier>
+              <Attribute> VarKind: subroutine </Attribute>
+              <symbol> ( </symbol>
+              <expressionList>
+                <expression>
+                  <term>
+                    <symbol> ( </symbol>
+                    <expression>
+                      <term>
+                        <identifier> x </identifier>
+                        <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                      </term>
+                      <symbol> + </symbol>
+                      <term>
+                        <identifier> size </identifier>
+                        <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                      </term>
+                    </expression>
+                    <symbol> ) </symbol>
+                  </term>
+                  <symbol> - </symbol>
+                  <term>
+                    <integerConstant> 1 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> x </identifier>
+                    <Attribute> VarKind: field, type: int, index: 0 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+                <symbol> , </symbol>
+                <expression>
+                  <term>
+                    <identifier> y </identifier>
+                    <Attribute> VarKind: field, type: int, index: 1 </Attribute>
+                  </term>
+                  <symbol> + </symbol>
+                  <term>
+                    <identifier> size </identifier>
+                    <Attribute> VarKind: field, type: int, index: 2 </Attribute>
+                  </term>
+                </expression>
+              </expressionList>
+              <symbol> ) </symbol>
+              <symbol> ; </symbol>
+            </doStatement>
+          </statements>
+          <symbol> } </symbol>
+        </ifStatement>
+        <returnStatement>
+          <keyword> return </keyword>
+          <symbol> ; </symbol>
+        </returnStatement>
+      </statements>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
+  <symbol> } </symbol>
+</class>
