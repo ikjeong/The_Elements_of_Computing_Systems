@@ -253,7 +253,10 @@ TokenType JackTokenizer::tokenType() const {
  */
 std::string JackTokenizer::getToken() const {
     if (current_token_type_ == TokenType::NOTHING) throw compile_exception(token_[current_token_index_], token_line_number_[current_token_index_]);
-    else return token_[current_token_index_];
+    else {
+        if (current_token_type_ == TokenType::STRING_CONST) return token_[current_token_index_].substr(1, token_[current_token_index_].size()-2);
+        else return token_[current_token_index_];
+    }
 }
 
 int JackTokenizer::getCurrentTokenLineNumber() const {

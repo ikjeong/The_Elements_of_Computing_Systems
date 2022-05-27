@@ -105,10 +105,8 @@ add
 pop pointer 1
 push that 0
 pop local 2
-push constant 45
+push constant 43
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 84
 call String.appendChar 2
 push constant 101
@@ -195,8 +193,6 @@ push constant 58
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-push constant 34
-call String.appendChar 2
 call Output.printString 1
 sub
 push constant 2
@@ -208,10 +204,8 @@ call Output.printInt 1
 sub
 call Output.println 0
 sub
-push constant 46
+push constant 44
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 84
 call String.appendChar 2
 push constant 101
@@ -300,8 +294,6 @@ push constant 58
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-push constant 34
-call String.appendChar 2
 call Output.printString 1
 sub
 push constant 5
@@ -313,10 +305,8 @@ call Output.printInt 1
 sub
 call Output.println 0
 sub
-push constant 45
+push constant 43
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 84
 call String.appendChar 2
 push constant 101
@@ -403,8 +393,6 @@ push constant 58
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-push constant 34
-call String.appendChar 2
 call Output.printString 1
 sub
 push local 2
@@ -478,10 +466,8 @@ pop that 0
 goto ifLabel1
 label ifLabel0
 label ifLabel1
-push constant 46
+push constant 44
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 84
 call String.appendChar 2
 push constant 101
@@ -570,8 +556,6 @@ push constant 58
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-push constant 34
-call String.appendChar 2
 call Output.printString 1
 sub
 push constant 1
@@ -583,10 +567,8 @@ call Output.printInt 1
 sub
 call Output.println 0
 sub
-push constant 47
+push constant 45
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 84
 call String.appendChar 2
 push constant 101
@@ -676,8 +658,6 @@ call String.appendChar 2
 push constant 58
 call String.appendChar 2
 push constant 32
-call String.appendChar 2
-push constant 34
 call String.appendChar 2
 call Output.printString 1
 sub
