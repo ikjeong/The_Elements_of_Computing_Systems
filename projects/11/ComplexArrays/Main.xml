@@ -358,7 +358,7 @@
           <expressionList>
             <expression>
               <term>
-                <stringConstant> "Test 1: expected result: 5; actual result: " </stringConstant>
+                <stringConstant> Test 1: expected result: 5; actual result:  </stringConstant>
               </term>
             </expression>
           </expressionList>
@@ -415,7 +415,7 @@
           <expressionList>
             <expression>
               <term>
-                <stringConstant> "Test 2: expected result: 40; actual result: " </stringConstant>
+                <stringConstant> Test 2: expected result: 40; actual result:  </stringConstant>
               </term>
             </expression>
           </expressionList>
@@ -472,7 +472,7 @@
           <expressionList>
             <expression>
               <term>
-                <stringConstant> "Test 3: expected result: 0; actual result: " </stringConstant>
+                <stringConstant> Test 3: expected result: 0; actual result:  </stringConstant>
               </term>
             </expression>
           </expressionList>
@@ -715,7 +715,7 @@
           <expressionList>
             <expression>
               <term>
-                <stringConstant> "Test 4: expected result: 77; actual result: " </stringConstant>
+                <stringConstant> Test 4: expected result: 77; actual result:  </stringConstant>
               </term>
             </expression>
           </expressionList>
@@ -772,7 +772,7 @@
           <expressionList>
             <expression>
               <term>
-                <stringConstant> "Test 5: expected result: 110; actual result: " </stringConstant>
+                <stringConstant> Test 5: expected result: 110; actual result:  </stringConstant>
               </term>
             </expression>
           </expressionList>
