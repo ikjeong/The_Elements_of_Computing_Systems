@@ -300,7 +300,7 @@ void CompilationEngine::compileDo() {
     checkAndCompileSubroutineCall();
 
     /* Pop return value. */
-    vm_writer_->writeArithmetic(Command::SUB);
+    vm_writer_->writePop(Segment::TEMP, 1);
 
     /* Check ';'. */
     advance("symbol(';')");
