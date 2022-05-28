@@ -1,0 +1,294 @@
+function Math.init 1
+push constant 16
+call Array.new 1
+pop static 0
+push constant 0
+pop temp 0
+push constant 1
+push static 0
+push temp 0
+add
+pop pointer 1
+pop that 0
+push constant 1
+pop local 0
+label whileLabel0
+push local 0
+push constant 16
+lt
+not
+if-goto whileLabel1
+push local 0
+pop temp 0
+push local 0
+push constant 1
+sub
+push static 0
+add
+pop pointer 1
+push that 0
+push local 0
+push constant 1
+sub
+push static 0
+add
+pop pointer 1
+push that 0
+add
+push static 0
+push temp 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto whileLabel0
+label whileLabel1
+push constant 0
+return
+function Math.abs 0
+push argument 0
+push constant 0
+lt
+not
+if-goto ifLabel0
+push argument 0
+neg
+return
+goto ifLabel1
+label ifLabel0
+push argument 0
+return
+label ifLabel1
+function Math.bit 1
+push argument 0
+push argument 1
+push static 0
+add
+pop pointer 1
+push that 0
+and
+pop local 0
+push local 0
+push constant 0
+eq
+not
+not
+if-goto ifLabel2
+push constant 1
+neg
+return
+goto ifLabel3
+label ifLabel2
+push constant 0
+return
+label ifLabel3
+function Math.multiply 3
+push constant 0
+pop local 0
+push argument 0
+pop local 1
+push constant 0
+pop local 2
+label whileLabel2
+push local 2
+push constant 16
+lt
+not
+if-goto whileLabel3
+push argument 1
+push local 2
+call Math.bit 2
+not
+if-goto ifLabel4
+push local 0
+push local 1
+add
+pop local 0
+goto ifLabel5
+label ifLabel4
+label ifLabel5
+push local 1
+push local 1
+add
+pop local 1
+push local 2
+push constant 1
+add
+pop local 2
+goto whileLabel2
+label whileLabel3
+push local 0
+return
+function Math.divide 2
+push argument 0
+push constant 0
+lt
+push argument 1
+push constant 0
+lt
+eq
+not
+pop local 1
+push argument 0
+call Math.abs 1
+pop argument 0
+push argument 1
+call Math.abs 1
+pop argument 1
+push argument 1
+push argument 0
+gt
+not
+if-goto ifLabel6
+push argument 0
+pop static 1
+push constant 0
+return
+goto ifLabel7
+label ifLabel6
+label ifLabel7
+push argument 0
+push argument 1
+push argument 1
+add
+call Math.divide 2
+pop local 0
+push static 1
+push argument 1
+lt
+not
+if-goto ifLabel8
+push local 1
+not
+if-goto ifLabel10
+push local 0
+push local 0
+add
+neg
+return
+goto ifLabel11
+label ifLabel10
+push local 0
+push local 0
+add
+return
+label ifLabel11
+goto ifLabel9
+label ifLabel8
+push static 1
+push argument 1
+sub
+pop static 1
+push local 1
+not
+if-goto ifLabel12
+push local 0
+push local 0
+add
+push constant 1
+add
+neg
+return
+goto ifLabel13
+label ifLabel12
+push local 0
+push local 0
+add
+push constant 1
+add
+return
+label ifLabel13
+label ifLabel9
+function Math.sqrt 3
+push constant 0
+pop local 0
+push constant 7
+pop local 1
+label whileLabel4
+push local 1
+push constant 1
+neg
+gt
+not
+if-goto whileLabel5
+push local 0
+push local 1
+push static 0
+add
+pop pointer 1
+push that 0
+add
+push local 0
+push local 1
+push static 0
+add
+pop pointer 1
+push that 0
+add
+call Math.multiply 2
+pop local 2
+push local 2
+push argument 0
+gt
+not
+push local 2
+push constant 0
+gt
+and
+not
+if-goto ifLabel14
+push local 0
+push local 1
+push static 0
+add
+pop pointer 1
+push that 0
+add
+pop local 0
+goto ifLabel15
+label ifLabel14
+label ifLabel15
+push local 1
+push constant 1
+sub
+pop local 1
+goto whileLabel4
+label whileLabel5
+push local 0
+return
+function Math.max 0
+push argument 0
+push argument 1
+gt
+not
+if-goto ifLabel16
+push argument 0
+return
+goto ifLabel17
+label ifLabel16
+push argument 1
+return
+label ifLabel17
+function Math.min 0
+push argument 0
+push argument 1
+lt
+not
+if-goto ifLabel18
+push argument 0
+return
+goto ifLabel19
+label ifLabel18
+push argument 1
+return
+label ifLabel19
+function Math.twoToThe 0
+push argument 0
+push static 0
+add
+pop pointer 1
+push that 0
+return

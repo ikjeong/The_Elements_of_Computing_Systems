@@ -1,0 +1,116 @@
+function Keyboard.init 0
+push constant 24576
+pop static 0
+push constant 0
+return
+function Keyboard.keyPressed 0
+push constant 0
+push static 0
+add
+pop pointer 1
+push that 0
+return
+function Keyboard.readChar 1
+label whileLabel0
+call Keyboard.keyPressed 0
+push constant 0
+eq
+not
+if-goto whileLabel1
+goto whileLabel0
+label whileLabel1
+call Keyboard.keyPressed 0
+pop local 0
+label whileLabel2
+call Keyboard.keyPressed 0
+push constant 0
+eq
+not
+not
+if-goto whileLabel3
+goto whileLabel2
+label whileLabel3
+push local 0
+call String.newLine 0
+eq
+not
+if-goto ifLabel0
+call Output.println 0
+pop temp 1
+push local 0
+return
+goto ifLabel1
+label ifLabel0
+label ifLabel1
+push local 0
+call String.backSpace 0
+eq
+not
+if-goto ifLabel2
+call Output.backSpace 0
+pop temp 1
+push local 0
+return
+goto ifLabel3
+label ifLabel2
+label ifLabel3
+push local 0
+call Output.printChar 1
+pop temp 1
+push local 0
+return
+function Keyboard.readLine 2
+push argument 0
+call Output.printString 1
+pop temp 1
+push constant 64
+call String.new 1
+pop local 0
+label whileLabel4
+push constant 1
+neg
+not
+if-goto whileLabel5
+call Keyboard.readChar 0
+pop local 1
+push local 1
+call String.newLine 0
+eq
+push local 0
+call String.length 1
+push constant 64
+eq
+or
+not
+if-goto ifLabel4
+push local 0
+return
+goto ifLabel5
+label ifLabel4
+label ifLabel5
+push local 1
+call String.backSpace 0
+eq
+not
+if-goto ifLabel6
+push local 0
+call String.eraseLastChar 1
+pop temp 1
+goto ifLabel7
+label ifLabel6
+push local 0
+push local 1
+call String.appendChar 2
+pop temp 1
+label ifLabel7
+goto whileLabel4
+label whileLabel5
+push local 0
+return
+function Keyboard.readInt 1
+push argument 0
+call Keyboard.readLine 1
+pop local 0
+push local 0
+call String.intValue 1
+return
