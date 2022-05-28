@@ -1,0 +1,322 @@
+function String.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+push constant 0
+eq
+not
+if-goto ifLabel0
+push constant 1
+call Array.new 1
+push pointer 0
+pop pointer 1
+pop that 0
+push constant 0
+push pointer 0
+pop pointer 1
+pop that 1
+goto ifLabel1
+label ifLabel0
+push argument 0
+call Array.new 1
+push pointer 0
+pop pointer 1
+pop that 0
+push argument 0
+push pointer 0
+pop pointer 1
+pop that 1
+label ifLabel1
+push constant 0
+push pointer 0
+pop pointer 1
+pop that 2
+push pointer 0
+return
+function String.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 0
+call Array.dispose 1
+pop temp 1
+push pointer 0
+call Memory.deAlloc 1
+pop temp 1
+push constant 0
+return
+function String.length 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 2
+return
+function String.charAt 0
+push argument 0
+pop pointer 0
+push argument 1
+push pointer 0
+pop pointer 1
+push that 0
+add
+pop pointer 1
+push that 0
+return
+function String.setCharAt 0
+push argument 0
+pop pointer 0
+push argument 1
+pop temp 0
+push argument 2
+push pointer 0
+pop pointer 1
+push that 0
+push temp 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return
+function String.appendChar 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 2
+push pointer 0
+pop pointer 1
+push that 1
+lt
+not
+if-goto ifLabel2
+push pointer 0
+pop pointer 1
+push that 2
+pop temp 0
+push argument 1
+push pointer 0
+pop pointer 1
+push that 0
+push temp 0
+add
+pop pointer 1
+pop that 0
+push pointer 0
+pop pointer 1
+push that 2
+push constant 1
+add
+push pointer 0
+pop pointer 1
+pop that 2
+goto ifLabel3
+label ifLabel2
+label ifLabel3
+push pointer 0
+return
+function String.eraseLastChar 0
+push argument 0
+pop pointer 0
+push pointer 0
+pop pointer 1
+push that 2
+push constant 0
+gt
+not
+if-goto ifLabel4
+push pointer 0
+pop pointer 1
+push that 2
+push constant 1
+sub
+push pointer 0
+pop pointer 1
+pop that 2
+goto ifLabel5
+label ifLabel4
+label ifLabel5
+push constant 0
+return
+function String.isDigit 0
+push constant 48
+push argument 0
+gt
+not
+push argument 0
+push constant 57
+gt
+not
+and
+return
+function String.charToInt 0
+push argument 0
+push constant 48
+sub
+return
+function String.intToChar 0
+push argument 0
+push constant 48
+add
+return
+function String.intValue 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push pointer 0
+pop pointer 1
+push that 2
+push constant 0
+gt
+push constant 0
+push pointer 0
+pop pointer 1
+push that 0
+add
+pop pointer 1
+push that 0
+push constant 45
+eq
+and
+not
+if-goto ifLabel6
+push constant 1
+neg
+pop local 2
+push constant 1
+pop local 1
+goto ifLabel7
+label ifLabel6
+push constant 0
+pop local 2
+push constant 0
+pop local 1
+label ifLabel7
+label whileLabel0
+push local 1
+push pointer 0
+pop pointer 1
+push that 2
+lt
+push local 1
+push pointer 0
+pop pointer 1
+push that 0
+add
+pop pointer 1
+push that 0
+call String.isDigit 1
+and
+not
+if-goto whileLabel1
+push local 0
+push constant 10
+call Math.multiply 2
+pop local 0
+push local 0
+push local 1
+push pointer 0
+pop pointer 1
+push that 0
+add
+pop pointer 1
+push that 0
+call String.charToInt 1
+add
+pop local 0
+push local 1
+push constant 1
+add
+pop local 1
+goto whileLabel0
+label whileLabel1
+push local 2
+not
+if-goto ifLabel8
+push local 0
+neg
+return
+goto ifLabel9
+label ifLabel8
+push local 0
+return
+label ifLabel9
+function String.setInt 0
+push argument 0
+pop pointer 0
+push constant 0
+push pointer 0
+pop pointer 1
+pop that 2
+push argument 1
+push constant 0
+lt
+not
+if-goto ifLabel10
+push pointer 0
+push constant 45
+call String.appendChar 2
+pop temp 1
+push argument 1
+neg
+pop argument 1
+goto ifLabel11
+label ifLabel10
+label ifLabel11
+push pointer 0
+push argument 1
+call String.setIntToString 2
+pop temp 1
+push constant 0
+return
+function String.setIntToString 1
+push argument 0
+pop pointer 0
+push argument 1
+push constant 10
+lt
+not
+if-goto ifLabel12
+push pointer 0
+push argument 1
+call String.intToChar 1
+call String.appendChar 2
+pop temp 1
+push constant 0
+return
+goto ifLabel13
+label ifLabel12
+label ifLabel13
+push argument 1
+push argument 1
+push constant 10
+call Math.divide 2
+push constant 10
+call Math.multiply 2
+sub
+pop local 0
+push pointer 0
+push argument 1
+push constant 10
+call Math.divide 2
+call String.setIntToString 2
+pop temp 1
+push pointer 0
+push local 0
+call String.intToChar 1
+call String.appendChar 2
+pop temp 1
+push constant 0
+return
+function String.newLine 0
+push constant 128
+return
+function String.backSpace 0
+push constant 129
+return
+function String.doubleQuote 0
+push constant 34
+return
