@@ -16,7 +16,7 @@ pop pointer 1
 pop that 2
 push pointer 0
 call Square.draw 1
-sub
+pop temp 1
 push pointer 0
 return
 function Square.dispose 0
@@ -24,7 +24,7 @@ push argument 0
 pop pointer 0
 push pointer 0
 call Memory.deAlloc 1
-sub
+pop temp 1
 push constant 0
 return
 function Square.draw 0
@@ -33,7 +33,7 @@ pop pointer 0
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -55,7 +55,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 0
 return
 function Square.erase 0
@@ -63,7 +63,7 @@ push argument 0
 pop pointer 0
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -85,7 +85,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 0
 return
 function Square.incSize 0
@@ -114,7 +114,7 @@ not
 if-goto ifLabel0
 push pointer 0
 call Square.erase 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 2
@@ -125,7 +125,7 @@ pop pointer 1
 pop that 2
 push pointer 0
 call Square.draw 1
-sub
+pop temp 1
 goto ifLabel1
 label ifLabel0
 label ifLabel1
@@ -143,7 +143,7 @@ not
 if-goto ifLabel2
 push pointer 0
 call Square.erase 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 2
@@ -154,7 +154,7 @@ pop pointer 1
 pop that 2
 push pointer 0
 call Square.draw 1
-sub
+pop temp 1
 goto ifLabel3
 label ifLabel2
 label ifLabel3
@@ -172,7 +172,7 @@ not
 if-goto ifLabel4
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -200,7 +200,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 1
@@ -212,7 +212,7 @@ pop that 1
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -232,7 +232,7 @@ push that 1
 push constant 1
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 goto ifLabel5
 label ifLabel4
 label ifLabel5
@@ -254,7 +254,7 @@ not
 if-goto ifLabel6
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -274,7 +274,7 @@ push that 1
 push constant 1
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 1
@@ -286,7 +286,7 @@ pop that 1
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -314,7 +314,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 goto ifLabel7
 label ifLabel6
 label ifLabel7
@@ -332,7 +332,7 @@ not
 if-goto ifLabel8
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -360,7 +360,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -372,7 +372,7 @@ pop that 0
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -392,7 +392,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 goto ifLabel9
 label ifLabel8
 label ifLabel9
@@ -414,7 +414,7 @@ not
 if-goto ifLabel10
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -434,7 +434,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -446,7 +446,7 @@ pop that 0
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -474,7 +474,7 @@ pop pointer 1
 push that 2
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 goto ifLabel11
 label ifLabel10
 label ifLabel11

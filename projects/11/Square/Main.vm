@@ -3,9 +3,9 @@ call SquareGame.new 0
 pop local 0
 push local 0
 call SquareGame.run 1
-sub
+pop temp 1
 push local 0
 call SquareGame.dispose 1
-sub
+pop temp 1
 push constant 0
 return

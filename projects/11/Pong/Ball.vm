@@ -36,7 +36,7 @@ pop pointer 1
 pop that 14
 push pointer 0
 call Ball.show 1
-sub
+pop temp 1
 push pointer 0
 return
 function Ball.dispose 0
@@ -44,7 +44,7 @@ push argument 0
 pop pointer 0
 push pointer 0
 call Memory.deAlloc 1
-sub
+pop temp 1
 push constant 0
 return
 function Ball.show 0
@@ -53,10 +53,10 @@ pop pointer 0
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 call Ball.draw 1
-sub
+pop temp 1
 push constant 0
 return
 function Ball.hide 0
@@ -64,10 +64,10 @@ push argument 0
 pop pointer 0
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 call Ball.draw 1
-sub
+pop temp 1
 push constant 0
 return
 function Ball.draw 0
@@ -90,7 +90,7 @@ push that 1
 push constant 5
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 0
 return
 function Ball.getLeft 0
@@ -219,7 +219,7 @@ push argument 0
 pop pointer 0
 push pointer 0
 call Ball.hide 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 4
@@ -456,7 +456,7 @@ label ifLabel22
 label ifLabel23
 push pointer 0
 call Ball.show 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 14
@@ -616,6 +616,6 @@ push pointer 0
 push local 0
 push local 1
 call Ball.setDestination 3
-sub
+pop temp 1
 push constant 0
 return
