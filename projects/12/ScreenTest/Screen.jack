@@ -1,0 +1,158 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * A library of functions for displaying graphics on the screen.
+ * The Hack physical screen consists of 256 rows (indexed 0..255, top to bottom)
+ * of 512 pixels each (indexed 0..511, left to right). The top left pixel on 
+ * the screen is indexed (0,0).
+ */
+class Screen {
+    static Array screen;
+    static boolean color;
+
+    /** Initializes the Screen. */
+    function void init() {
+        let screen = 16384;
+        let color = true;
+        return;
+    }
+
+    /** Erases the entire screen. */
+    function void clearScreen() {
+        var int i, j;
+        let i = 0;
+        while (i < 256) {
+            let j = 0;
+            while (j < 32) {
+                let screen[i * 32 + j] = 0;
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
+    /** Sets the current color, to be used for all subsequent drawXXX commands.
+     *  Black is represented by true, white by false. */
+    function void setColor(boolean b) {
+        let color = b;
+        return;
+    }
+
+    /** Return the coordinate is in the screen. */
+    function boolean isInside(int x, int y) {
+        if ((x < 0) | (x > 511)) {
+            return false;
+        }
+        if ((y < 0) | (y > 255)) {
+            return false;
+        }
+        return true;
+    }
+
+    /** Draws the (x,y) pixel, using the current color. */
+    function void drawPixel(int x, int y) {
+        var int index, mask;
+
+        if (~(Screen.isInside(x, y))) {
+            return;
+        }
+
+        let index = (y * 32) + (x / 16);
+        let mask = Math.twoToThe(x & 15);
+
+        if (color) {
+            let screen[index] = screen[index] | mask;
+        } else {
+            let screen[index] = screen[index] & (~mask);
+        }
+        return;
+    }
+
+    /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
+    function void drawLine(int x1, int y1, int x2, int y2) {
+        var int dx, dy;
+        var int a, b;
+        var int adyMinusbdx;
+        var int increA, increB;
+
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        let a = 0;
+        let b = 0;
+        let adyMinusbdx = 0;
+
+        if (dx < 0) {
+            let increA = -1;
+        } else {
+            let increA = 1;
+        }
+        if (dy < 0) {
+            let increB = -1;
+        } else {
+            let increB = 1;
+        }
+
+        if (dx = 0) {
+            while (Math.abs(b) < (Math.abs(dy)+1)) {
+                do Screen.drawPixel(x1, y1 + b);
+                let b = b + increB;
+            }
+            return;
+        }
+        if (dy = 0) {
+            while (Math.abs(a) < (Math.abs(dx)+1)) {
+                do Screen.drawPixel(x1 + a, y1);
+                let a = a + increA;
+            }
+            return;
+        }
+
+        while (~(Math.abs(a) > (Math.abs(dx)+1)) & ~(Math.abs(b) > (Math.abs(dy)+1))) {
+            do Screen.drawPixel(x1 + a, y1 + b);
+            if (adyMinusbdx < 0) {
+                let a = a + increA;
+                let adyMinusbdx = adyMinusbdx + Math.abs(dy);
+            } else {
+                let b = b + increB;
+                let adyMinusbdx = adyMinusbdx - Math.abs(dx);
+            }
+        }
+        return;
+    }
+
+    /** Draws a filled rectangle whose top left corner is (x1, y1)
+     * and bottom right corner is (x2,y2), using the current color. */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+        var int dy;
+        var int b;
+
+        let dy = y2 - y1;
+        let b = 0;
+        while (b < (dy+1)) {
+            do Screen.drawLine(x1, y1 + b, x2, y1 + b);
+            let b = b + 1;
+        }
+        return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color.
+      * TODO: 속이 빈 원 그리기. */
+    function void drawCircle(int x, int y, int r) {
+        var int dy;
+
+        if (r > 181) {
+            return;
+        }
+
+        let dy = -r;
+        while (~(dy > r)) {
+            do Screen.drawLine(x - Math.sqrt((r*r) - (dy*dy)), y + dy, x + Math.sqrt((r*r) - (dy*dy)), y + dy);
+            let dy = dy + 1;
+        }
+        return;
+    }
+}
