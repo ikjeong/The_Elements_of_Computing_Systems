@@ -294,7 +294,7 @@
           <expressionList>
             <expression>
               <term>
-                <stringConstant> "Score: 0" </stringConstant>
+                <stringConstant> Score: 0 </stringConstant>
               </term>
             </expression>
           </expressionList>
@@ -901,7 +901,7 @@
               <expressionList>
                 <expression>
                   <term>
-                    <stringConstant> "Game Over" </stringConstant>
+                    <stringConstant> Game Over </stringConstant>
                   </term>
                 </expression>
               </expressionList>

@@ -3,7 +3,7 @@ push constant 7
 call Memory.alloc 1
 pop pointer 0
 call Screen.clearScreen 0
-sub
+pop temp 1
 push constant 50
 push pointer 0
 pop pointer 1
@@ -34,21 +34,19 @@ push that 1
 push constant 400
 push constant 0
 call Ball.setDestination 3
-sub
+pop temp 1
 push constant 0
 push constant 238
 push constant 511
 push constant 240
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 22
 push constant 0
 call Output.moveCursor 2
-sub
-push constant 10
+pop temp 1
+push constant 8
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 83
 call String.appendChar 2
 push constant 99
@@ -65,10 +63,8 @@ push constant 32
 call String.appendChar 2
 push constant 48
 call String.appendChar 2
-push constant 34
-call String.appendChar 2
 call Output.printString 1
-sub
+pop temp 1
 push constant 0
 push pointer 0
 pop pointer 1
@@ -94,15 +90,15 @@ push pointer 0
 pop pointer 1
 push that 0
 call Bat.dispose 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 1
 call Ball.dispose 1
-sub
+pop temp 1
 push pointer 0
 call Memory.deAlloc 1
-sub
+pop temp 1
 push constant 0
 return
 function PongGame.newInstance 0
@@ -140,13 +136,13 @@ push pointer 0
 pop pointer 1
 push that 0
 call Bat.move 1
-sub
+pop temp 1
 push pointer 0
 call PongGame.moveBall 1
-sub
+pop temp 1
 push constant 50
 call Sys.wait 1
-sub
+pop temp 1
 goto whileLabel2
 label whileLabel3
 push local 0
@@ -159,7 +155,7 @@ pop pointer 1
 push that 0
 push constant 1
 call Bat.setDirection 2
-sub
+pop temp 1
 goto ifLabel1
 label ifLabel0
 push local 0
@@ -172,7 +168,7 @@ pop pointer 1
 push that 0
 push constant 2
 call Bat.setDirection 2
-sub
+pop temp 1
 goto ifLabel3
 label ifLabel2
 push local 0
@@ -208,13 +204,13 @@ push pointer 0
 pop pointer 1
 push that 0
 call Bat.move 1
-sub
+pop temp 1
 push pointer 0
 call PongGame.moveBall 1
-sub
+pop temp 1
 push constant 50
 call Sys.wait 1
-sub
+pop temp 1
 goto whileLabel4
 label whileLabel5
 goto whileLabel0
@@ -227,11 +223,9 @@ if-goto ifLabel6
 push constant 10
 push constant 27
 call Output.moveCursor 2
-sub
-push constant 11
+pop temp 1
+push constant 9
 call String.new 1
-push constant 34
-call String.appendChar 2
 push constant 71
 call String.appendChar 2
 push constant 97
@@ -250,10 +244,8 @@ push constant 101
 call String.appendChar 2
 push constant 114
 call String.appendChar 2
-push constant 34
-call String.appendChar 2
 call Output.printString 1
-sub
+pop temp 1
 goto ifLabel7
 label ifLabel6
 label ifLabel7
@@ -376,7 +368,7 @@ push pointer 0
 pop pointer 1
 push that 6
 call Bat.setWidth 2
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 4
@@ -388,12 +380,12 @@ pop that 4
 push constant 22
 push constant 7
 call Output.moveCursor 2
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 4
 call Output.printInt 1
-sub
+pop temp 1
 goto ifLabel13
 label ifLabel12
 label ifLabel13
@@ -405,7 +397,7 @@ pop pointer 1
 push that 1
 push local 0
 call Ball.bounce 2
-sub
+pop temp 1
 goto ifLabel9
 label ifLabel8
 label ifLabel9

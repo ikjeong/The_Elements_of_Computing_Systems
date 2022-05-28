@@ -24,7 +24,7 @@ pop pointer 1
 pop that 4
 push pointer 0
 call Bat.show 1
-sub
+pop temp 1
 push pointer 0
 return
 function Bat.dispose 0
@@ -32,7 +32,7 @@ push argument 0
 pop pointer 0
 push pointer 0
 call Memory.deAlloc 1
-sub
+pop temp 1
 push constant 0
 return
 function Bat.show 0
@@ -41,10 +41,10 @@ pop pointer 0
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 call Bat.draw 1
-sub
+pop temp 1
 push constant 0
 return
 function Bat.hide 0
@@ -52,10 +52,10 @@ push argument 0
 pop pointer 0
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 call Bat.draw 1
-sub
+pop temp 1
 push constant 0
 return
 function Bat.draw 0
@@ -82,7 +82,7 @@ pop pointer 1
 push that 3
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 0
 return
 function Bat.setDirection 0
@@ -117,14 +117,14 @@ push argument 0
 pop pointer 0
 push pointer 0
 call Bat.hide 1
-sub
+pop temp 1
 push argument 1
 push pointer 0
 pop pointer 1
 pop that 2
 push pointer 0
 call Bat.show 1
-sub
+pop temp 1
 push constant 0
 return
 function Bat.move 0
@@ -161,7 +161,7 @@ label ifLabel2
 label ifLabel3
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -191,11 +191,11 @@ pop pointer 1
 push that 3
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -215,7 +215,7 @@ pop pointer 1
 push that 3
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 goto ifLabel1
 label ifLabel0
 push pointer 0
@@ -250,7 +250,7 @@ label ifLabel4
 label ifLabel5
 push constant 0
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -272,11 +272,11 @@ pop pointer 1
 push that 3
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 push constant 1
 neg
 call Screen.setColor 1
-sub
+pop temp 1
 push pointer 0
 pop pointer 1
 push that 0
@@ -304,7 +304,7 @@ pop pointer 1
 push that 3
 add
 call Screen.drawRectangle 4
-sub
+pop temp 1
 label ifLabel1
 push constant 0
 return
